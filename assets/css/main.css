@@ -4147,3 +4147,36 @@ input, select, textarea {
 		}
 
 	}
+
+/* Custom bottle image scaling improvements */
+#header .image img {
+	max-width: 100%;
+	height: auto;
+}
+
+/* Enhanced mobile scaling for bottle image */
+@media screen and (max-width: 736px) {
+	#header .image {
+		max-width: 70vw !important;
+		font-size: 0.8em !important;
+	}
+	
+	#header .image img {
+		max-width: 100% !important;
+		height: auto !important;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	#header .image {
+		max-width: 80vw !important;
+		font-size: 0.7em !important;
+	}
+}
+
+@media screen and (max-width: 360px) {
+	#header .image {
+		max-width: 85vw !important;
+		font-size: 0.6em !important;
+	}
+}
