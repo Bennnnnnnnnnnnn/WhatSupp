@@ -47,4 +47,49 @@
 				speed: 1500
 			});
 
+	// Supplement Filter Functionality
+		$('.filter-buttons .button').on('click', function(e) {
+			e.preventDefault();
+			
+			var filter = $(this).data('filter');
+			
+			// Update active button
+			$('.filter-buttons .button').removeClass('active');
+			$(this).addClass('active');
+			
+			// Show/hide supplements based on filter
+			if (filter === 'all') {
+				$('.supplement-card-horizontal[data-category], .spotlight[data-category]').fadeIn();
+			} else {
+				$('.supplement-card-horizontal[data-category], .spotlight[data-category]').each(function() {
+					var categories = $(this).data('category').split(' ');
+					if (categories.includes(filter)) {
+						$(this).fadeIn();
+					} else {
+						$(this).fadeOut();
+					}
+				});
+			}
+		});
+
+	// Mobile Navigation Toggle
+		$('.nav-toggle').on('click', function() {
+			$(this).toggleClass('active');
+			$('.nav-links').toggleClass('active');
+		});
+
+		// Close mobile menu when clicking on a link
+		$('.nav-links a').on('click', function() {
+			$('.nav-toggle').removeClass('active');
+			$('.nav-links').removeClass('active');
+		});
+
+		// Close mobile menu when clicking outside
+		$(document).on('click', function(e) {
+			if (!$(e.target).closest('#nav').length) {
+				$('.nav-toggle').removeClass('active');
+				$('.nav-links').removeClass('active');
+			}
+		});
+
 })(jQuery);

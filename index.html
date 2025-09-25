@@ -4,11 +4,30 @@
 	<head>
 		<title>WhatSupp</title>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 	</head>
 	<body class="is-preload">
+
+		<!-- Navigation -->
+			<nav id="nav">
+				<div class="nav-container">
+					<div class="nav-brand">
+						<a href="index.html">WhatSupp</a>
+					</div>
+					<ul class="nav-links">
+						<li><a href="index.html">Home</a></li>
+						<li><a href="survey.html">Survey</a></li>
+						<li><a href="results.html">Results</a></li>
+						<li><a href="#" class="button small" data-filter="muscle">Shop Now</a></li>
+					</ul>
+					<div class="nav-toggle">
+						<span></span>
+						<span></span>
+						<span></span>
+					</div>
+				</div>
+			</nav>
 
 		<!-- Header -->
 			<header id="header">
@@ -18,13 +37,13 @@
 					Backed by research and science</p>
 					<ul class="actions">
 						<li><a href="survey.html" class="button icon solid fa-chevron-right">Find your Stack</a></li>
-						<li><a href="#one" class="button icon solid fa-chevron-down scrolly">Learn More</a></li>
+						<li><a href="#two" class="button icon solid fa-chevron-down scrolly">Explore Featured Supplements</a></li>
 					</ul>
 				</div>
 				<div class="image"><img src="images/Bottle_lineart_white_lines_smooth.png" alt="" /></div>
 			</header>
 
-		<!-- One -->
+		<!-- One 
 			<section id="one" class="wrapper style2 special">
 				<header class="major">
 					<h2>Sed ipsum magna lorem tempus amet<br />
@@ -35,32 +54,134 @@
 					<li><span class="icon solid fa-sync"><span class="label">Process</span></span></li>
 					<li><span class="icon solid fa-cloud"><span class="label">Upload</span></span></li>
 				</ul>
-			</section>
+			</section>-->
 
 		<!-- Two -->
 			<section id="two" class="wrapper">
 				<div class="inner alt">
-					<section class="spotlight">
-						<div class="image"><img src="images/pic01.jpg" alt="" /></div>
-						<div class="content">
-							<h3>Magna sed ultrices</h3>
-							<p>Morbi mattis ornare ornare. Duis quam turpis, gravida at leo elementum elit fusce accumsan dui libero, quis vehicula lectus ultricies eu. In convallis amet leo non sapien iaculis efficitur consequat lorem ipsum.</p>
-						</div>
-					</section>
-					<section class="spotlight">
-						<div class="image"><img src="images/pic02.jpg" alt="" /></div>
-						<div class="content">
-							<h3>Ultrices nullam aliquam</h3>
-							<p>Morbi mattis ornare ornare. Duis quam turpis, gravida at leo elementum elit fusce accumsan dui libero, quis vehicula lectus ultricies eu. In convallis amet leo non sapien iaculis efficitur consequat lorem ipsum.</p>
-						</div>
-					</section>
-					<section class="spotlight">
-						<div class="image"><img src="images/pic03.jpg" alt="" /></div>
-						<div class="content">
-							<h3>Aliquam sed magna</h3>
-							<p>Morbi mattis ornare ornare. Duis quam turpis, gravida at leo elementum elit fusce accumsan dui libero, quis vehicula lectus ultricies eu. In convallis amet leo non sapien iaculis efficitur consequat lorem ipsum.</p>
-						</div>
-					</section>
+					<header class="major">
+						<h2>Shop Supplements</h2>
+						<p>Science-backed essentials for optimal health and performance</p>
+					</header>
+					
+					<!-- Filters -->
+					<div class="supplement-filters">
+						<h4>Filter by Category:</h4>
+						<ul class="actions filter-buttons">
+							<li><a href="#" class="button small active" data-filter="all">All</a></li>
+							<li><a href="#" class="button small" data-filter="muscle">Muscle Building</a></li>
+							<li><a href="#" class="button small" data-filter="performance">Performance</a></li>
+							<li><a href="#" class="button small" data-filter="health">General Health</a></li>
+							<li><a href="#" class="button small" data-filter="recovery">Recovery</a></li>
+						</ul>
+					</div>
+
+					<!-- Supplement Cards -->
+					<div class="supplements-grid-horizontal">
+						<!-- Creatine -->
+						<article class="supplement-card-horizontal" data-category="muscle performance">
+							<div class="supplement-image">
+								<img src="images/pic01.jpg" alt="Creatine Monohydrate" />
+							</div>
+							<div class="supplement-content-horizontal">
+								<div class="supplement-header">
+									<h3>Creatine Monohydrate</h3>
+									<span class="evidence-level strong">Strong Evidence</span>
+								</div>
+								<div class="price-section">
+									<span class="price">$24.99</span>
+									<div class="serving-details">
+										<span class="serving-info">90 servings • 3-5g per day</span>
+										<span class="cost-per-serving">$0.28 per serving</span>
+									</div>
+								</div>
+								<p class="supplement-description">The gold standard for muscle building and strength. Over 600 studies support its effectiveness in increasing power, muscle mass, and exercise performance.</p>
+								<div class="supplement-meta">
+									<div class="timing-info">
+										<span class="timing-icon">🕐</span>
+										<span class="timing-text">Anytime</span>
+									</div>
+									<div class="category-tags">
+										<span class="tag muscle">Muscle Building</span>
+										<span class="tag performance">Performance</span>
+									</div>
+								</div>
+								<ul class="actions">
+									<li><a href="#" class="button primary icon solid fa-shopping-cart">Add to Cart</a></li>
+									<li><a href="results.html" class="button">Access Research</a></li>
+								</ul>
+							</div>
+						</article>
+
+						<!-- Whey Protein -->
+						<article class="supplement-card-horizontal" data-category="muscle recovery">
+							<div class="supplement-image">
+								<img src="images/pic02.jpg" alt="Whey Protein" />
+							</div>
+							<div class="supplement-content-horizontal">
+								<div class="supplement-header">
+									<h3>Whey Protein</h3>
+									<span class="evidence-level strong">Strong Evidence</span>
+								</div>
+								<div class="price-section">
+									<span class="price">$39.99</span>
+									<div class="serving-details">
+										<span class="serving-info">30 servings • 25g protein per scoop</span>
+										<span class="cost-per-serving">$1.33 per serving</span>
+									</div>
+								</div>
+								<p class="supplement-description">Complete protein source with all essential amino acids. Optimizes muscle protein synthesis, supports recovery, and helps meet daily protein goals.</p>
+								<div class="supplement-meta">
+									<div class="timing-info">
+										<span class="timing-icon">🏋️</span>
+										<span class="timing-text">Post-workout</span>
+									</div>
+									<div class="category-tags">
+										<span class="tag muscle">Muscle Building</span>
+										<span class="tag recovery">Recovery</span>
+									</div>
+								</div>
+								<ul class="actions">
+									<li><a href="#" class="button primary icon solid fa-shopping-cart">Add to Cart</a></li>
+									<li><a href="results.html" class="button">Access Research</a></li>
+								</ul>
+							</div>
+						</article>
+
+						<!-- Vitamin D3 -->
+						<article class="supplement-card-horizontal" data-category="health">
+							<div class="supplement-image">
+								<img src="images/pic03.jpg" alt="Vitamin D3" />
+							</div>
+							<div class="supplement-content-horizontal">
+								<div class="supplement-header">
+									<h3>Vitamin D3</h3>
+									<span class="evidence-level moderate">Moderate Evidence</span>
+								</div>
+								<div class="price-section">
+									<span class="price">$16.99</span>
+									<div class="serving-details">
+										<span class="serving-info">120 capsules • 2000 IU per capsule</span>
+										<span class="cost-per-serving">$0.14 per serving</span>
+									</div>
+								</div>
+								<p class="supplement-description">Essential for bone health, immune function, and overall wellness. Many people are deficient, especially those with limited sun exposure.</p>
+								<div class="supplement-meta">
+									<div class="timing-info">
+										<span class="timing-icon">🍽️</span>
+										<span class="timing-text">With meals</span>
+									</div>
+									<div class="category-tags">
+										<span class="tag health">General Health</span>
+									</div>
+								</div>
+								<ul class="actions">
+									<li><a href="#" class="button primary icon solid fa-shopping-cart">Add to Cart</a></li>
+									<li><a href="results.html" class="button">Access Research</a></li>
+								</ul>
+							</div>
+						</article>
+					</div>
 					<section class="special">
 						<ul class="icons labeled">
 							<li><span class="icon solid fa-camera-retro"><span class="label">Ipsum lorem accumsan</span></span></li>
