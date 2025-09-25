@@ -1,0 +1,230 @@
+<!DOCTYPE HTML>
+<!--
+	Photon by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Find Your Stack - WhatSupp</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+		<section id="header">
+			<div class="inner">
+				<span class="icon solid major fa-pills"></span>
+				<h1><strong>Find Your Perfect Stack</strong></h1>
+				<p>Answer a few questions to get personalized supplement recommendations<br />
+				based on your goals, lifestyle, and health profile.</p>
+				<ul class="actions special">
+					<li><a href="index.html" class="button icon solid fa-arrow-left">Back to Home</a></li>
+				</ul>
+			</div>
+		</section>
+
+		<!-- Survey Section 1: Goals -->
+		<section id="goals" class="wrapper style2 special">
+			<header class="major">
+				<h2>What are your primary goals?</h2>
+				<p>Select all that apply to help us recommend the right supplements for you</p>
+			</header>
+			<div class="inner">
+				<form id="supplement-survey">
+					<div class="row gtr-uniform">
+						<div class="col-4 col-12-medium">
+							<input type="checkbox" id="muscle-building" name="goals" value="muscle-building">
+							<label for="muscle-building"><span class="icon solid fa-dumbbell"></span> Muscle Building</label>
+						</div>
+						<div class="col-4 col-12-medium">
+							<input type="checkbox" id="weight-loss" name="goals" value="weight-loss">
+							<label for="weight-loss"><span class="icon solid fa-fire"></span> Weight Loss</label>
+						</div>
+						<div class="col-4 col-12-medium">
+							<input type="checkbox" id="energy" name="goals" value="energy">
+							<label for="energy"><span class="icon solid fa-bolt"></span> Energy & Focus</label>
+						</div>
+						<div class="col-4 col-12-medium">
+							<input type="checkbox" id="recovery" name="goals" value="recovery">
+							<label for="recovery"><span class="icon solid fa-heart"></span> Recovery</label>
+						</div>
+						<div class="col-4 col-12-medium">
+							<input type="checkbox" id="general-health" name="goals" value="general-health">
+							<label for="general-health"><span class="icon solid fa-shield-alt"></span> General Health</label>
+						</div>
+						<div class="col-4 col-12-medium">
+							<input type="checkbox" id="sleep" name="goals" value="sleep">
+							<label for="sleep"><span class="icon solid fa-moon"></span> Better Sleep</label>
+						</div>
+					</div>
+				</form>
+			</div>
+		</section>
+
+		<!-- Survey Section 2: Activity & Diet -->
+		<section id="lifestyle" class="wrapper">
+			<div class="inner alt">
+				<section class="spotlight">
+					<div class="content">
+						<h3>Activity Level</h3>
+						<p>How active are you on a typical week?</p>
+						<div class="row gtr-uniform">
+							<div class="col-12">
+								<input type="radio" id="sedentary" name="activity-level" value="sedentary">
+								<label for="sedentary">Sedentary (little to no exercise)</label>
+							</div>
+							<div class="col-12">
+								<input type="radio" id="lightly-active" name="activity-level" value="lightly-active">
+								<label for="lightly-active">Lightly active (1-3 days/week)</label>
+							</div>
+							<div class="col-12">
+								<input type="radio" id="moderately-active" name="activity-level" value="moderately-active">
+								<label for="moderately-active">Moderately active (3-5 days/week)</label>
+							</div>
+							<div class="col-12">
+								<input type="radio" id="very-active" name="activity-level" value="very-active">
+								<label for="very-active">Very active (6-7 days/week)</label>
+							</div>
+							<div class="col-12">
+								<input type="radio" id="extremely-active" name="activity-level" value="extremely-active">
+								<label for="extremely-active">Extremely active (daily intense training)</label>
+							</div>
+						</div>
+					</div>
+				</section>
+				
+				<section class="spotlight">
+					<div class="content">
+						<h3>Diet & Preferences</h3>
+						<p>Tell us about your dietary preferences and any restrictions</p>
+						<div class="row gtr-uniform">
+							<div class="col-12">
+								<label for="diet-type">Diet Type</label>
+								<select name="diet-type" id="diet-type">
+									<option value="">Select your diet type</option>
+									<option value="omnivore">Omnivore (eat everything)</option>
+									<option value="vegetarian">Vegetarian</option>
+									<option value="vegan">Vegan</option>
+									<option value="keto">Ketogenic</option>
+									<option value="paleo">Paleo</option>
+									<option value="mediterranean">Mediterranean</option>
+									<option value="low-carb">Low Carb</option>
+									<option value="other">Other</option>
+								</select>
+							</div>
+							<div class="col-12">
+								<label for="budget">Monthly Budget</label>
+								<select name="budget" id="budget">
+									<option value="">Select budget range</option>
+									<option value="under-25">Under $25/month</option>
+									<option value="25-50">$25 - $50/month</option>
+									<option value="50-100">$50 - $100/month</option>
+									<option value="100-200">$100 - $200/month</option>
+									<option value="over-200">Over $200/month</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+		</section>
+
+		<!-- Survey Section 3: Experience & Health -->
+		<section id="experience" class="wrapper style2 special">
+			<header class="major">
+				<h2>Experience & Health Profile</h2>
+				<p>Help us understand your supplement experience and any health considerations</p>
+			</header>
+			<div class="inner">
+				<div class="row gtr-uniform">
+					<div class="col-6 col-12-medium">
+						<h4>Experience Level</h4>
+						<input type="radio" id="beginner" name="experience" value="beginner">
+						<label for="beginner">Beginner - New to supplements</label><br>
+						<input type="radio" id="intermediate" name="experience" value="intermediate">
+						<label for="intermediate">Intermediate - Some experience</label><br>
+						<input type="radio" id="advanced" name="experience" value="advanced">
+						<label for="advanced">Advanced - Very experienced</label>
+					</div>
+					<div class="col-6 col-12-medium">
+						<h4>Current Supplements</h4>
+						<textarea name="current-supplements" id="current-supplements" placeholder="List any supplements you're currently taking (optional)" rows="4"></textarea>
+					</div>
+					<div class="col-12">
+						<h4>Health Considerations</h4>
+						<textarea name="health-conditions" id="health-conditions" placeholder="Any health conditions, allergies, or medications we should know about? (optional)" rows="3"></textarea>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Submit Section -->
+		<section id="submit" class="wrapper style2 special">
+			<header class="major">
+				<h2>Ready to build your stack?</h2>
+				<p>Get personalized supplement recommendations based on your profile</p>
+			</header>
+			<ul class="actions special">
+				<li><input type="submit" value="Get My Personalized Stack" class="button primary icon solid fa-rocket" form="supplement-survey" /></li>
+			</ul>
+		</section>
+
+		<!-- Footer -->
+		<section id="footer">
+			<ul class="icons">
+				<li><a href="#" class="icon brands alt fa-twitter"><span class="label">Twitter</span></a></li>
+				<li><a href="#" class="icon brands alt fa-facebook-f"><span class="label">Facebook</span></a></li>
+				<li><a href="#" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
+				<li><a href="#" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+				<li><a href="#" class="icon solid alt fa-envelope"><span class="label">Email</span></a></li>
+			</ul>
+			<ul class="copyright">
+				<li>&copy; WhatSupp</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+			</ul>
+		</section>
+
+		<!-- Scripts -->
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.scrolly.min.js"></script>
+		<script src="assets/js/browser.min.js"></script>
+		<script src="assets/js/breakpoints.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+
+		<!-- Survey Logic -->
+		<script>
+			document.getElementById('supplement-survey').addEventListener('submit', function(e) {
+				e.preventDefault();
+				
+				// Collect form data
+				const formData = new FormData(this);
+				const surveyData = {};
+				
+				// Get all form values
+				for (let [key, value] of formData.entries()) {
+					if (surveyData[key]) {
+						// Handle multiple values (checkboxes)
+						if (Array.isArray(surveyData[key])) {
+							surveyData[key].push(value);
+						} else {
+							surveyData[key] = [surveyData[key], value];
+						}
+					} else {
+						surveyData[key] = value;
+					}
+				}
+				
+				// Store survey data in localStorage for now
+				localStorage.setItem('surveyData', JSON.stringify(surveyData));
+				
+				// Redirect to results page (we'll create this next)
+				window.location.href = 'results.html';
+			});
+		</script>
+
+	</body>
+</html>
