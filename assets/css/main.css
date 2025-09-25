@@ -4187,3 +4187,175 @@ input, select, textarea {
 		font-size: 0.6em !important;
 	}
 }
+
+/* Results Page Styles */
+.supplement-tier {
+	margin-bottom: 4em;
+}
+
+.tier-title {
+	text-align: center;
+	margin-bottom: 2em;
+}
+
+.tier-badge {
+	display: inline-block;
+	padding: 0.5em 1.5em;
+	border-radius: 2em;
+	font-size: 0.9em;
+	font-weight: bold;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+}
+
+.tier-badge.essential {
+	background: linear-gradient(135deg, #4696e5, #357abd);
+	color: white;
+}
+
+.tier-badge.beneficial {
+	background: linear-gradient(135deg, #5cb85c, #449d44);
+	color: white;
+}
+
+.tier-badge.optional {
+	background: linear-gradient(135deg, #f0ad4e, #ec971f);
+	color: white;
+}
+
+.supplements-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+	gap: 2em;
+	margin-top: 2em;
+}
+
+.supplement-card {
+	background: #ffffff;
+	border: 1px solid #e1e8ed;
+	border-radius: 12px;
+	padding: 2em;
+	box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.supplement-card:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+}
+
+.supplement-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	margin-bottom: 1.5em;
+	border-bottom: 2px solid #f8f9fa;
+	padding-bottom: 1em;
+}
+
+.supplement-header h4 {
+	margin: 0;
+	color: #2c3e50;
+	font-size: 1.3em;
+}
+
+.evidence-level {
+	font-size: 0.8em;
+	padding: 0.3em 0.8em;
+	border-radius: 1em;
+	font-weight: bold;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+.evidence-level.strong {
+	background: #d4edda;
+	color: #155724;
+	border: 1px solid #c3e6cb;
+}
+
+.evidence-level.moderate {
+	background: #fff3cd;
+	color: #856404;
+	border: 1px solid #ffeaa7;
+}
+
+.supplement-content h5 {
+	color: #4696e5;
+	margin-top: 1.5em;
+	margin-bottom: 0.5em;
+	font-size: 1em;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+}
+
+.supplement-content ul {
+	margin-left: 1em;
+}
+
+.supplement-content li {
+	margin-bottom: 0.3em;
+	color: #555;
+}
+
+.benefits ul li {
+	position: relative;
+}
+
+.benefits ul li:before {
+	content: "✓";
+	color: #5cb85c;
+	font-weight: bold;
+	position: absolute;
+	left: -1em;
+}
+
+.dosage p strong {
+	color: #4696e5;
+	font-weight: bold;
+}
+
+.features {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+	gap: 2em;
+	margin-top: 2em;
+}
+
+/* Mobile Responsiveness for Results Page */
+@media screen and (max-width: 736px) {
+	.supplements-grid {
+		grid-template-columns: 1fr;
+		gap: 1.5em;
+	}
+	
+	.supplement-card {
+		padding: 1.5em;
+	}
+	
+	.supplement-header {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.5em;
+	}
+	
+	.features {
+		grid-template-columns: 1fr;
+		gap: 1.5em;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	.tier-badge {
+		font-size: 0.8em;
+		padding: 0.4em 1em;
+	}
+	
+	.supplement-card {
+		padding: 1em;
+	}
+	
+	.supplement-header h4 {
+		font-size: 1.1em;
+	}
+}
