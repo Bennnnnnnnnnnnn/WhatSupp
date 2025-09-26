@@ -72,6 +72,31 @@
 			}
 		});
 
+	// Filter Toggle Functionality
+		$('#filterToggle').on('click', function() {
+			var $filterContent = $('#filterContent');
+			var $filterSection = $('#filterSection');
+			var $toggleBtn = $(this);
+			var $toggleText = $toggleBtn.find('.filter-toggle-text');
+			var $toggleIcon = $toggleBtn.find('.filter-toggle-icon');
+			
+			if ($filterContent.hasClass('hidden')) {
+				// Show filters
+				$filterContent.removeClass('hidden');
+				$filterSection.removeClass('collapsed');
+				$toggleBtn.removeClass('collapsed');
+				$toggleText.text('Hide Filters');
+				$toggleIcon.text('▲');
+			} else {
+				// Hide filters
+				$filterContent.addClass('hidden');
+				$filterSection.addClass('collapsed');
+				$toggleBtn.addClass('collapsed');
+				$toggleText.text('Show Filters');
+				$toggleIcon.text('▼');
+			}
+		});
+
 	// Mobile Navigation Toggle
 		$('.nav-toggle').on('click', function() {
 			$(this).toggleClass('active');

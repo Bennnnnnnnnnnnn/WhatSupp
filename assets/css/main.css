@@ -4498,11 +4498,93 @@ input, select, textarea {
 	padding: 2em;
 	background: #f8f9fa;
 	border-radius: 8px;
+	transition: all 0.4s ease;
+	overflow: hidden;
+}
+
+.supplement-filters.collapsed {
+	padding: 0;
+	margin-bottom: 0.5em;
+	background: transparent;
+	border-radius: 0;
+	min-height: auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .supplement-filters h4 {
 	margin-bottom: 1em;
 	color: #2c3e50;
+}
+
+.filter-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 1em;
+}
+
+.filter-header h4 {
+	margin: 0;
+}
+
+.filter-toggle-btn {
+	background: none;
+	border: 2px solid #4696e5;
+	color: #4696e5;
+	cursor: pointer;
+	font-size: 0.9em;
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+	padding: 0.8em 1.5em;
+	border-radius: 25px;
+	transition: all 0.3s ease;
+	font-weight: bold;
+	margin-bottom: 1em;
+	flex-shrink: 0;
+}
+
+.supplement-filters.collapsed .filter-toggle-btn {
+	margin: 0;
+	background: white;
+	box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.filter-toggle-btn:hover {
+	background-color: #4696e5;
+	color: white;
+	transform: translateY(-2px);
+	box-shadow: 0 4px 15px rgba(70, 150, 229, 0.3);
+}
+
+.supplement-filters.collapsed .filter-toggle-btn:hover {
+	background-color: #4696e5;
+	color: white;
+	transform: translateY(-2px);
+	box-shadow: 0 4px 15px rgba(70, 150, 229, 0.3);
+}
+
+.filter-toggle-icon {
+	transition: transform 0.3s ease;
+}
+
+.filter-content {
+	transition: max-height 0.4s ease, opacity 0.4s ease, margin 0.4s ease, padding 0.4s ease;
+	overflow: hidden;
+	max-height: 300px;
+}
+
+.filter-content.hidden {
+	max-height: 0 !important;
+	opacity: 0;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.filter-toggle-btn.collapsed .filter-toggle-icon {
+	transform: rotate(180deg);
 }
 
 .filter-buttons {
@@ -4597,6 +4679,37 @@ input, select, textarea {
 		flex-direction: column;
 		align-items: flex-start;
 		gap: 0.5em;
+	}
+	
+	.supplement-filters {
+		padding: 1.5em 1em;
+	}
+	
+	.supplement-filters.collapsed {
+		padding: 0;
+		margin-bottom: 0.5em;
+		background: transparent;
+		border-radius: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	
+	.filter-toggle-btn {
+		font-size: 0.8em;
+		padding: 0.6em 1.2em;
+		width: 100%;
+		max-width: 200px;
+		justify-content: center;
+		margin-bottom: 1em;
+	}
+	
+	.supplement-filters.collapsed .filter-toggle-btn {
+		margin: 0;
+		max-width: 180px;
+		width: auto;
+		background: white;
+		box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 	}
 	
 	.filter-buttons {

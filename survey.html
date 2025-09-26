@@ -171,12 +171,91 @@
 						<label for="advanced">Advanced - Very experienced</label>
 					</div>
 					<div class="col-6 col-12-medium">
-						<h4>Current Supplements</h4>
-						<textarea name="current-supplements" id="current-supplements" placeholder="List any supplements you're currently taking (optional)" rows="4"></textarea>
+						<h4>Other Supplements Currently Taking</h4>
+						<p>Select any supplements you're currently taking:</p>
+						<div class="row gtr-uniform">
+							<div class="col-6">
+								<input type="checkbox" id="current-protein" name="current-supplements" value="protein">
+								<label for="current-protein">Protein Powder</label>
+							</div>
+							<div class="col-6">
+								<input type="checkbox" id="current-creatine" name="current-supplements" value="creatine">
+								<label for="current-creatine">Creatine</label>
+							</div>
+							<div class="col-6">
+								<input type="checkbox" id="current-multivitamin" name="current-supplements" value="multivitamin">
+								<label for="current-multivitamin">Multivitamin</label>
+							</div>
+							<div class="col-6">
+								<input type="checkbox" id="current-omega3" name="current-supplements" value="omega3">
+								<label for="current-omega3">Omega-3/Fish Oil</label>
+							</div>
+							<div class="col-6">
+								<input type="checkbox" id="current-preworkout" name="current-supplements" value="preworkout">
+								<label for="current-preworkout">Pre-workout</label>
+							</div>
+							<div class="col-6">
+								<input type="checkbox" id="current-bcaa" name="current-supplements" value="bcaa">
+								<label for="current-bcaa">BCAA</label>
+							</div>
+							<div class="col-6">
+								<input type="checkbox" id="current-vitd" name="current-supplements" value="vitamin-d">
+								<label for="current-vitd">Vitamin D</label>
+							</div>
+							<div class="col-6">
+								<input type="checkbox" id="current-magnesium" name="current-supplements" value="magnesium">
+								<label for="current-magnesium">Magnesium</label>
+							</div>
+						</div>
+						<div class="col-12" style="margin-top: 1rem;">
+							<textarea name="other-current-supplements" id="other-current-supplements" placeholder="Any other supplements not listed above?" rows="2"></textarea>
+						</div>
 					</div>
 					<div class="col-12">
-						<h4>Health Considerations</h4>
-						<textarea name="health-conditions" id="health-conditions" placeholder="Any health conditions, allergies, or medications we should know about? (optional)" rows="3"></textarea>
+						<h4>Allergies & Dietary Restrictions</h4>
+						<p>Select any allergens or ingredients you need to avoid:</p>
+						<div class="row gtr-uniform">
+							<div class="col-4 col-12-small">
+								<input type="checkbox" id="allergy-dairy" name="allergens" value="dairy">
+								<label for="allergy-dairy"><span class="icon solid fa-glass-whiskey"></span> Dairy/Lactose</label>
+							</div>
+							<div class="col-4 col-12-small">
+								<input type="checkbox" id="allergy-gluten" name="allergens" value="gluten">
+								<label for="allergy-gluten"><span class="icon solid fa-bread-slice"></span> Gluten</label>
+							</div>
+							<div class="col-4 col-12-small">
+								<input type="checkbox" id="allergy-soy" name="allergens" value="soy">
+								<label for="allergy-soy"><span class="icon solid fa-seedling"></span> Soy</label>
+							</div>
+							<div class="col-4 col-12-small">
+								<input type="checkbox" id="allergy-nuts" name="allergens" value="nuts">
+								<label for="allergy-nuts"><span class="icon solid fa-circle"></span> Tree Nuts</label>
+							</div>
+							<div class="col-4 col-12-small">
+								<input type="checkbox" id="allergy-peanuts" name="allergens" value="peanuts">
+								<label for="allergy-peanuts"><span class="icon solid fa-circle"></span> Peanuts</label>
+							</div>
+							<div class="col-4 col-12-small">
+								<input type="checkbox" id="allergy-shellfish" name="allergens" value="shellfish">
+								<label for="allergy-shellfish"><span class="icon solid fa-fish"></span> Shellfish</label>
+							</div>
+							<div class="col-4 col-12-small">
+								<input type="checkbox" id="allergy-eggs" name="allergens" value="eggs">
+								<label for="allergy-eggs"><span class="icon solid fa-egg"></span> Eggs</label>
+							</div>
+							<div class="col-4 col-12-small">
+								<input type="checkbox" id="allergy-caffeine" name="allergens" value="caffeine">
+								<label for="allergy-caffeine"><span class="icon solid fa-coffee"></span> Caffeine</label>
+							</div>
+							<div class="col-4 col-12-small">
+								<input type="checkbox" id="allergy-artificial" name="allergens" value="artificial-sweeteners">
+								<label for="allergy-artificial"><span class="icon solid fa-flask"></span> Artificial Sweeteners</label>
+							</div>
+						</div>
+					</div>
+					<div class="col-12">
+						<h4>Additional Health Considerations</h4>
+						<textarea name="health-conditions" id="health-conditions" placeholder="Any health conditions, medications, or other medical considerations we should know about? (optional)" rows="3"></textarea>
 					</div>
 				</div>
 			</div>
@@ -237,6 +316,16 @@
 						surveyData[key] = value;
 					}
 				}
+				
+				// Handle checkboxes that might not have been checked
+				const checkboxGroups = ['goals', 'current-supplements', 'allergens'];
+				checkboxGroups.forEach(group => {
+					if (!surveyData[group]) {
+						surveyData[group] = [];
+					} else if (!Array.isArray(surveyData[group])) {
+						surveyData[group] = [surveyData[group]];
+					}
+				});
 				
 				// Store survey data in localStorage for now
 				localStorage.setItem('surveyData', JSON.stringify(surveyData));

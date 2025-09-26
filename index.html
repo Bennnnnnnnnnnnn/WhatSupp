@@ -65,15 +65,21 @@
 					</header>
 					
 					<!-- Filters -->
-					<div class="supplement-filters">
-						<h4>Filter by Category:</h4>
-						<ul class="actions filter-buttons">
-							<li><a href="#" class="button small active" data-filter="all">All</a></li>
-							<li><a href="#" class="button small" data-filter="muscle">Muscle Building</a></li>
-							<li><a href="#" class="button small" data-filter="performance">Performance</a></li>
-							<li><a href="#" class="button small" data-filter="health">General Health</a></li>
-							<li><a href="#" class="button small" data-filter="recovery">Recovery</a></li>
-						</ul>
+					<div class="supplement-filters" id="filterSection">
+						<button class="filter-toggle-btn" id="filterToggle" aria-label="Toggle filters">
+							<span class="filter-toggle-text">Hide Filters</span>
+							<span class="filter-toggle-icon">▲</span>
+						</button>
+						<div class="filter-content" id="filterContent">
+							<h4>Filter by Category:</h4>
+							<ul class="actions filter-buttons">
+								<li><a href="#" class="button small active" data-filter="all">All</a></li>
+								<li><a href="#" class="button small" data-filter="muscle">Muscle Building</a></li>
+								<li><a href="#" class="button small" data-filter="performance">Performance</a></li>
+								<li><a href="#" class="button small" data-filter="health">General Health</a></li>
+								<li><a href="#" class="button small" data-filter="recovery">Recovery</a></li>
+							</ul>
+						</div>
 					</div>
 
 					<!-- Supplement Cards -->
