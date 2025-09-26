@@ -171,8 +171,8 @@
 						<label for="advanced">Advanced - Very experienced</label>
 					</div>
 					<div class="col-6 col-12-medium">
-						<h4>Other Supplements Currently Taking</h4>
-						<p>Select any supplements you're currently taking:</p>
+						<h4>Current Supplements</h4>
+						<p>Select supplements you're already taking (we'll avoid recommending duplicates):</p>
 						<div class="row gtr-uniform">
 							<div class="col-6">
 								<input type="checkbox" id="current-protein" name="current-supplements" value="protein">
@@ -213,7 +213,7 @@
 					</div>
 					<div class="col-12">
 						<h4>Allergies & Dietary Restrictions</h4>
-						<p>Select any allergens or ingredients you need to avoid:</p>
+						<p><strong>⚠️ Important:</strong> Select any allergens or ingredients to <strong>EXCLUDE</strong> from your recommendations:</p>
 						<div class="row gtr-uniform">
 							<div class="col-4 col-12-small">
 								<input type="checkbox" id="allergy-dairy" name="allergens" value="dairy">
@@ -301,37 +301,101 @@
 				
 				// Collect form data
 				const formData = new FormData(this);
-				const surveyData = {};
+				const surveyData = {
+					goals: [],
+					currentSupplements: [],
+					excludeAllergens: [],
+					profile: {}
+				};
 				
-				// Get all form values
+				// Process form data for automated recommendations
 				for (let [key, value] of formData.entries()) {
-					if (surveyData[key]) {
-						// Handle multiple values (checkboxes)
-						if (Array.isArray(surveyData[key])) {
-							surveyData[key].push(value);
-						} else {
-							surveyData[key] = [surveyData[key], value];
-						}
-					} else {
-						surveyData[key] = value;
+					switch(key) {
+						case 'goals':
+							surveyData.goals.push(value);
+							break;
+						case 'current-supplements':
+							surveyData.currentSupplements.push(value);
+							break;
+						case 'allergens':
+							surveyData.excludeAllergens.push(value);
+							break;
+						case 'activity-level':
+						case 'diet-type':
+						case 'budget':
+						case 'experience':
+							surveyData.profile[key] = value;
+							break;
+						case 'other-current-supplements':
+						case 'health-conditions':
+							if (value.trim()) {
+								surveyData.profile[key] = value.trim();
+							}
+							break;
+						default:
+							surveyData.profile[key] = value;
 					}
 				}
 				
-				// Handle checkboxes that might not have been checked
-				const checkboxGroups = ['goals', 'current-supplements', 'allergens'];
-				checkboxGroups.forEach(group => {
-					if (!surveyData[group]) {
-						surveyData[group] = [];
-					} else if (!Array.isArray(surveyData[group])) {
-						surveyData[group] = [surveyData[group]];
+				// Add recommendation metadata
+				surveyData.metadata = {
+					timestamp: new Date().toISOString(),
+					version: '1.0',
+					processingRules: {
+						excludeCurrentSupplements: true,
+						excludeAllergenContaining: true,
+						prioritizeByGoals: true,
+						considerBudgetConstraints: true,
+						adjustForExperienceLevel: true
 					}
-				});
+				};
 				
-				// Store survey data in localStorage for now
+				// Store structured survey data
 				localStorage.setItem('surveyData', JSON.stringify(surveyData));
 				
-				// Redirect to results page (we'll create this next)
+				// Log for debugging (remove in production)
+				console.log('Survey Data for Processing:', surveyData);
+				
+				// Redirect to results page
 				window.location.href = 'results.html';
+			});
+
+			// Add visual feedback for exclusions
+			document.addEventListener('DOMContentLoaded', function() {
+				const allergenCheckboxes = document.querySelectorAll('input[name="allergens"]');
+				const currentSupplementCheckboxes = document.querySelectorAll('input[name="current-supplements"]');
+				
+				// Add styling for exclusion indicators
+				allergenCheckboxes.forEach(checkbox => {
+					checkbox.addEventListener('change', function() {
+						const label = this.parentElement;
+						if (this.checked) {
+							label.style.backgroundColor = '#ffebee';
+							label.style.borderLeft = '4px solid #f44336';
+							label.style.paddingLeft = '12px';
+						} else {
+							label.style.backgroundColor = '';
+							label.style.borderLeft = '';
+							label.style.paddingLeft = '';
+						}
+					});
+				});
+
+				// Add styling for current supplement indicators
+				currentSupplementCheckboxes.forEach(checkbox => {
+					checkbox.addEventListener('change', function() {
+						const label = this.parentElement;
+						if (this.checked) {
+							label.style.backgroundColor = '#e8f5e8';
+							label.style.borderLeft = '4px solid #4caf50';
+							label.style.paddingLeft = '12px';
+						} else {
+							label.style.backgroundColor = '';
+							label.style.borderLeft = '';
+							label.style.paddingLeft = '';
+						}
+					});
+				});
 			});
 		</script>
 
