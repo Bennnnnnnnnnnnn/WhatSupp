@@ -7,6 +7,20 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<style>
+			body {
+				background-image: url('images/MuscleMAn.png');
+				background-size: auto 200%;
+				background-position: center center;
+				background-repeat: no-repeat;
+				background-attachment: fixed;
+			}
+			
+			/* Ensure content sections have semi-transparent backgrounds to show the image behind */
+			#two.wrapper {
+				background-color: rgba(255, 255, 255, 0.90);
+			}
+		</style>
 	</head>
 	<body class="is-preload">
 
@@ -66,12 +80,12 @@
 					</header>
 					
 					<!-- Filters -->
-					<div class="supplement-filters" id="filterSection">
-						<button class="filter-toggle-btn" id="filterToggle" aria-label="Toggle filters">
-							<span class="filter-toggle-text">Hide Filters</span>
-							<span class="filter-toggle-icon">▲</span>
+					<div class="supplement-filters collapsed" id="filterSection">
+						<button class="filter-toggle-btn collapsed" id="filterToggle" aria-label="Toggle filters">
+							<span class="filter-toggle-text">Show Filters</span>
+							<span class="filter-toggle-icon">▼</span>
 						</button>
-						<div class="filter-content" id="filterContent">
+						<div class="filter-content hidden" id="filterContent">
 							<h4>Filter by Category:</h4>
 							<ul class="actions filter-buttons">
 								<li><a href="#" class="button small active" data-filter="all">All</a></li>
