@@ -1,7 +1,7 @@
 # WhatSupp - Development Roadmap & TODOs
 
 ## 🎯 Project Overview
-WhatSupp is a personalized supplement recommendation platform that uses user surveys to provide tailored supplement stacks based on goals, dietary restrictions, allergies, and current supplement usage.
+WhatSupp is a personalized supplement recommendation platform that uses user surveys to provide tailored supplement stacks based on goals, dietary restrictions, allergies, and current supplement usage, the site does not sell supplements, it uses affiliate links. Also hosts scientific papers to inform users.
 
 ---
 

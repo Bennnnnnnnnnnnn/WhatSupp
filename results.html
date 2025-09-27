@@ -7,6 +7,20 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<style>
+			body {
+				/* Background image will be set dynamically by JavaScript */
+				background-size: auto 200%;
+				background-position: center center;
+				background-repeat: no-repeat;
+				background-attachment: fixed;
+			}
+			
+			/* Ensure content sections have semi-transparent backgrounds to show the image behind */
+			.wrapper, .wrapper.style2 {
+				background-color: rgba(255, 255, 255, 0.90);
+			}
+		</style>
 	</head>
 	<body class="is-preload">
 
@@ -352,6 +366,23 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+			
+			<!-- Random Background Selection -->
+			<script>
+				$(document).ready(function() {
+					// Array of background images
+					const backgroundImages = [
+						'images/MuscleMAn.png',
+						'images/muscleGirl.png'
+					];
+					
+					// Randomly select one of the images
+					const randomImage = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
+					
+					// Apply the selected background image to the body
+					$('body').css('background-image', 'url(' + randomImage + ')');
+				});
+			</script>
 
 	</body>
 </html>
