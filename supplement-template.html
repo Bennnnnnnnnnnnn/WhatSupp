@@ -1,0 +1,862 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Creatine Monohydrate - Scientific Evidence | WhatSupp</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<style>
+			body {
+				/* Background image will be set dynamically by JavaScript */
+				background-size: auto 200%;
+				background-position: center center;
+				background-repeat: no-repeat;
+				background-attachment: fixed;
+			}
+			
+			/* Ensure content sections have semi-transparent backgrounds to show the image behind */
+			.wrapper, .wrapper.style2 {
+				background-color: rgba(255, 255, 255, 0.95);
+			}
+			
+			/* Wiki-style content styling */
+			.wiki-content {
+				max-width: 800px;
+				margin: 0 auto;
+				line-height: 1.6;
+			}
+			
+			.supplement-header {
+				text-align: center;
+				margin-bottom: 2rem;
+				padding: 2rem;
+				background: rgba(255, 255, 255, 0.8);
+				border-radius: 8px;
+			}
+			
+			.supplement-meta-info {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+				gap: 1rem;
+				margin-bottom: 2rem;
+			}
+			
+			.meta-card {
+				background: rgba(255, 255, 255, 0.8);
+				padding: 1rem;
+				border-radius: 8px;
+				text-align: center;
+			}
+			
+			.meta-card h4 {
+				color: #6666ff;
+				margin-bottom: 0.5rem;
+			}
+			
+			.evidence-rating {
+				display: inline-block;
+				padding: 0.3rem 0.8rem;
+				border-radius: 20px;
+				font-size: 0.9rem;
+				font-weight: bold;
+				margin: 0.5rem 0;
+			}
+			
+			.evidence-high {
+				background: #28a745;
+				color: white;
+			}
+			
+			.evidence-moderate {
+				background: #ffc107;
+				color: #212529;
+			}
+			
+			.evidence-low {
+				background: #dc3545;
+				color: white;
+			}
+			
+			.wiki-section {
+				background: rgba(255, 255, 255, 0.9);
+				margin: 2rem 0;
+				padding: 2rem;
+				border-radius: 8px;
+				border-left: 4px solid #6666ff;
+			}
+			
+			.wiki-section h3 {
+				color: #6666ff;
+				margin-bottom: 1rem;
+				border-bottom: 2px solid #eee;
+				padding-bottom: 0.5rem;
+			}
+			
+			.studies-grid {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 2rem;
+				margin-top: 1rem;
+			}
+			
+			@media screen and (max-width: 1024px) {
+				.studies-grid {
+					grid-template-columns: 1fr;
+					gap: 1rem;
+				}
+			}
+			
+			.study-card {
+				background: rgba(248, 249, 250, 0.9);
+				padding: 1.5rem;
+				border-radius: 8px;
+				border: 1px solid #e9ecef;
+			}
+			
+			.study-title {
+				font-weight: bold;
+				color: #495057;
+				margin-bottom: 0.5rem;
+			}
+			
+			.study-meta {
+				font-size: 0.9rem;
+				color: #6c757d;
+				margin-bottom: 0.5rem;
+			}
+			
+			.study-result {
+				background: #d4edda;
+				padding: 0.5rem;
+				border-radius: 4px;
+				border-left: 3px solid #28a745;
+				margin-top: 0.5rem;
+			}
+			
+			.dosage-table {
+				width: 100%;
+				border-collapse: collapse;
+				margin: 1rem 0;
+			}
+			
+			.dosage-table th,
+			.dosage-table td {
+				padding: 0.75rem;
+				text-align: left;
+				border-bottom: 1px solid #dee2e6;
+			}
+			
+			.dosage-table th {
+				background: rgba(102, 102, 255, 0.1);
+				font-weight: bold;
+				color: #6666ff;
+			}
+			
+			.safety-alert {
+				background: #fff3cd;
+				border: 1px solid #ffeaa7;
+				border-radius: 6px;
+				padding: 1rem;
+				margin: 1rem 0;
+			}
+			
+			.safety-alert h4 {
+				color: #856404;
+				margin-bottom: 0.5rem;
+			}
+			
+			.toc {
+				position: fixed;
+				top: 100px;
+				right: 20px;
+				width: 250px;
+				max-height: calc(100vh - 120px);
+				overflow-y: auto;
+				background: rgba(248, 249, 250, 0.95);
+				padding: 1.5rem;
+				border-radius: 8px;
+				box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+				border: 1px solid rgba(102, 102, 255, 0.2);
+				z-index: 100;
+				transition: all 0.3s ease;
+			}
+			
+			.toc.collapsed {
+				width: 50px;
+				height: 50px;
+				padding: 0.8rem;
+				overflow: hidden;
+			}
+			
+			.toc.collapsed .toc-content {
+				display: none;
+			}
+			
+			.toc.collapsed::before {
+				content: "📋";
+				font-size: 1.5rem;
+				display: block;
+				text-align: center;
+				cursor: pointer;
+			}
+			
+			.toc h4 {
+				margin-bottom: 1rem;
+				color: #6666ff;
+				cursor: pointer;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+			}
+			
+			.toc-toggle {
+				background: none;
+				border: none;
+				color: #6666ff;
+				cursor: pointer;
+				font-size: 1.2rem;
+			}
+			
+			.toc ul {
+				list-style: none;
+				padding: 0;
+			}
+			
+			.toc li {
+				margin: 0.5rem 0;
+			}
+			
+			.toc a {
+				color: #495057;
+				text-decoration: none;
+				border-bottom: 1px dotted #6666ff;
+				transition: all 0.2s ease;
+				display: block;
+				padding: 0.3rem 0;
+			}
+			
+			.toc a:hover {
+				color: #6666ff;
+				background: rgba(102, 102, 255, 0.05);
+				padding-left: 0.5rem;
+			}
+			
+			.toc a.active {
+				color: #6666ff;
+				font-weight: bold;
+				background: rgba(102, 102, 255, 0.1);
+				padding-left: 0.5rem;
+				border-left: 3px solid #6666ff;
+			}
+			
+			/* Hide TOC on mobile and tablets */
+			@media screen and (max-width: 1024px) {
+				.toc {
+					display: none;
+				}
+			}
+			
+			/* Wikipedia-style info box */
+			.info-box {
+				float: right;
+				width: 280px;
+				margin: 0 0 1rem 1rem;
+				background: rgba(248, 249, 250, 0.95);
+				border: 1px solid rgba(102, 102, 255, 0.2);
+				border-radius: 8px;
+				box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+				font-size: 0.9rem;
+				clear: right;
+			}
+			
+			.info-box-header {
+				background: rgba(102, 102, 255, 0.1);
+				padding: 0.8rem;
+				border-bottom: 1px solid rgba(102, 102, 255, 0.2);
+				border-radius: 8px 8px 0 0;
+			}
+			
+			.info-box-header h4 {
+				margin: 0;
+				color: #6666ff;
+				font-size: 1rem;
+				text-align: center;
+			}
+			
+			.info-box-content {
+				padding: 0;
+			}
+			
+			.info-row {
+				display: flex;
+				border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+			}
+			
+			.info-row:last-child {
+				border-bottom: none;
+			}
+			
+			.info-label {
+				background: rgba(248, 249, 250, 0.8);
+				padding: 0.6rem 0.8rem;
+				font-weight: bold;
+				color: #495057;
+				flex: 1;
+				border-right: 1px solid rgba(0, 0, 0, 0.05);
+			}
+			
+			.info-value {
+				padding: 0.6rem 0.8rem;
+				flex: 1.2;
+				color: #212529;
+			}
+			
+			.info-value.highlight {
+				background: rgba(40, 167, 69, 0.1);
+				color: #28a745;
+				font-weight: bold;
+			}
+			
+			.info-value.warning {
+				background: rgba(255, 193, 7, 0.1);
+				color: #856404;
+				font-weight: bold;
+			}
+			
+			.info-value.danger {
+				background: rgba(220, 53, 69, 0.1);
+				color: #721c24;
+				font-weight: bold;
+			}
+			
+			/* Hide info box on mobile and tablets */
+			@media screen and (max-width: 768px) {
+				.info-box {
+					float: none;
+					width: 100%;
+					margin: 1rem 0;
+				}
+			}
+			
+			/* Adjust main content to account for TOC */
+			.wiki-content {
+				max-width: 1200px;
+				margin: 0 auto;
+				margin-right: 290px;
+				line-height: 1.6;
+			}
+			
+			@media screen and (max-width: 1024px) {
+				.wiki-content {
+					margin-right: 0;
+					max-width: 900px;
+				}
+			}
+			
+			@media screen and (max-width: 768px) {
+				.wiki-content {
+					max-width: 100%;
+					padding: 0 1rem;
+				}
+			}
+			
+			.reference-list {
+				background: rgba(248, 249, 250, 0.9);
+				padding: 1.5rem;
+				border-radius: 8px;
+				margin-top: 2rem;
+			}
+			
+			.reference-list h4 {
+				color: #6666ff;
+				margin-bottom: 1rem;
+			}
+			
+			.reference-list ol {
+				counter-reset: reference-counter;
+				padding-left: 0;
+			}
+			
+			.reference-list li {
+				counter-increment: reference-counter;
+				margin: 1rem 0;
+				padding-left: 2rem;
+				position: relative;
+				font-size: 0.9rem;
+			}
+			
+			.reference-list li::before {
+				content: counter(reference-counter);
+				position: absolute;
+				left: 0;
+				top: 0;
+				background: #6666ff;
+				color: white;
+				width: 1.5rem;
+				height: 1.5rem;
+				border-radius: 50%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 0.8rem;
+				font-weight: bold;
+			}
+		</style>
+	</head>
+	<body class="is-preload">
+
+		<!-- Navigation -->
+			<nav id="nav">
+				<div class="nav-container">
+					<div class="nav-brand">
+						<a href="index.html">WhatSupp</a>
+					</div>
+					<ul class="nav-links">
+						<li><a href="index.html">Home</a></li>
+						<li><a href="survey.html">Survey</a></li>
+						<li><a href="results.html">Results</a></li>
+						<li><a href="#" class="button primary small">Shop Now</a></li>
+					</ul>
+					<div class="nav-toggle">
+						<span></span>
+						<span></span>
+						<span></span>
+					</div>
+				</div>
+			</nav>
+
+		<!-- Main Content -->
+		<section class="wrapper style2">
+			<div class="inner">
+				<div class="wiki-content">
+					
+					<!-- Supplement Header -->
+					<div class="supplement-header">
+						<h1>Creatine Monohydrate</h1>
+						<p><em>The most researched and effective supplement for strength and power</em></p>
+						<span class="evidence-rating evidence-high">High Quality Evidence</span>
+						<div class="supplement-meta-info">
+							<div class="meta-card">
+								<h4>Category</h4>
+								<p>Performance Enhancement<br>Muscle Building</p>
+							</div>
+							<div class="meta-card">
+								<h4>Standard Dosage</h4>
+								<p>3-5g daily<br>Timing: Anytime</p>
+							</div>
+							<div class="meta-card">
+								<h4>Safety Rating</h4>
+								<p>Very Safe<br>Well-tolerated</p>
+							</div>
+							<div class="meta-card">
+								<h4>Cost Effectiveness</h4>
+								<p>Excellent<br>~$0.10 per serving</p>
+							</div>
+						</div>
+					</div>
+
+					<!-- Table of Contents -->
+					<div class="toc" id="tableOfContents">
+						<h4>📋 Contents <button class="toc-toggle" id="tocToggle">−</button></h4>
+						<div class="toc-content" id="tocContent">
+							<ul>
+								<li><a href="#overview" data-section="overview">Overview & Mechanism</a></li>
+								<li><a href="#benefits" data-section="benefits">Proven Benefits</a></li>
+								<li><a href="#research" data-section="research">Scientific Evidence</a></li>
+								<li><a href="#dosage" data-section="dosage">Dosage & Timing</a></li>
+								<li><a href="#safety" data-section="safety">Safety & Side Effects</a></li>
+								<li><a href="#combinations" data-section="combinations">Supplement Combinations</a></li>
+								<li><a href="#references" data-section="references">References</a></li>
+							</ul>
+						</div>
+					</div>
+
+					<!-- Overview Section -->
+					<div class="wiki-section" id="overview">
+						<!-- Wikipedia-style Info Box -->
+						<div class="info-box">
+							<div class="info-box-header">
+								<h4>Creatine Monohydrate</h4>
+							</div>
+							<div class="info-box-content">
+								<div class="info-row">
+									<div class="info-label">Chemical Formula</div>
+									<div class="info-value">C₄H₉N₃O₂·H₂O</div>
+								</div>
+								<div class="info-row">
+									<div class="info-label">Molar Mass</div>
+									<div class="info-value">149.15 g/mol</div>
+								</div>
+								<div class="info-row">
+									<div class="info-label">Evidence Level</div>
+									<div class="info-value highlight">Very High</div>
+								</div>
+								<div class="info-row">
+									<div class="info-label">Safety Rating</div>
+									<div class="info-value highlight">Very Safe</div>
+								</div>
+								<div class="info-row">
+									<div class="info-label">Standard Dose</div>
+									<div class="info-value">3-5g daily</div>
+								</div>
+								<div class="info-row">
+									<div class="info-label">Timing</div>
+									<div class="info-value">Anytime</div>
+								</div>
+								<div class="info-row">
+									<div class="info-label">Loading Phase</div>
+									<div class="info-value">20g × 5 days</div>
+								</div>
+								<div class="info-row">
+									<div class="info-label">Cost/Serving</div>
+									<div class="info-value highlight">~$0.10</div>
+								</div>
+								<div class="info-row">
+									<div class="info-label">Primary Uses</div>
+									<div class="info-value">Power, Strength, Mass</div>
+								</div>
+								<div class="info-row">
+									<div class="info-label">Contraindications</div>
+									<div class="info-value warning">Kidney disease</div>
+								</div>
+								<div class="info-row">
+									<div class="info-label">Drug Interactions</div>
+									<div class="info-value highlight">None known</div>
+								</div>
+								<div class="info-row">
+									<div class="info-label">Studies</div>
+									<div class="info-value">1000+ published</div>
+								</div>
+							</div>
+						</div>
+
+						<h3>🔬 Overview & Mechanism</h3>
+						<p>Creatine monohydrate is a naturally occurring compound found in muscle tissue that plays a crucial role in energy production during high-intensity, short-duration activities. It works by increasing phosphocreatine stores in muscles, which can rapidly regenerate ATP (adenosine triphosphate) during intense exercise.</p>
+						
+						<h4>How It Works:</h4>
+						<ul>
+							<li><strong>ATP Regeneration:</strong> Creatine phosphate donates phosphate groups to ADP, rapidly converting it back to ATP</li>
+							<li><strong>Increased Power Output:</strong> More available ATP means sustained high-intensity performance</li>
+							<li><strong>Muscle Volumization:</strong> Draws water into muscle cells, creating an anabolic environment</li>
+							<li><strong>Protein Synthesis:</strong> May enhance muscle protein synthesis through various signaling pathways</li>
+						</ul>
+					</div>
+
+					<!-- Benefits Section -->
+					<div class="wiki-section" id="benefits">
+						<h3>✅ Proven Benefits</h3>
+						
+						<div class="studies-grid">
+							<div class="study-card">
+								<div class="study-title">Strength & Power Enhancement</div>
+								<div class="study-meta">Primary Benefit • High Confidence</div>
+								<p>Increases maximum power output, strength, and performance in high-intensity activities lasting 30 seconds or less.</p>
+								<div class="study-result">
+									<strong>Effect Size:</strong> 5-15% improvement in peak power output
+								</div>
+							</div>
+							
+							<div class="study-card">
+								<div class="study-title">Muscle Mass Gains</div>
+								<div class="study-meta">Well-Established • High Confidence</div>
+								<p>Enhances muscle growth when combined with resistance training through increased training volume and muscle cell volumization.</p>
+								<div class="study-result">
+									<strong>Effect Size:</strong> 5-10% greater muscle mass gains versus placebo
+								</div>
+							</div>
+							
+							<div class="study-card">
+								<div class="study-title">Exercise Recovery</div>
+								<div class="study-meta">Moderate Benefit • Good Evidence</div>
+								<p>Reduces fatigue between sets and enhances recovery during repeated high-intensity efforts.</p>
+								<div class="study-result">
+									<strong>Effect Size:</strong> 10-20% improvement in repeated sprint performance
+								</div>
+							</div>
+							
+							<div class="study-card">
+								<div class="study-title">Cognitive Function</div>
+								<div class="study-meta">Emerging Research • Moderate Evidence</div>
+								<p>May improve cognitive performance, particularly in situations involving mental fatigue or stress.</p>
+								<div class="study-result">
+									<strong>Effect Size:</strong> Small to moderate improvements in working memory and processing speed
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Research Section -->
+					<div class="wiki-section" id="research">
+						<h3>📊 Scientific Evidence</h3>
+						<p>Creatine is one of the most extensively researched supplements in sports nutrition, with over 1000 peer-reviewed studies demonstrating its efficacy and safety.</p>
+						
+						<h4>Key Meta-Analyses:</h4>
+						<div class="studies-grid">
+							<div class="study-card">
+								<div class="study-title">"International Society of Sports Nutrition position stand: creatine supplementation and exercise"</div>
+								<div class="study-meta">Kreider et al., 2017 • Position Statement</div>
+								<p>Comprehensive review of creatine research concluding it is the most effective supplement for improving high-intensity exercise capacity and lean body mass.</p>
+								<div class="study-result">
+									<strong>Conclusion:</strong> Strong evidence for performance benefits with excellent safety profile
+								</div>
+							</div>
+							
+							<div class="study-card">
+								<div class="study-title">"Effects of creatine supplementation on performance and training adaptations"</div>
+								<div class="study-meta">Lanhers et al., 2015 • Meta-analysis of 22 studies</div>
+								<p>Systematic review showing creatine supplementation significantly improves maximal power/strength, work performed during sets, and single/repeated sprint performance.</p>
+								<div class="study-result">
+									<strong>Results:</strong> Consistent 5-10% improvements across multiple performance measures
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Dosage Section -->
+					<div class="wiki-section" id="dosage">
+						<h3>💊 Dosage & Timing</h3>
+						
+						<table class="dosage-table">
+							<thead>
+								<tr>
+									<th>Protocol</th>
+									<th>Dosage</th>
+									<th>Duration</th>
+									<th>Notes</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><strong>Loading Phase</strong></td>
+									<td>20g daily (4 x 5g)</td>
+									<td>5-7 days</td>
+									<td>Fastest way to saturate muscles</td>
+								</tr>
+								<tr>
+									<td><strong>Maintenance</strong></td>
+									<td>3-5g daily</td>
+									<td>Ongoing</td>
+									<td>Maintains muscle saturation</td>
+								</tr>
+								<tr>
+									<td><strong>No Loading</strong></td>
+									<td>3-5g daily</td>
+									<td>3-4 weeks to saturate</td>
+									<td>Slower but equally effective</td>
+								</tr>
+							</tbody>
+						</table>
+						
+						<h4>Timing Guidelines:</h4>
+						<ul>
+							<li><strong>Flexibility:</strong> Can be taken at any time of day</li>
+							<li><strong>With Meals:</strong> May reduce stomach upset in sensitive individuals</li>
+							<li><strong>Post-Workout:</strong> Some evidence for slightly better uptake</li>
+							<li><strong>With Carbs:</strong> Insulin response may enhance uptake (optional)</li>
+						</ul>
+						
+						<h4>Forms & Quality:</h4>
+						<ul>
+							<li><strong>Creatine Monohydrate:</strong> Gold standard, most researched form</li>
+							<li><strong>Micronized:</strong> Better solubility, same effectiveness</li>
+							<li><strong>Creapure®:</strong> High-purity German-made creatine monohydrate</li>
+							<li><strong>Other Forms:</strong> No proven advantages over monohydrate</li>
+						</ul>
+					</div>
+
+					<!-- Safety Section -->
+					<div class="wiki-section" id="safety">
+						<h3>⚕️ Safety & Side Effects</h3>
+						<p>Creatine monohydrate has an excellent safety profile with decades of research supporting its long-term use.</p>
+						
+						<h4>Common (Minor) Side Effects:</h4>
+						<ul>
+							<li><strong>Water Weight Gain:</strong> 1-3 lbs increase due to intracellular water retention</li>
+							<li><strong>Digestive Issues:</strong> Rare, usually with large doses on empty stomach</li>
+							<li><strong>Muscle Cramping:</strong> Often due to inadequate hydration</li>
+						</ul>
+						
+						<div class="safety-alert">
+							<h4>⚠️ Important Considerations</h4>
+							<ul>
+								<li><strong>Hydration:</strong> Increase water intake when using creatine</li>
+								<li><strong>Kidney Function:</strong> Avoid if you have pre-existing kidney issues</li>
+								<li><strong>Quality:</strong> Choose reputable brands to avoid impurities</li>
+								<li><strong>Drug Testing:</strong> Creatine is not banned by any sports organization</li>
+							</ul>
+						</div>
+						
+						<h4>Long-term Safety:</h4>
+						<p>Studies show creatine supplementation for up to 5 years is safe in healthy individuals. No evidence of kidney damage, liver problems, or other serious adverse effects in healthy populations.</p>
+					</div>
+
+					<!-- Combinations Section -->
+					<div class="wiki-section" id="combinations">
+						<h3>🔗 Supplement Combinations</h3>
+						
+						<h4>Synergistic Combinations:</h4>
+						<div class="studies-grid">
+							<div class="study-card">
+								<div class="study-title">Creatine + Whey Protein</div>
+								<div class="study-meta">Highly Complementary</div>
+								<p>Protein supports muscle building while creatine enhances performance and training capacity.</p>
+								<div class="study-result">
+									<strong>Synergy:</strong> Enhanced muscle mass and strength gains
+								</div>
+							</div>
+							
+							<div class="study-card">
+								<div class="study-title">Creatine + Beta-Alanine</div>
+								<div class="study-meta">Performance Stack</div>
+								<p>Targets different energy systems - creatine for power, beta-alanine for muscular endurance.</p>
+								<div class="study-result">
+									<strong>Benefit:</strong> Improved performance across different rep ranges
+								</div>
+							</div>
+							
+							<div class="study-card">
+								<div class="study-title">Creatine + Caffeine</div>
+								<div class="study-meta">Moderate Interaction</div>
+								<p>Some studies suggest caffeine may blunt creatine's effects, but recent research is more positive.</p>
+								<div class="study-result">
+									<strong>Recommendation:</strong> Safe to combine, may cycle caffeine
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- References -->
+					<div class="reference-list" id="references">
+						<h4>📚 Scientific References</h4>
+						<ol>
+							<li>Kreider RB, et al. International Society of Sports Nutrition position stand: creatine supplementation and exercise. J Int Soc Sports Nutr. 2017;14:18.</li>
+							<li>Lanhers C, et al. Creatine Supplementation and Lower Limb Strength Performance: A Systematic Review and Meta-Analyses. Sports Med. 2015;45(9):1285-94.</li>
+							<li>Rawson ES, Volek JS. Effects of creatine supplementation and resistance training on muscle strength and weightlifting performance. J Strength Cond Res. 2003;17(4):822-31.</li>
+							<li>Branch JD. Effect of creatine supplementation on body composition and performance: a meta-analysis. Int J Sport Nutr Exerc Metab. 2003;13(2):198-226.</li>
+							<li>Avgerinos KI, et al. Effects of creatine supplementation on cognitive function of healthy individuals: A systematic review of randomized controlled trials. Exp Gerontol. 2018;108:166-173.</li>
+							<li>Antonio J, Ciccone V. The effects of pre versus post workout supplementation of creatine monohydrate on body composition and strength. J Int Soc Sports Nutr. 2013;10:36.</li>
+						</ol>
+						
+						<div class="safety-alert" style="margin-top: 2rem;">
+							<h4>📋 Medical Disclaimer</h4>
+							<p>This information is for educational purposes only and is not intended as medical advice. Always consult with a healthcare professional before starting any supplement regimen, especially if you have pre-existing medical conditions or are taking medications.</p>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</section>
+
+		<!-- Footer -->
+			<footer id="footer">
+				<ul class="icons">
+					<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+					<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+					<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+				</ul>
+				<p class="copyright">&copy; WhatSupp 2025. Evidence-based supplement information.</p>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+			
+			<!-- Random Background Selection -->
+			<script>
+				$(document).ready(function() {
+					// Array of background images
+					const backgroundImages = [
+						'images/MuscleMAn.png',
+						'images/muscleGirl.png'
+					];
+					
+					// Randomly select one of the images
+					const randomImage = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
+					
+					// Apply the selected background image to the body
+					$('body').css('background-image', 'url(' + randomImage + ')');
+				});
+			</script>
+
+			<!-- Sticky TOC Functionality -->
+			<script>
+				$(document).ready(function() {
+					const $toc = $('#tableOfContents');
+					const $tocToggle = $('#tocToggle');
+					const $tocContent = $('#tocContent');
+					const $tocLinks = $toc.find('a[data-section]');
+					
+					let isCollapsed = false;
+					
+					// Toggle TOC collapse
+					$tocToggle.click(function() {
+						isCollapsed = !isCollapsed;
+						$toc.toggleClass('collapsed', isCollapsed);
+						$tocToggle.text(isCollapsed ? '+' : '−');
+					});
+					
+					// Click on collapsed TOC to expand
+					$toc.click(function(e) {
+						if (isCollapsed && (e.target === this || $(e.target).hasClass('toc'))) {
+							isCollapsed = false;
+							$toc.removeClass('collapsed');
+							$tocToggle.text('−');
+						}
+					});
+					
+					// Smooth scroll for TOC links
+					$tocLinks.click(function(e) {
+						e.preventDefault();
+						const targetId = $(this).attr('href');
+						const $target = $(targetId);
+						
+						if ($target.length) {
+							$('html, body').animate({
+								scrollTop: $target.offset().top - 20
+							}, 500);
+						}
+					});
+					
+					// Highlight current section based on scroll position
+					function highlightCurrentSection() {
+						let current = '';
+						const scrollTop = $(window).scrollTop();
+						
+						$tocLinks.each(function() {
+							const section = $(this).data('section');
+							const $section = $('#' + section);
+							
+							if ($section.length) {
+								const sectionTop = $section.offset().top - 100;
+								const sectionBottom = sectionTop + $section.outerHeight();
+								
+								if (scrollTop >= sectionTop && scrollTop < sectionBottom) {
+									current = section;
+								}
+							}
+						});
+						
+						// Update active states
+						$tocLinks.removeClass('active');
+						if (current) {
+							$tocLinks.filter('[data-section="' + current + '"]').addClass('active');
+						}
+					}
+					
+					// Update highlighting on scroll
+					$(window).scroll(function() {
+						highlightCurrentSection();
+					});
+					
+					// Initial highlight
+					highlightCurrentSection();
+				});
+			</script>
+
+	</body>
+</html>
