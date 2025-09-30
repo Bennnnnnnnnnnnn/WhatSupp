@@ -32,39 +32,6 @@
 				box-sizing: border-box;
 			}
 			
-			/* Additional mobile fixes for top spacing */
-			@media screen and (max-width: 736px) {
-				body {
-					padding-top: 0 !important;
-				}
-				
-				#nav {
-					position: fixed !important;
-					top: 0 !important;
-					z-index: 10000 !important;
-				}
-				
-				header#header {
-					transform: translateY(-70px) !important;
-					margin-top: 0 !important;
-					padding-top: 0 !important;
-				}
-				
-				/* Alternative: Add top padding to first content element */
-				body {
-					padding-top: 70px !important;
-				}
-				
-				/* Make sure nav stays on top */
-				#nav {
-					position: fixed !important;
-					top: 0 !important;
-					left: 0 !important;
-					right: 0 !important;
-					z-index: 10001 !important;
-				}
-			}
-			
 			/* Ensure content sections have semi-transparent backgrounds to show the image behind */
 			#two.wrapper {
 				background-color: rgba(255, 255, 255, 0.90);
@@ -100,15 +67,23 @@
 			function setDynamicNavHeight() {
 				const nav = document.getElementById('nav');
 				if (nav && window.innerWidth <= 736) {
-					const navHeight = nav.offsetHeight;
-					document.documentElement.style.setProperty('--nav-height', navHeight + 'px');
-					document.body.style.paddingTop = navHeight + 'px';
+					// Wait for styles to be applied
+					setTimeout(() => {
+						const navHeight = nav.offsetHeight;
+						console.log('Nav height calculated:', navHeight + 'px'); // Debug
+						document.documentElement.style.setProperty('--nav-height', navHeight + 'px');
+						document.body.style.paddingTop = navHeight + 'px';
+					}, 100);
+				} else if (window.innerWidth > 736) {
+					// Reset for desktop
+					document.body.style.paddingTop = '';
 				}
 			}
 			
 			// Run on page load and resize
 			document.addEventListener('DOMContentLoaded', setDynamicNavHeight);
 			window.addEventListener('resize', setDynamicNavHeight);
+			window.addEventListener('load', setDynamicNavHeight); // Additional safety
 		</script>
 	</head>
 	<body class="is-preload">
