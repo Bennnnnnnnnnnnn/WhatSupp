@@ -39,13 +39,19 @@
 				}
 				
 				#nav {
-					position: fixed;
-					top: 0;
-					z-index: 10000;
+					position: fixed !important;
+					top: 0 !important;
+					z-index: 10000 !important;
 				}
 				
-				#header {
-					margin-top: 70px;
+				header#header {
+					margin-top: 70px !important;
+					padding-top: 0 !important;
+				}
+				
+				/* Alternative: target any element after nav */
+				#nav + * {
+					margin-top: 70px !important;
 				}
 			}
 			
