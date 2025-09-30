@@ -18,6 +18,39 @@
 				background-position: center center;
 				background-repeat: no-repeat;
 				background-attachment: fixed;
+				/* Remove default margins/padding */
+				margin: 0;
+				padding: 0;
+				overflow-x: hidden;
+			}
+			
+			/* Remove html margins/padding */
+			html {
+				margin: 0;
+				padding: 0;
+				overflow-x: hidden;
+			}
+			
+			/* Ensure all elements use border-box sizing */
+			* {
+				box-sizing: border-box;
+			}
+			
+			/* Additional mobile fixes for top spacing */
+			@media screen and (max-width: 736px) {
+				body {
+					padding-top: 0 !important;
+				}
+				
+				#nav {
+					position: fixed;
+					top: 0;
+					z-index: 10000;
+				}
+				
+				#header {
+					margin-top: 70px;
+				}
 			}
 			
 			/* Ensure content sections have semi-transparent backgrounds to show the image behind */

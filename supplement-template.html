@@ -15,6 +15,9 @@
 				background-attachment: fixed;
 				/* Prevent horizontal scrolling */
 				overflow-x: hidden;
+				/* Remove default margins/padding */
+				margin: 0;
+				padding: 0;
 			}
 			
 			/* Ensure all content containers don't exceed viewport width */
@@ -24,6 +27,32 @@
 			
 			html {
 				overflow-x: hidden;
+				margin: 0;
+				padding: 0;
+			}
+			
+			/* Additional mobile fixes for top spacing */
+			@media screen and (max-width: 736px) {
+				body {
+					padding-top: 0 !important;
+				}
+				
+				#nav {
+					position: fixed;
+					top: 0;
+					z-index: 10000;
+				}
+				
+				#main {
+					margin-top: 70px;
+				}
+			}
+			
+			/* Account for fixed navigation on desktop */
+			@media screen and (min-width: 737px) {
+				#main {
+					padding-top: 20px;
+				}
 			}
 			
 			/* Ensure content sections have semi-transparent backgrounds to show the image behind */
