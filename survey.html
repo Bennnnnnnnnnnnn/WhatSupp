@@ -49,19 +49,52 @@
 				}
 				
 				section#header {
-					margin-top: 70px !important;
+					transform: translateY(70px) !important;
+					margin-top: 0 !important;
 					padding-top: 0 !important;
 				}
 				
-				/* Alternative: target any element after nav */
-				#nav + * {
-					margin-top: 70px !important;
+				/* Alternative: Add top padding to first content element */
+				body {
+					padding-top: 70px !important;
+				}
+				
+				/* Make sure nav stays on top */
+				#nav {
+					position: fixed !important;
+					top: 0 !important;
+					left: 0 !important;
+					right: 0 !important;
+					z-index: 10001 !important;
 				}
 			}
 			
 			/* Ensure content sections have semi-transparent backgrounds to show the image behind */
 			.wrapper, .wrapper.style2 {
 				background-color: rgba(255, 255, 255, 0.90);
+			}
+		</style>
+		
+		<!-- Emergency mobile fix - load last to override everything -->
+		<style>
+			@media screen and (max-width: 736px) {
+				html, body {
+					margin: 0 !important;
+					padding: 0 !important;
+				}
+				
+				body {
+					padding-top: 70px !important;
+				}
+				
+				#nav {
+					position: fixed !important;
+					top: 0 !important;
+					left: 0 !important;
+					right: 0 !important;
+					z-index: 999999 !important;
+					background: rgba(255, 255, 255, 0.95) !important;
+				}
 			}
 		</style>
 	</head>
