@@ -80,7 +80,7 @@
 				}
 				
 				body {
-					padding-top: 70px !important;
+					padding-top: var(--nav-height, 70px) !important;
 				}
 				
 				#nav {
@@ -93,6 +93,23 @@
 				}
 			}
 		</style>
+		
+		<!-- Dynamic navigation height script -->
+		<script>
+			// Calculate and set dynamic navigation height
+			function setDynamicNavHeight() {
+				const nav = document.getElementById('nav');
+				if (nav && window.innerWidth <= 736) {
+					const navHeight = nav.offsetHeight;
+					document.documentElement.style.setProperty('--nav-height', navHeight + 'px');
+					document.body.style.paddingTop = navHeight + 'px';
+				}
+			}
+			
+			// Run on page load and resize
+			document.addEventListener('DOMContentLoaded', setDynamicNavHeight);
+			window.addEventListener('resize', setDynamicNavHeight);
+		</script>
 	</head>
 	<body class="is-preload">
 
