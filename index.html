@@ -1,5 +1,9 @@
 <!DOCTYPE HTML>
-
+<!--
+	Fractal by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal under the CCA 3.0 license (html5up.net/license)
+-->
 <html>
 	<head>
 		<title>WhatSupp</title>
@@ -8,111 +12,249 @@
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 		<style>
-			body {
-				/* Background image will be set dynamically by JavaScript */
-				background-size: auto 200%;
-				background-position: center center;
-				background-repeat: no-repeat;
-				background-attachment: fixed;
-				/* Remove default margins/padding */
-				margin: 0;
-				padding: 0;
-				overflow-x: hidden;
+			/* Custom styling for price boxes */
+			.price-section.box {
+				background-color: rgba(255, 255, 255, 0.85);
+				border: 2px solid rgba(200, 200, 200, 0.7);
+				color: #2c3e50;
+				padding: 1.5rem;
+				border-radius: 8px;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+				backdrop-filter: blur(5px);
 			}
 			
-			/* Remove html margins/padding */
-			html {
-				margin: 0;
-				padding: 0;
-				overflow-x: hidden;
+			.price-section.box ul li {
+				color: #2c3e50;
+				border-bottom: 1px solid rgba(200, 200, 200, 0.5);
 			}
 			
-			/* Ensure all elements use border-box sizing */
-			* {
-				box-sizing: border-box;
+			.price-section.box ul li:last-child {
+				border-bottom: none;
 			}
 			
-			/* Ensure content sections have semi-transparent backgrounds to show the image behind */
-			#two.wrapper {
-				background-color: rgba(255, 255, 255, 0.90);
+			.price-section.box a {
+				color: #2980b9;
+			}
+			
+			.price-section.box a:hover {
+				color: #3498db;
+			}
+			
+			.price-section.box sup {
+				color: #7f8c8d;
+			}
+			
+			/* Supplement Carousel Styles */
+			.supplement-carousel {
+				margin: 2rem 0;
+				overflow: hidden;
+				position: relative;
+			}
+			
+			.carousel-container {
+				max-width: 800px;
+				margin: 0 auto;
+				overflow: hidden;
+				position: relative;
+			}
+			
+			.carousel-track {
+				display: flex;
+				animation: scroll 20s linear infinite;
+				gap: 1rem;
+				width: fit-content;
+				justify-content: center;
+			}
+			
+			.carousel-track.few-items {
+				gap: 3rem;
+				justify-content: center;
+				animation: scroll 20s linear infinite !important;
+			}
+			
+			
+			
+			.supplement-item {
+				flex: 0 0 auto;
+				text-align: center;
+				padding: 1rem;
+				background: rgba(255, 255, 255, 0.9);
+				border-radius: 12px;
+				box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+				cursor: pointer;
+				transition: transform 0.3s ease, box-shadow 0.3s ease;
+				min-width: 80px;
+			}
+			
+			.supplement-item:hover {
+				transform: translateY(-5px);
+				box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+			}
+			
+			.supplement-item.active {
+				background: rgba(52, 152, 219, 0.9);
+				color: white;
+				transform: translateY(-5px);
+				box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+			}
+			
+			.supplement-item.active:hover {
+				background: rgba(52, 152, 219, 1);
+			}
+			
+			.supplement-icon {
+				font-size: 2rem;
+				margin-bottom: 0.5rem;
+			}
+			
+			.supplement-item span {
+				display: block;
+				font-size: 0.8rem;
+				font-weight: 600;
+				color: #2c3e50;
+			}
+			
+			@keyframes scroll {
+				0% {
+					transform: translateX(0%);
+				}
+				100% {
+					transform: translateX(-50%);
+				}
+			}
+			
+			.carousel-track {
+				animation-duration: 30s;
+			}
+			
+			.supplement-carousel:hover .carousel-track {
+				animation-play-state: paused;
+			}
+			
+			.supplement-carousel:has(.supplement-item.active) .carousel-track {
+				animation-play-state: paused;
+			}
+			
+			/* Specific Supplements Carousel */
+			.specific-carousel {
+				margin: 2rem 0;
+			}
+			
+			/* Make specific supplements look like category items */
+			.specific-supplement-item {
+				flex: 0 0 auto;
+				text-align: center;
+				padding: 1rem;
+				background: rgba(255, 255, 255, 0.9);
+				border-radius: 12px;
+				box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+				cursor: pointer;
+				transition: transform 0.3s ease, box-shadow 0.3s ease;
+				min-width: 80px;
+			}
+			
+			/* Search Dropdown Styles */
+			.search-container {
+				position: relative;
+				max-width: 400px;
+				margin: 0 auto;
+			}
+			
+			.search-dropdown {
+				position: absolute;
+				top: 100%;
+				left: 0;
+				right: 0;
+				background: white;
+				border: 1px solid #ddd;
+				border-top: none;
+				border-radius: 0 0 8px 8px;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+				max-height: 200px;
+				overflow-y: auto;
+				z-index: 1000;
+				display: none;
+			}
+			
+			.search-dropdown-item {
+				padding: 12px 16px;
+				cursor: pointer;
+				border-bottom: 1px solid #f0f0f0;
+				transition: background-color 0.2s ease;
+				display: flex;
+				align-items: center;
+				gap: 8px;
+			}
+			
+			.search-dropdown-item:hover {
+				background-color: #f8f9fa;
+			}
+			
+			.search-dropdown-item:last-child {
+				border-bottom: none;
+			}
+			
+			.search-dropdown-item .supplement-icon {
+				font-size: 1.2rem;
+			}
+			
+			.search-dropdown-item .supplement-name {
+				font-weight: 600;
+				color: #2c3e50;
+			}
+			
+			.specific-supplement-item:hover {
+				transform: translateY(-5px);
+				box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+			}
+			
+			.specific-supplement-item .supplement-icon {
+				font-size: 2rem;
+				margin-bottom: 0.5rem;
+			}
+			
+			.specific-supplement-item span {
+				display: block;
+				font-size: 0.8rem;
+				font-weight: 600;
+				color: #2c3e50;
+			}
+			
+			.specific-carousel .carousel-track {
+				animation: scroll 25s linear infinite;
+				gap: 1rem;
+				justify-content: center;
+			}
+			
+			.specific-carousel .carousel-track.few-items {
+				gap: 3rem;
+				justify-content: center;
+				animation: none;
+			}
+			
+			.specific-carousel .carousel-track:not(.few-items) {
+				animation: scroll 25s linear infinite;
+			}
+			
+			.specific-carousel:hover .carousel-track {
+				animation-play-state: paused;
 			}
 		</style>
-		
-		<!-- Emergency mobile fix - load last to override everything -->
-		<style>
-			@media screen and (max-width: 736px) {
-				html, body {
-					margin: 0 !important;
-					padding: 0 !important;
-				}
-				
-				body {
-					padding-top: var(--nav-height, 170px) !important;
-				}
-				
-				#nav {
-					position: fixed !important;
-					top: 0 !important;
-					left: 0 !important;
-					right: 0 !important;
-					z-index: 999999 !important;
-					background: rgba(255, 255, 255, 0.95) !important;
-				}
-			}
-		</style>
-		
-		<!-- Dynamic navigation height script -->
-		<script>
-			// Calculate and set dynamic navigation height
-			function setDynamicNavHeight() {
-				const nav = document.getElementById('nav');
-				if (nav && window.innerWidth <= 736) {
-					// Wait for styles to be applied
-					setTimeout(() => {
-						const navHeight = nav.offsetHeight;
-						console.log('Nav height calculated:', navHeight + 'px'); // Debug
-						document.documentElement.style.setProperty('--nav-height', navHeight + 'px');
-						document.body.style.paddingTop = navHeight + 'px';
-					}, 100);
-				} else if (window.innerWidth > 736) {
-					// Reset for desktop
-					document.body.style.paddingTop = '';
-				}
-			}
-			
-			// Run on page load and resize
-			document.addEventListener('DOMContentLoaded', setDynamicNavHeight);
-			window.addEventListener('resize', setDynamicNavHeight);
-			window.addEventListener('load', setDynamicNavHeight); // Additional safety
-		</script>
 	</head>
 	<body class="is-preload">
 
-		<!-- Navigation -->
-			<nav id="nav">
-				<div class="nav-container">
-					<div class="nav-brand">
-						<a href="index.html">WhatSupp</a>
-					</div>
-					<ul class="nav-links">
-						<li><a href="index.html">Home</a></li>
-						<li><a href="survey.html">Survey</a></li>
-						<li><a href="results.html">Results</a></li>
-						<li><a href="#" class="button small" data-filter="muscle">Shop Now</a></li>
-					</ul>
-					<div class="nav-toggle">
-						<span></span>
-						<span></span>
-						<span></span>
-					</div>
-				</div>
-			</nav>
+
 
 		<!-- Header -->
 			<header id="header">
 				<div class="content">
+					<div class="nav-brand">
+						<a href="index.html"  class="button small">Home</a></li>
+						<a href="survey.html"  class="button small">Survey</a></li>
+						<a href="results.html"  class="button small">Results</a></li>
+					</div>
 					<h1><a href="#">WhatSupp</a></h1>
-					<p>It's Time to get supplements right<br />
+					<p>Because guess work shouldn't be a workout<br />
 					Backed by research and science</p>
 					<ul class="actions">
 						<li><a href="survey.html" class="button icon solid fa-chevron-right">Find your Stack</a></li>
@@ -122,494 +264,142 @@
 				<div class="image"><img src="images/Bottle_lineart_white_lines_smooth.png" alt="" /></div>
 			</header>
 
-		<!-- One 
-			<section id="one" class="wrapper style2 special">
-				<header class="major">
-					<h2>Sed ipsum magna lorem tempus amet<br />
-					vehicula et gravida elementum</h2>
-				</header>
-				<ul class="icons major">
-					<li><span class="icon solid fa-camera-retro"><span class="label">Shoot</span></span></li>
-					<li><span class="icon solid fa-sync"><span class="label">Process</span></span></li>
-					<li><span class="icon solid fa-cloud"><span class="label">Upload</span></span></li>
-				</ul>
-			</section>-->
-
 		<!-- Two -->
 			<section id="two" class="wrapper">
 				<div class="inner alt">
 					<header class="major">
 						<h2>Shop Supplements</h2>
 						<p>Science-backed essentials for optimal health and performance</p>
+						<div class="search-container">
+							<form method="post" action="#">
+								<div class="row gtr-uniform">
+									<div class="col-12">
+										<input type="text" name="search" id="search" value="" placeholder="Search supplements..." autocomplete="off" />
+									</div>
+								</div>
+							</form>
+							<div id="search-dropdown" class="search-dropdown">
+								<!-- Dropdown items will be populated here -->
+							</div>
+						</div>
+						
+						<!-- Supplement Carousel -->
+						<div class="supplement-carousel">
+							<div class="carousel-container">
+								<div class="carousel-track">
+									<div class="supplement-item" data-category="creatine">
+										<div class="supplement-icon">💊</div>
+										<span>Creatine</span>
+									</div>
+									<div class="supplement-item" data-category="protein">
+										<div class="supplement-icon">🥛</div>
+										<span>Protein</span>
+									</div>
+									<div class="supplement-item" data-category="omega3">
+										<div class="supplement-icon">🐟</div>
+										<span>Omega-3</span>
+									</div>
+									<div class="supplement-item" data-category="vitamind">
+										<div class="supplement-icon">☀️</div>
+										<span>Vitamin D</span>
+									</div>
+									<div class="supplement-item" data-category="nootropics">
+										<div class="supplement-icon">🧠</div>
+										<span>Nootropics</span>
+									</div>
+									<div class="supplement-item" data-category="preworkout">
+										<div class="supplement-icon">💪</div>
+										<span>Pre-Workout</span>
+									</div>
+									<div class="supplement-item" data-category="vitamins">
+										<div class="supplement-icon">🌿</div>
+										<span>Vitamins</span>
+									</div>
+									<div class="supplement-item" data-category="bcaas">
+										<div class="supplement-icon">⚡</div>
+										<span>BCAAs</span>
+									</div>
+									<!-- Duplicate set for seamless looping -->
+									<div class="supplement-item" data-category="creatine">
+										<div class="supplement-icon">💊</div>
+										<span>Creatine</span>
+									</div>
+									<div class="supplement-item" data-category="protein">
+										<div class="supplement-icon">🥛</div>
+										<span>Protein</span>
+									</div>
+									<div class="supplement-item" data-category="omega3">
+										<div class="supplement-icon">🐟</div>
+										<span>Omega-3</span>
+									</div>
+									<div class="supplement-item" data-category="vitamind">
+										<div class="supplement-icon">☀️</div>
+										<span>Vitamin D</span>
+									</div>
+									<div class="supplement-item" data-category="nootropics">
+										<div class="supplement-icon">🧠</div>
+										<span>Nootropics</span>
+									</div>
+									<div class="supplement-item" data-category="preworkout">
+										<div class="supplement-icon">💪</div>
+										<span>Pre-Workout</span>
+									</div>
+									<div class="supplement-item" data-category="vitamins">
+										<div class="supplement-icon">🌿</div>
+										<span>Vitamins</span>
+									</div>
+									<div class="supplement-item" data-category="bcaas">
+										<div class="supplement-icon">⚡</div>
+										<span>BCAAs</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<!-- Specific Supplements Carousel -->
+						<div class="specific-carousel" id="specific-carousel" style="display: none;">
+							<div class="carousel-container">
+								<div class="carousel-track" id="specific-track">
+									<!-- Specific supplements will be populated here -->
+								</div>
+							</div>
+						</div>
 					</header>
 					
-					<!-- Filters 
-					<div class="supplement-filters collapsed" id="filterSection">
-						<button class="filter-toggle-btn collapsed" id="filterToggle" aria-label="Toggle filters">
-							<span class="filter-toggle-text">Show Filters</span>
-							<span class="filter-toggle-icon">▼</span>
-						</button>
-						<div class="filter-content hidden" id="filterContent">
-							<h4>Filter by Category:</h4>
-							<ul class="actions filter-buttons">
-								<li><a href="#" class="button small active" data-filter="all">All</a></li>
-								<li><a href="#" class="button small" data-filter="muscle">Muscle Building</a></li>
-								<li><a href="#" class="button small" data-filter="performance">Performance</a></li>
-								<li><a href="#" class="button small" data-filter="health">General Health</a></li>
-								<li><a href="#" class="button small" data-filter="recovery">Recovery</a></li>
-							</ul>
+					<section class="spotlight">
+						<div class="image"><img src="images/pic01.jpg" alt="" /></div>
+						<div class="content">
+							<h3>Creatine Monohydrate</h3>
+							<p>The gold standard for muscle building and strength. Over 600 studies support its effectiveness in increasing power, muscle mass, and exercise performance.</p>
+							<a href="supplement-template.html" class="button small">Access Research</a>
+							<a href="#" class="button small">Find deals</a>
 						</div>
-					</div>-->
+						
+						<div class="price-section box">
+									<ul class="alt">
+										<li><strong><a href="#">Amazon:</a></strong> $24.99 <sup>($0.28/serving)</sup></li>
+										<li><strong><a href="#">iHerb:</a></strong> $22.95 <sup>($0.26/serving)</sup></li>
+										<li><strong><a href="#">Vitacost:</a></strong> $26.49 <sup>($0.29/serving)</sup></li>
+									</ul>															
+						</div>
+					</section>
 
-					<!-- Supplement Cards -->
-					<div class="supplements-grid-horizontal">
-						<!-- Creatine -->
-						<article class="supplement-card-horizontal" data-category="muscle performance">
-							<div class="supplement-image">
-								<img src="images/pic01.jpg" alt="Creatine Monohydrate" />
-							</div>
-							<div class="supplement-content-horizontal">
-								<div class="supplement-header">
-									<h3>Creatine Monohydrate</h3>
-									<span class="evidence-level strong">Strong Evidence</span>
-								</div>
-								<div class="price-section">
-									<span class="price">$24.99</span>
-									<div class="serving-details">
-										<span class="serving-info">90 servings • 3-5g per day</span>
-										<span class="cost-per-serving">$0.28 per serving</span>
-									</div>
-								</div>
-								<p class="supplement-description">The gold standard for muscle building and strength. Over 600 studies support its effectiveness in increasing power, muscle mass, and exercise performance.</p>
-								<div class="supplement-meta">
-									<div class="timing-info">
-										<span class="timing-icon">🕐</span>
-										<span class="timing-text">Anytime</span>
-									</div>
-									<div class="category-tags">
-										<span class="tag muscle">Muscle Building</span>
-										<span class="tag performance">Performance</span>
-									</div>
-								</div>
-								<ul class="actions">
-									<li><a href="#" class="button primary icon solid fa-shopping-cart">Add to Cart</a></li>
-									<li><a href="supplement-template.html" class="button">Access Research</a></li>
-								</ul>
-							</div>
-						</article>
-
-						<!-- Whey Protein -->
-						<article class="supplement-card-horizontal" data-category="muscle recovery">
-							<div class="supplement-image">
-								<img src="images/pic02.jpg" alt="Whey Protein" />
-							</div>
-							<div class="supplement-content-horizontal">
-								<div class="supplement-header">
-									<h3>Whey Protein</h3>
-									<span class="evidence-level strong">Strong Evidence</span>
-								</div>
-								<div class="price-section">
-									<span class="price">$39.99</span>
-									<div class="serving-details">
-										<span class="serving-info">30 servings • 25g protein per scoop</span>
-										<span class="cost-per-serving">$1.33 per serving</span>
-									</div>
-								</div>
-								<p class="supplement-description">Complete protein source with all essential amino acids. Optimizes muscle protein synthesis, supports recovery, and helps meet daily protein goals.</p>
-								<div class="supplement-meta">
-									<div class="timing-info">
-										<span class="timing-icon">🏋️</span>
-										<span class="timing-text">Post-workout</span>
-									</div>
-									<div class="category-tags">
-										<span class="tag muscle">Muscle Building</span>
-										<span class="tag recovery">Recovery</span>
-									</div>
-								</div>
-								<ul class="actions">
-									<li><a href="#" class="button primary icon solid fa-shopping-cart">Add to Cart</a></li>
-									<li><a href="results.html" class="button">Access Research</a></li>
-								</ul>
-							</div>
-						</article>
-
-						<!-- Vitamin D3 -->
-						<article class="supplement-card-horizontal" data-category="health">
-							<div class="supplement-image">
-								<img src="images/pic03.jpg" alt="Vitamin D3" />
-							</div>
-							<div class="supplement-content-horizontal">
-								<div class="supplement-header">
-									<h3>Vitamin D3</h3>
-									<span class="evidence-level moderate">Moderate Evidence</span>
-								</div>
-								<div class="price-section">
-									<span class="price">$16.99</span>
-									<div class="serving-details">
-										<span class="serving-info">120 capsules • 2000 IU per capsule</span>
-										<span class="cost-per-serving">$0.14 per serving</span>
-									</div>
-								</div>
-								<p class="supplement-description">Essential for bone health, immune function, and overall wellness. Many people are deficient, especially those with limited sun exposure.</p>
-								<div class="supplement-meta">
-									<div class="timing-info">
-										<span class="timing-icon">🍽️</span>
-										<span class="timing-text">With meals</span>
-									</div>
-									<div class="category-tags">
-										<span class="tag health">General Health</span>
-									</div>
-								</div>
-								<ul class="actions">
-									<li><a href="#" class="button primary icon solid fa-shopping-cart">Add to Cart</a></li>
-									<li><a href="results.html" class="button">Access Research</a></li>
-								</ul>
-							</div>
-						</article>
-					</div>
-					<!--<section class="special">
-						<ul class="icons labeled">
-							<li><span class="icon solid fa-camera-retro"><span class="label">Ipsum lorem accumsan</span></span></li>
-							<li><span class="icon solid fa-sync"><span class="label">Sed vehicula elementum</span></span></li>
-							<li><span class="icon solid fa-cloud"><span class="label">Elit fusce consequat</span></span></li>
-							<li><span class="icon solid fa-code"><span class="label">Lorem nullam tempus</span></span></li>
-							<li><span class="icon solid fa-desktop"><span class="label">Adipiscing amet sapien</span></span></li>
-						</ul>
-					</section> -->
-				</div>
-			</section>
-
-		<!-- Three
+		<!-- Three -->
 			<section id="three" class="wrapper style2 special">
 				<header class="major">
-					<h2>Magna leo sapien gravida</h2>
-					<p>Gravida at leo elementum elit fusce accumsan dui libero, quis vehicula<br />
-					lectus ultricies eu. In convallis amet leo sapien iaculis efficitur.</p>
+					<h2>Find your stack</h2>
+					<p>Not sure what supplements are right for you? Take our quiz to find your ideal stack.</p>
 				</header>
 				<ul class="actions special">
-					<li><a href="#" class="button primary icon solid fa-download">Download</a></li>
+					<li><a href="survey.html" class="button icon solid fa-chevron-right">Find your Stack</a></li>
 					<li><a href="#" class="button">Learn More</a></li>
 				</ul>
-			</section> -->
+			</section>
 
 		<!-- Four -->
-		<!--
-			<section id="four" class="wrapper">
-				<div class="inner">
-
-					<header class="major">
-						<h2>Elements</h2>
-					</header>
-
-					<section>
-						<h4>Text</h4>
-						<p>This is <b>bold</b> and this is <strong>strong</strong>. This is <i>italic</i> and this is <em>emphasized</em>.
-						This is <sup>superscript</sup> text and this is <sub>subscript</sub> text.
-						This is <u>underlined</u> and this is code: <code>for (;;) { ... }</code>. Finally, <a href="#">this is a link</a>.</p>
-						<hr />
-						<header>
-							<h4>Heading with a Subtitle</h4>
-							<p>Lorem ipsum dolor sit amet nullam id egestas urna aliquam</p>
-						</header>
-						<p>Nunc lacinia ante nunc ac lobortis. Interdum adipiscing gravida odio porttitor sem non mi integer non faucibus ornare mi ut ante amet placerat aliquet. Volutpat eu sed ante lacinia sapien lorem accumsan varius montes viverra nibh in adipiscing blandit tempus accumsan.</p>
-						<header>
-							<h5>Heading with a Subtitle</h5>
-							<p>Lorem ipsum dolor sit amet nullam id egestas urna aliquam</p>
-						</header>
-						<p>Nunc lacinia ante nunc ac lobortis. Interdum adipiscing gravida odio porttitor sem non mi integer non faucibus ornare mi ut ante amet placerat aliquet. Volutpat eu sed ante lacinia sapien lorem accumsan varius montes viverra nibh in adipiscing blandit tempus accumsan.</p>
-						<hr />
-						<h2>Heading Level 2</h2>
-						<h3>Heading Level 3</h3>
-						<h4>Heading Level 4</h4>
-						<h5>Heading Level 5</h5>
-						<h6>Heading Level 6</h6>
-						<hr />
-						<h5>Blockquote</h5>
-						<blockquote>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan faucibus. Vestibulum ante ipsum primis in faucibus lorem ipsum dolor sit amet nullam adipiscing eu felis.</blockquote>
-						<h5>Preformatted</h5>
-						<pre><code>i = 0;
-
-while (!deck.isInOrder()) {
-  print 'Iteration ' + i;
-  deck.shuffle();
-  i++;
-}
-
-print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
-					</section>
-
-					<section>
-						<h4>Lists</h4>
-						<div class="row">
-							<div class="col-6 col-12-medium">
-								<h5>Unordered</h5>
-								<ul>
-									<li>Dolor pulvinar etiam.</li>
-									<li>Sagittis adipiscing.</li>
-									<li>Felis enim feugiat.</li>
-								</ul>
-								<h5>Alternate</h5>
-								<ul class="alt">
-									<li>Dolor pulvinar etiam.</li>
-									<li>Sagittis adipiscing.</li>
-									<li>Felis enim feugiat.</li>
-								</ul>
-							</div>
-							<div class="col-6 col-12-medium">
-								<h5>Ordered</h5>
-								<ol>
-									<li>Dolor pulvinar etiam.</li>
-									<li>Etiam vel felis viverra.</li>
-									<li>Felis enim feugiat.</li>
-									<li>Dolor pulvinar etiam.</li>
-									<li>Etiam vel felis lorem.</li>
-									<li>Felis enim et feugiat.</li>
-								</ol>
-								<h5>Icons</h5>
-								<ul class="icons">
-									<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-									<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-									<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-									<li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
-								</ul>
-							</div>
-						</div>
-						<h5>Actions</h5>
-						<div class="row">
-							<div class="col-6 col-12-medium">
-								<ul class="actions">
-									<li><a href="#" class="button primary">Default</a></li>
-									<li><a href="#" class="button">Default</a></li>
-								</ul>
-								<ul class="actions small">
-									<li><a href="#" class="button primary small">Small</a></li>
-									<li><a href="#" class="button small">Small</a></li>
-								</ul>
-								<ul class="actions stacked">
-									<li><a href="#" class="button primary">Default</a></li>
-									<li><a href="#" class="button">Default</a></li>
-								</ul>
-								<ul class="actions stacked">
-									<li><a href="#" class="button primary small">Small</a></li>
-									<li><a href="#" class="button small">Small</a></li>
-								</ul>
-							</div>
-							<div class="col-6 col-12-medium">
-								<ul class="actions stacked">
-									<li><a href="#" class="button primary fit">Default</a></li>
-									<li><a href="#" class="button fit">Default</a></li>
-								</ul>
-								<ul class="actions stacked">
-									<li><a href="#" class="button primary small fit">Small</a></li>
-									<li><a href="#" class="button small fit">Small</a></li>
-								</ul>
-							</div>
-						</div>
-					</section>
-
-					<section>
-						<h4>Table</h4>
-						<h5>Default</h5>
-						<div class="table-wrapper">
-							<table>
-								<thead>
-									<tr>
-										<th>Name</th>
-										<th>Description</th>
-										<th>Price</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>Item One</td>
-										<td>Ante turpis integer aliquet porttitor.</td>
-										<td>29.99</td>
-									</tr>
-									<tr>
-										<td>Item Two</td>
-										<td>Vis ac commodo adipiscing arcu aliquet.</td>
-										<td>19.99</td>
-									</tr>
-									<tr>
-										<td>Item Three</td>
-										<td> Morbi faucibus arcu accumsan lorem.</td>
-										<td>29.99</td>
-									</tr>
-									<tr>
-										<td>Item Four</td>
-										<td>Vitae integer tempus condimentum.</td>
-										<td>19.99</td>
-									</tr>
-									<tr>
-										<td>Item Five</td>
-										<td>Ante turpis integer aliquet porttitor.</td>
-										<td>29.99</td>
-									</tr>
-								</tbody>
-								<tfoot>
-									<tr>
-										<td colspan="2"></td>
-										<td>100.00</td>
-									</tr>
-								</tfoot>
-							</table>
-						</div>
-
-						<h5>Alternate</h5>
-						<div class="table-wrapper">
-							<table class="alt">
-								<thead>
-									<tr>
-										<th>Name</th>
-										<th>Description</th>
-										<th>Price</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>Item One</td>
-										<td>Ante turpis integer aliquet porttitor.</td>
-										<td>29.99</td>
-									</tr>
-									<tr>
-										<td>Item Two</td>
-										<td>Vis ac commodo adipiscing arcu aliquet.</td>
-										<td>19.99</td>
-									</tr>
-									<tr>
-										<td>Item Three</td>
-										<td> Morbi faucibus arcu accumsan lorem.</td>
-										<td>29.99</td>
-									</tr>
-									<tr>
-										<td>Item Four</td>
-										<td>Vitae integer tempus condimentum.</td>
-										<td>19.99</td>
-									</tr>
-									<tr>
-										<td>Item Five</td>
-										<td>Ante turpis integer aliquet porttitor.</td>
-										<td>29.99</td>
-									</tr>
-								</tbody>
-								<tfoot>
-									<tr>
-										<td colspan="2"></td>
-										<td>100.00</td>
-									</tr>
-								</tfoot>
-							</table>
-						</div>
-					</section>
-
-					<section>
-						<h4>Buttons</h4>
-						<ul class="actions">
-							<li><a href="#" class="button primary">Primary</a></li>
-							<li><a href="#" class="button">Default</a></li>
-						</ul>
-						<ul class="actions">
-							<li><a href="#" class="button large">Large</a></li>
-							<li><a href="#" class="button">Default</a></li>
-							<li><a href="#" class="button small">Small</a></li>
-						</ul>
-						<ul class="actions fit">
-							<li><a href="#" class="button fit">Fit</a></li>
-							<li><a href="#" class="button primary fit">Fit</a></li>
-							<li><a href="#" class="button fit">Fit</a></li>
-						</ul>
-						<ul class="actions fit small">
-							<li><a href="#" class="button primary fit small">Fit + Small</a></li>
-							<li><a href="#" class="button fit small">Fit + Small</a></li>
-							<li><a href="#" class="button primary fit small">Fit + Small</a></li>
-						</ul>
-						<ul class="actions">
-							<li><a href="#" class="button primary icon solid fa-download">Icon</a></li>
-							<li><a href="#" class="button icon solid fa-download">Icon</a></li>
-						</ul>
-						<ul class="actions">
-							<li><span class="button primary disabled">Disabled</span></li>
-							<li><span class="button disabled">Disabled</span></li>
-						</ul>
-					</section>
-
-					<section>
-						<h4>Form</h4>
-						<form method="post" action="#">
-							<div class="row gtr-uniform">
-								<div class="col-6 col-12-xsmall">
-									<input type="text" name="demo-name" id="demo-name" value="" placeholder="Name" />
-								</div>
-								<div class="col-6 col-12-xsmall">
-									<input type="email" name="demo-email" id="demo-email" value="" placeholder="Email" />
-								</div>
-								<div class="col-12">
-									<select name="demo-category" id="demo-category">
-										<option value="">- Category -</option>
-										<option value="1">Manufacturing</option>
-										<option value="1">Shipping</option>
-										<option value="1">Administration</option>
-										<option value="1">Human Resources</option>
-									</select>
-								</div>
-								<div class="col-4 col-12-small">
-									<input type="radio" id="demo-priority-low" name="demo-priority" checked>
-									<label for="demo-priority-low">Low</label>
-								</div>
-								<div class="col-4 col-12-small">
-									<input type="radio" id="demo-priority-normal" name="demo-priority">
-									<label for="demo-priority-normal">Normal</label>
-								</div>
-								<div class="col-4 col-12-small">
-									<input type="radio" id="demo-priority-high" name="demo-priority">
-									<label for="demo-priority-high">High</label>
-								</div>
-								<div class="col-6 col-12-small">
-									<input type="checkbox" id="demo-copy" name="demo-copy">
-									<label for="demo-copy">Email me a copy</label>
-								</div>
-								<div class="col-6 col-12-small">
-									<input type="checkbox" id="demo-human" name="demo-human" checked>
-									<label for="demo-human">Not a robot</label>
-								</div>
-								<div class="col-12">
-									<textarea name="demo-message" id="demo-message" placeholder="Enter your message" rows="6"></textarea>
-								</div>
-								<div class="col-12">
-									<ul class="actions">
-										<li><input type="submit" value="Send Message" class="primary" /></li>
-										<li><input type="reset" value="Reset" /></li>
-									</ul>
-								</div>
-							</div>
-						</form>
-					</section>
-
-					<section>
-						<h4>Image</h4>
-						<h5>Fit</h5>
-						<div class="box alt">
-							<div class="row gtr-uniform">
-								<div class="col-12"><span class="image fit"><img src="images/pic04.jpg" alt="" /></span></div>
-								<div class="col-4"><span class="image fit"><img src="images/pic01.jpg" alt="" /></span></div>
-								<div class="col-4"><span class="image fit"><img src="images/pic02.jpg" alt="" /></span></div>
-								<div class="col-4"><span class="image fit"><img src="images/pic03.jpg" alt="" /></span></div>
-								<div class="col-4"><span class="image fit"><img src="images/pic02.jpg" alt="" /></span></div>
-								<div class="col-4"><span class="image fit"><img src="images/pic03.jpg" alt="" /></span></div>
-								<div class="col-4"><span class="image fit"><img src="images/pic01.jpg" alt="" /></span></div>
-								<div class="col-4"><span class="image fit"><img src="images/pic03.jpg" alt="" /></span></div>
-								<div class="col-4"><span class="image fit"><img src="images/pic01.jpg" alt="" /></span></div>
-								<div class="col-4"><span class="image fit"><img src="images/pic02.jpg" alt="" /></span></div>
-							</div>
-						</div>
-						<h5>Left &amp; Right</h5>
-						<p><span class="image left"><img src="images/pic05.jpg" alt="" /></span>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent.</p>
-						<p><span class="image right"><img src="images/pic05.jpg" alt="" /></span>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent.</p>
-					</section>
-
-				</div>
-			</section>
-		-->
+		
+			
+	
 
 		<!-- Footer -->
 			<footer id="footer">
@@ -629,20 +419,705 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
 			
-			<!-- Random Background Selection -->
 			<script>
-				$(document).ready(function() {
-					// Array of background images
-					const backgroundImages = [
-						'images/MuscleMAn.png',
-						'images/muscleGirl.png'
-					];
-					
-					// Randomly select one of the images
-					const randomImage = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
-					
-					// Apply the selected background image to the body
-					$('body').css('background-image', 'url(' + randomImage + ')');
+				// Supplement data for each category
+				const supplementData = {
+					creatine: [
+						{ name: "Monohydrate", icon: "💊" },
+						{ name: "HCL", icon: "🔬" },
+						{ name: "Buffered", icon: "⚗️" },
+						{ name: "Citrate", icon: "🧪" }
+					],
+					protein: [
+						{ name: "Whey Isolate", icon: "🥛" },
+						{ name: "Casein", icon: "🌙" },
+						{ name: "Plant", icon: "🌱" },
+						{ name: "Egg White", icon: "🥚" },
+						{ name: "Hydrolyzed", icon: "⚡" }
+					],
+					omega3: [
+						{ name: "Fish Oil", icon: "🐟" },
+						{ name: "Krill Oil", icon: "🦐" },
+						{ name: "Algae", icon: "🌊" },
+						{ name: "Cod Liver", icon: "🐠" }
+					],
+					vitamind: [
+						{ name: "D3", icon: "☀️" },
+						{ name: "D2", icon: "🌞" },
+						{ name: "D3 + K2", icon: "🌟" },
+						{ name: "Liquid D", icon: "💧" }
+					],
+					nootropics: [
+						{ name: "Alpha-GPC", icon: "🧠" },
+						{ name: "Lion's Mane", icon: "🍄" },
+						{ name: "Bacopa", icon: "🌿" },
+						{ name: "Rhodiola", icon: "🌸" },
+						{ name: "Phosphatidyl", icon: "🔋" }
+					],
+					preworkout: [
+						{ name: "Caffeine", icon: "☕" },
+						{ name: "Citrulline", icon: "💪" },
+						{ name: "Beta-Alanine", icon: "⚡" },
+						{ name: "PWO Blend", icon: "🔥" }
+					],
+					vitamins: [
+						{ name: "Multi", icon: "🌈" },
+						{ name: "Vitamin C", icon: "🍊" },
+						{ name: "B-Complex", icon: "🅱️" },
+						{ name: "Vitamin E", icon: "🌰" },
+						{ name: "Magnesium", icon: "⚪" }
+					],
+					bcaas: [
+						{ name: "BCAA 2:1:1", icon: "🔗" },
+						{ name: "EAA Complex", icon: "🧬" },
+						{ name: "Leucine", icon: "💎" },
+						{ name: "BCAA + Glut", icon: "⚡" }
+					]
+				};
+
+				// Detailed supplement information for spotlight section
+				const supplementDetails = {
+					"Monohydrate": {
+						title: "Creatine Monohydrate",
+						description: "The gold standard for muscle building and strength. Over 600 studies support its effectiveness in increasing power, muscle mass, and exercise performance.",
+						image: "images/pic01.jpg",
+						prices: [
+							{ store: "Amazon", price: "$24.99", perServing: "$0.28" },
+							{ store: "iHerb", price: "$22.95", perServing: "$0.26" },
+							{ store: "Vitacost", price: "$26.49", perServing: "$0.29" }
+						]
+					},
+					"HCL": {
+						title: "Creatine HCL",
+						description: "Highly soluble form of creatine that may reduce bloating and stomach discomfort. Requires smaller doses due to better absorption rates.",
+						image: "images/pic02.jpg",
+						prices: [
+							{ store: "Amazon", price: "$29.99", perServing: "$0.33" },
+							{ store: "iHerb", price: "$27.95", perServing: "$0.31" },
+							{ store: "Vitacost", price: "$31.49", perServing: "$0.35" }
+						]
+					},
+					"Buffered": {
+						title: "Buffered Creatine",
+						description: "pH-buffered creatine designed to resist breakdown in stomach acid. May improve absorption and reduce potential digestive issues.",
+						image: "images/pic03.jpg",
+						prices: [
+							{ store: "Amazon", price: "$32.99", perServing: "$0.37" },
+							{ store: "iHerb", price: "$29.95", perServing: "$0.33" },
+							{ store: "Vitacost", price: "$34.49", perServing: "$0.38" }
+						]
+					},
+					"Citrate": {
+						title: "Creatine Citrate",
+						description: "Creatine bound to citric acid for enhanced solubility. Better water absorption than monohydrate with similar effectiveness.",
+						image: "images/pic04.jpg",
+						prices: [
+							{ store: "Amazon", price: "$27.99", perServing: "$0.31" },
+							{ store: "iHerb", price: "$25.95", perServing: "$0.29" },
+							{ store: "Vitacost", price: "$29.49", perServing: "$0.33" }
+						]
+					},
+					"Whey Isolate": {
+						title: "Whey Protein Isolate",
+						description: "Premium protein with 90%+ protein content. Fast-absorbing and ideal for post-workout recovery. Lactose-free and easy to digest.",
+						image: "images/pic01.jpg",
+						prices: [
+							{ store: "Amazon", price: "$47.99", perServing: "$1.60" },
+							{ store: "iHerb", price: "$44.95", perServing: "$1.50" },
+							{ store: "Vitacost", price: "$49.99", perServing: "$1.67" }
+						]
+					},
+					"Casein": {
+						title: "Casein Protein",
+						description: "Slow-digesting protein perfect for nighttime recovery. Provides sustained amino acid release for up to 8 hours.",
+						image: "images/pic02.jpg",
+						prices: [
+							{ store: "Amazon", price: "$39.99", perServing: "$1.33" },
+							{ store: "iHerb", price: "$37.95", perServing: "$1.27" },
+							{ store: "Vitacost", price: "$42.49", perServing: "$1.42" }
+						]
+					},
+					"Plant": {
+						title: "Plant Protein",
+						description: "Complete vegan protein blend from pea, rice, and hemp. Hypoallergenic and environmentally sustainable option.",
+						image: "images/pic03.jpg",
+						prices: [
+							{ store: "Amazon", price: "$44.99", perServing: "$1.50" },
+							{ store: "iHerb", price: "$41.95", perServing: "$1.40" },
+							{ store: "Vitacost", price: "$46.49", perServing: "$1.55" }
+						]
+					},
+					"Egg White": {
+						title: "Egg White Protein",
+						description: "Pure egg albumen protein with complete amino acid profile. Highly bioavailable and naturally fat-free.",
+						image: "images/pic04.jpg",
+						prices: [
+							{ store: "Amazon", price: "$49.99", perServing: "$1.67" },
+							{ store: "iHerb", price: "$46.95", perServing: "$1.57" },
+							{ store: "Vitacost", price: "$52.49", perServing: "$1.75" }
+						]
+					},
+					"Hydrolyzed": {
+						title: "Hydrolyzed Whey",
+						description: "Pre-digested whey protein for ultra-fast absorption. Ideal for immediate post-workout recovery and sensitive stomachs.",
+						image: "images/pic05.jpg",
+						prices: [
+							{ store: "Amazon", price: "$59.99", perServing: "$2.00" },
+							{ store: "iHerb", price: "$56.95", perServing: "$1.90" },
+							{ store: "Vitacost", price: "$62.49", perServing: "$2.08" }
+						]
+					},
+					"Fish Oil": {
+						title: "Omega-3 Fish Oil",
+						description: "High-quality EPA and DHA fatty acids for heart, brain, and joint health. Molecularly distilled for purity and potency.",
+						image: "images/pic01.jpg",
+						prices: [
+							{ store: "Amazon", price: "$29.95", perServing: "$0.50" },
+							{ store: "iHerb", price: "$26.95", perServing: "$0.45" },
+							{ store: "Vitacost", price: "$32.49", perServing: "$0.54" }
+						]
+					},
+					"Krill Oil": {
+						title: "Krill Oil",
+						description: "Premium omega-3 source with phospholipids and astaxanthin. Superior absorption and antioxidant protection.",
+						image: "images/pic02.jpg",
+						prices: [
+							{ store: "Amazon", price: "$39.99", perServing: "$1.33" },
+							{ store: "iHerb", price: "$36.95", perServing: "$1.23" },
+							{ store: "Vitacost", price: "$42.49", perServing: "$1.42" }
+						]
+					},
+					"Algae": {
+						title: "Algae Omega-3",
+						description: "Vegan omega-3 from marine algae. Sustainable source of EPA and DHA without fishy taste or smell.",
+						image: "images/pic03.jpg",
+						prices: [
+							{ store: "Amazon", price: "$34.99", perServing: "$1.17" },
+							{ store: "iHerb", price: "$31.95", perServing: "$1.07" },
+							{ store: "Vitacost", price: "$37.49", perServing: "$1.25" }
+						]
+					},
+					"Cod Liver": {
+						title: "Cod Liver Oil",
+						description: "Traditional omega-3 source with naturally occurring vitamins A and D. Supports immune function and bone health.",
+						image: "images/pic04.jpg",
+						prices: [
+							{ store: "Amazon", price: "$24.99", perServing: "$0.42" },
+							{ store: "iHerb", price: "$21.95", perServing: "$0.37" },
+							{ store: "Vitacost", price: "$27.49", perServing: "$0.46" }
+						]
+					},
+					"D3": {
+						title: "Vitamin D3",
+						description: "Essential for bone health, immune function, and mood regulation. Highly bioavailable cholecalciferol form.",
+						image: "images/pic05.jpg",
+						prices: [
+							{ store: "Amazon", price: "$12.99", perServing: "$0.07" },
+							{ store: "iHerb", price: "$9.95", perServing: "$0.05" },
+							{ store: "Vitacost", price: "$14.49", perServing: "$0.08" }
+						]
+					},
+					"D2": {
+						title: "Vitamin D2",
+						description: "Plant-derived vitamin D (ergocalciferol). Suitable for vegans and those preferring plant-based supplements.",
+						image: "images/pic01.jpg",
+						prices: [
+							{ store: "Amazon", price: "$9.99", perServing: "$0.05" },
+							{ store: "iHerb", price: "$7.95", perServing: "$0.04" },
+							{ store: "Vitacost", price: "$11.49", perServing: "$0.06" }
+						]
+					},
+					"D3 + K2": {
+						title: "Vitamin D3 + K2",
+						description: "Synergistic combination for optimal calcium absorption and bone health. K2 directs calcium to bones, away from arteries.",
+						image: "images/pic02.jpg",
+						prices: [
+							{ store: "Amazon", price: "$19.99", perServing: "$0.33" },
+							{ store: "iHerb", price: "$17.95", perServing: "$0.30" },
+							{ store: "Vitacost", price: "$22.49", perServing: "$0.37" }
+						]
+					},
+					"Liquid D": {
+						title: "Liquid Vitamin D",
+						description: "Fast-absorbing liquid vitamin D3. Easy dosing and ideal for those who have difficulty with pills.",
+						image: "images/pic03.jpg",
+						prices: [
+							{ store: "Amazon", price: "$15.99", perServing: "$0.27" },
+							{ store: "iHerb", price: "$13.95", perServing: "$0.23" },
+							{ store: "Vitacost", price: "$17.49", perServing: "$0.29" }
+						]
+					},
+					"Alpha-GPC": {
+						title: "Alpha-GPC",
+						description: "Highly bioavailable choline compound that crosses the blood-brain barrier. Supports cognitive function and memory.",
+						image: "images/pic04.jpg",
+						prices: [
+							{ store: "Amazon", price: "$24.99", perServing: "$0.83" },
+							{ store: "iHerb", price: "$21.95", perServing: "$0.73" },
+							{ store: "Vitacost", price: "$27.49", perServing: "$0.92" }
+						]
+					},
+					"Lion's Mane": {
+						title: "Lion's Mane Mushroom",
+						description: "Nootropic mushroom that supports nerve growth factor and cognitive health. May enhance memory and focus.",
+						image: "images/pic05.jpg",
+						prices: [
+							{ store: "Amazon", price: "$19.99", perServing: "$0.67" },
+							{ store: "iHerb", price: "$17.95", perServing: "$0.60" },
+							{ store: "Vitacost", price: "$22.49", perServing: "$0.75" }
+						]
+					},
+					"Bacopa": {
+						title: "Bacopa Monnieri",
+						description: "Traditional ayurvedic herb for memory enhancement. Clinically studied for improving learning and reducing anxiety.",
+						image: "images/pic01.jpg",
+						prices: [
+							{ store: "Amazon", price: "$16.99", perServing: "$0.57" },
+							{ store: "iHerb", price: "$14.95", perServing: "$0.50" },
+							{ store: "Vitacost", price: "$18.49", perServing: "$0.62" }
+						]
+					},
+					"Rhodiola": {
+						title: "Rhodiola Rosea",
+						description: "Adaptogenic herb that helps combat stress and fatigue. May improve mental performance under stress.",
+						image: "images/pic02.jpg",
+						prices: [
+							{ store: "Amazon", price: "$22.99", perServing: "$0.77" },
+							{ store: "iHerb", price: "$19.95", perServing: "$0.67" },
+							{ store: "Vitacost", price: "$25.49", perServing: "$0.85" }
+						]
+					},
+					"Phosphatidyl": {
+						title: "Phosphatidylserine",
+						description: "Phospholipid that supports brain cell membrane integrity. May improve memory, focus, and cognitive processing.",
+						image: "images/pic03.jpg",
+						prices: [
+							{ store: "Amazon", price: "$29.99", perServing: "$1.00" },
+							{ store: "iHerb", price: "$26.95", perServing: "$0.90" },
+							{ store: "Vitacost", price: "$32.49", perServing: "$1.08" }
+						]
+					},
+					"Caffeine": {
+						title: "Caffeine + L-Theanine",
+						description: "Synergistic combination for clean energy and focus. L-theanine smooths out caffeine jitters while maintaining alertness.",
+						image: "images/pic04.jpg",
+						prices: [
+							{ store: "Amazon", price: "$19.99", perServing: "$0.33" },
+							{ store: "iHerb", price: "$17.95", perServing: "$0.30" },
+							{ store: "Vitacost", price: "$22.49", perServing: "$0.37" }
+						]
+					},
+					"Citrulline": {
+						title: "Citrulline Malate",
+						description: "Amino acid that boosts nitric oxide production for improved blood flow and muscle pumps during workouts.",
+						image: "images/pic05.jpg",
+						prices: [
+							{ store: "Amazon", price: "$24.99", perServing: "$0.42" },
+							{ store: "iHerb", price: "$21.95", perServing: "$0.37" },
+							{ store: "Vitacost", price: "$27.49", perServing: "$0.46" }
+						]
+					},
+					"Beta-Alanine": {
+						title: "Beta-Alanine",
+						description: "Amino acid that buffers lactic acid buildup in muscles. Improves muscular endurance and reduces fatigue.",
+						image: "images/pic01.jpg",
+						prices: [
+							{ store: "Amazon", price: "$18.99", perServing: "$0.32" },
+							{ store: "iHerb", price: "$16.95", perServing: "$0.28" },
+							{ store: "Vitacost", price: "$21.49", perServing: "$0.36" }
+						]
+					},
+					"PWO Blend": {
+						title: "Pre-Workout Blend",
+						description: "Comprehensive pre-workout formula with caffeine, citrulline, beta-alanine, and more for maximum performance.",
+						image: "images/pic02.jpg",
+						prices: [
+							{ store: "Amazon", price: "$34.99", perServing: "$1.17" },
+							{ store: "iHerb", price: "$31.95", perServing: "$1.07" },
+							{ store: "Vitacost", price: "$37.49", perServing: "$1.25" }
+						]
+					},
+					"Multi": {
+						title: "Multivitamin",
+						description: "Comprehensive vitamin and mineral formula to fill nutritional gaps. Supports overall health and energy levels.",
+						image: "images/pic03.jpg",
+						prices: [
+							{ store: "Amazon", price: "$19.99", perServing: "$0.33" },
+							{ store: "iHerb", price: "$17.95", perServing: "$0.30" },
+							{ store: "Vitacost", price: "$22.49", perServing: "$0.37" }
+						]
+					},
+					"Vitamin C": {
+						title: "Vitamin C",
+						description: "Essential antioxidant vitamin for immune support and collagen synthesis. High-potency ascorbic acid formula.",
+						image: "images/pic04.jpg",
+						prices: [
+							{ store: "Amazon", price: "$12.99", perServing: "$0.22" },
+							{ store: "iHerb", price: "$10.95", perServing: "$0.18" },
+							{ store: "Vitacost", price: "$14.49", perServing: "$0.24" }
+						]
+					},
+					"B-Complex": {
+						title: "B-Complex",
+						description: "Complete B-vitamin formula for energy metabolism and nervous system support. Includes all 8 essential B vitamins.",
+						image: "images/pic05.jpg",
+						prices: [
+							{ store: "Amazon", price: "$14.99", perServing: "$0.25" },
+							{ store: "iHerb", price: "$12.95", perServing: "$0.22" },
+							{ store: "Vitacost", price: "$16.49", perServing: "$0.27" }
+						]
+					},
+					"Vitamin E": {
+						title: "Vitamin E",
+						description: "Powerful antioxidant that protects cell membranes from oxidative damage. Supports heart and skin health.",
+						image: "images/pic01.jpg",
+						prices: [
+							{ store: "Amazon", price: "$16.99", perServing: "$0.28" },
+							{ store: "iHerb", price: "$14.95", perServing: "$0.25" },
+							{ store: "Vitacost", price: "$18.49", perServing: "$0.31" }
+						]
+					},
+					"Magnesium": {
+						title: "Magnesium",
+						description: "Essential mineral for muscle function, energy production, and bone health. Highly absorbable chelated form.",
+						image: "images/pic02.jpg",
+						prices: [
+							{ store: "Amazon", price: "$13.99", perServing: "$0.23" },
+							{ store: "iHerb", price: "$11.95", perServing: "$0.20" },
+							{ store: "Vitacost", price: "$15.49", perServing: "$0.26" }
+						]
+					},
+					"BCAA 2:1:1": {
+						title: "BCAA 2:1:1",
+						description: "Classic branched-chain amino acid ratio for muscle protein synthesis and recovery. Leucine, isoleucine, and valine.",
+						image: "images/pic03.jpg",
+						prices: [
+							{ store: "Amazon", price: "$24.99", perServing: "$0.42" },
+							{ store: "iHerb", price: "$21.95", perServing: "$0.37" },
+							{ store: "Vitacost", price: "$27.49", perServing: "$0.46" }
+						]
+					},
+					"EAA Complex": {
+						title: "EAA Complex",
+						description: "Complete essential amino acid profile including all 9 EAAs. Superior to BCAAs for muscle protein synthesis.",
+						image: "images/pic04.jpg",
+						prices: [
+							{ store: "Amazon", price: "$29.99", perServing: "$0.50" },
+							{ store: "iHerb", price: "$26.95", perServing: "$0.45" },
+							{ store: "Vitacost", price: "$32.49", perServing: "$0.54" }
+						]
+					},
+					"Leucine": {
+						title: "Leucine",
+						description: "The most anabolic amino acid that directly triggers muscle protein synthesis. Key trigger for mTOR pathway.",
+						image: "images/pic05.jpg",
+						prices: [
+							{ store: "Amazon", price: "$19.99", perServing: "$0.33" },
+							{ store: "iHerb", price: "$17.95", perServing: "$0.30" },
+							{ store: "Vitacost", price: "$22.49", perServing: "$0.37" }
+						]
+					},
+					"BCAA + Glut": {
+						title: "BCAA + Glutamine",
+						description: "Enhanced BCAA formula with glutamine for improved recovery and immune support. Perfect post-workout combination.",
+						image: "images/pic01.jpg",
+						prices: [
+							{ store: "Amazon", price: "$32.99", perServing: "$0.55" },
+							{ store: "iHerb", price: "$29.95", perServing: "$0.50" },
+							{ store: "Vitacost", price: "$35.49", perServing: "$0.59" }
+						]
+					}
+				};
+
+				// Category display names
+				const categoryNames = {
+					creatine: "Creatine Supplements",
+					protein: "Protein Supplements", 
+					omega3: "Omega-3 Supplements",
+					vitamind: "Vitamin D Supplements",
+					nootropics: "Nootropic Supplements",
+					preworkout: "Pre-Workout Supplements",
+					vitamins: "Vitamin Supplements",
+					bcaas: "BCAA Supplements"
+				};
+
+				// Handle category clicks
+				document.addEventListener('DOMContentLoaded', function() {
+					const categoryItems = document.querySelectorAll('.supplement-item[data-category]');
+					const specificCarousel = document.getElementById('specific-carousel');
+					const specificTrack = document.getElementById('specific-track');
+					const searchInput = document.getElementById('search');
+					const searchDropdown = document.getElementById('search-dropdown');
+					let activeCategory = null;
+
+					// Get all supplement names for dropdown suggestions
+					const allSupplements = [];
+					Object.keys(supplementData).forEach(category => {
+						supplementData[category].forEach(supplement => {
+							allSupplements.push({
+								name: supplement.name,
+								icon: supplement.icon,
+								category: category
+							});
+						});
+					});
+
+					// Search functionality with dropdown
+					searchInput.addEventListener('input', function() {
+						const searchTerm = this.value.toLowerCase().trim();
+						
+						if (searchTerm === '') {
+							// Hide dropdown and specific carousel when search is empty
+							searchDropdown.style.display = 'none';
+							specificCarousel.style.display = 'none';
+							categoryItems.forEach(item => item.classList.remove('active'));
+							activeCategory = null;
+							return;
+						}
+
+						// Filter supplements for dropdown
+						const dropdownResults = allSupplements.filter(supplement => 
+							supplement.name.toLowerCase().includes(searchTerm)
+						).slice(0, 8); // Limit to 8 results
+
+						// Show dropdown if there are results
+						if (dropdownResults.length > 0) {
+							showDropdown(dropdownResults);
+						} else {
+							searchDropdown.style.display = 'none';
+						}
+
+						// Search through all supplements for carousel
+						const searchResults = [];
+						Object.keys(supplementData).forEach(category => {
+							supplementData[category].forEach(supplement => {
+								if (supplement.name.toLowerCase().includes(searchTerm)) {
+									searchResults.push(supplement);
+								}
+							});
+						});
+
+						if (searchResults.length > 0) {
+							// Show search results in specific carousel
+							showSearchResults(searchResults);
+							// Remove active state from category items
+							categoryItems.forEach(item => item.classList.remove('active'));
+							activeCategory = null;
+						} else {
+							// No results found
+							specificCarousel.style.display = 'none';
+						}
+					});
+
+					// Hide dropdown when clicking outside
+					document.addEventListener('click', function(e) {
+						if (!e.target.closest('.search-container')) {
+							searchDropdown.style.display = 'none';
+						}
+					});
+
+					function showDropdown(results) {
+						searchDropdown.innerHTML = '';
+						
+						results.forEach(supplement => {
+							const dropdownItem = document.createElement('div');
+							dropdownItem.className = 'search-dropdown-item';
+							dropdownItem.innerHTML = `
+								<span class="supplement-icon">${supplement.icon}</span>
+								<span class="supplement-name">${supplement.name}</span>
+							`;
+							
+							// Add click handler for dropdown items
+							dropdownItem.addEventListener('click', function() {
+								searchInput.value = supplement.name;
+								searchDropdown.style.display = 'none';
+								updateSpotlight(supplement.name);
+								
+								// Show just this supplement in carousel
+								showSearchResults([{
+									name: supplement.name,
+									icon: supplement.icon
+								}]);
+								
+								// Remove active state from category items
+								categoryItems.forEach(item => item.classList.remove('active'));
+								activeCategory = null;
+							});
+							
+							searchDropdown.appendChild(dropdownItem);
+						});
+						
+						searchDropdown.style.display = 'block';
+					}
+
+					function showSearchResults(results) {
+						// Clear existing supplements
+						specificTrack.innerHTML = '';
+						
+						// Determine if we should use scaled spacing (5 or fewer items)
+						const useFewItemsLayout = results.length <= 5;
+						
+						// Add search results
+						results.forEach(supplement => {
+							const supplementElement = document.createElement('div');
+							supplementElement.className = 'specific-supplement-item';
+							supplementElement.innerHTML = `
+								<div class="icon">${supplement.icon}</div>
+								<div class="text">${supplement.name}</div>
+							`;
+							
+							// Add click handler for individual supplements
+							supplementElement.addEventListener('click', function() {
+								updateSpotlight(supplement.name);
+							});
+							
+							specificTrack.appendChild(supplementElement);
+						});
+						
+						// Only add duplicates if we have many items and want scrolling
+						if (!useFewItemsLayout) {
+							results.forEach(supplement => {
+								const supplementElement = document.createElement('div');
+								supplementElement.className = 'specific-supplement-item';
+								supplementElement.innerHTML = `
+									<div class="icon">${supplement.icon}</div>
+									<div class="text">${supplement.name}</div>
+								`;
+								
+								// Add click handler for individual supplements
+								supplementElement.addEventListener('click', function() {
+									updateSpotlight(supplement.name);
+								});
+								
+								specificTrack.appendChild(supplementElement);
+							});
+						}
+						
+						// Apply appropriate styling class
+						if (useFewItemsLayout) {
+							specificTrack.classList.add('few-items');
+						} else {
+							specificTrack.classList.remove('few-items');
+						}
+						
+						// Show the carousel
+						specificCarousel.style.display = 'block';
+						
+						// Scroll to the carousel
+						specificCarousel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+					}
+
+					categoryItems.forEach(item => {
+						item.addEventListener('click', function() {
+							const category = this.getAttribute('data-category');
+							
+							// Check if clicking the same category (toggle off)
+							if (activeCategory === category) {
+								// Remove active state and hide carousel
+								this.classList.remove('active');
+								specificCarousel.style.display = 'none';
+								activeCategory = null;
+							} else {
+								// Remove active state from all items
+								categoryItems.forEach(item => item.classList.remove('active'));
+								
+								// Add active state to clicked item
+								this.classList.add('active');
+								
+								// Show specific supplements
+								showSpecificSupplements(category);
+								activeCategory = category;
+							}
+						});
+					});
+
+					function showSpecificSupplements(category) {
+						const supplements = supplementData[category];
+						
+						// Clear existing supplements
+						specificTrack.innerHTML = '';
+						
+						// Determine if we should use scaled spacing (5 or fewer items)
+						const useFewItemsLayout = supplements.length <= 5;
+						
+						// Add new supplements
+						supplements.forEach(supplement => {
+							const supplementElement = document.createElement('div');
+							supplementElement.className = 'specific-supplement-item';
+							supplementElement.innerHTML = `
+								<div class="icon">${supplement.icon}</div>
+								<div class="text">${supplement.name}</div>
+							`;
+							
+							// Add click handler for individual supplements
+							supplementElement.addEventListener('click', function() {
+								updateSpotlight(supplement.name);
+							});
+							
+							specificTrack.appendChild(supplementElement);
+						});
+						
+						// Only add duplicates if we have many items and want scrolling
+						if (!useFewItemsLayout) {
+							supplements.forEach(supplement => {
+								const supplementElement = document.createElement('div');
+								supplementElement.className = 'specific-supplement-item';
+								supplementElement.innerHTML = `
+									<div class="icon">${supplement.icon}</div>
+									<div class="text">${supplement.name}</div>
+								`;
+								
+								// Add click handler for individual supplements
+								supplementElement.addEventListener('click', function() {
+									updateSpotlight(supplement.name);
+								});
+								
+								specificTrack.appendChild(supplementElement);
+							});
+						}
+						
+						// Apply appropriate styling class
+						if (useFewItemsLayout) {
+							specificTrack.classList.add('few-items');
+						} else {
+							specificTrack.classList.remove('few-items');
+						}
+						
+						// Show the carousel
+						specificCarousel.style.display = 'block';
+						
+						// Scroll to the carousel
+						specificCarousel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+					}
+
+					function updateSpotlight(supplementName) {
+						const details = supplementDetails[supplementName];
+						
+						if (details) {
+							// Update spotlight content
+							const spotlight = document.querySelector('.spotlight');
+							const image = spotlight.querySelector('.image img');
+							const title = spotlight.querySelector('.content h3');
+							const description = spotlight.querySelector('.content p');
+							const priceList = spotlight.querySelector('.price-section ul');
+							
+							// Update image and content
+							image.src = details.image;
+							image.alt = details.title;
+							title.textContent = details.title;
+							description.textContent = details.description;
+							
+							// Update prices
+							priceList.innerHTML = details.prices.map(price => 
+								`<li><strong><a href="#">${price.store}:</a></strong> ${price.price} <sup>(${price.perServing}/serving)</sup></li>`
+							).join('');
+							
+							// Scroll to spotlight section
+							spotlight.scrollIntoView({ behavior: 'smooth', block: 'center' });
+						} else {
+							alert(`Details for ${supplementName} coming soon!`);
+						}
+					}
 				});
 			</script>
 
