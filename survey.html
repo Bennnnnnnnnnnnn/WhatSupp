@@ -10,132 +10,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-		<style>
-			body {
-				/* Background image will be set dynamically by JavaScript */
-				background-size: auto 200%;
-				background-position: center center;
-				background-repeat: no-repeat;
-				background-attachment: fixed;
-				/* Remove default margins/padding */
-				margin: 0;
-				padding: 0;
-				overflow-x: hidden;
-			}
-			
-			/* Remove html margins/padding */
-			html {
-				margin: 0;
-				padding: 0;
-				overflow-x: hidden;
-			}
-			
-			/* Ensure all elements use border-box sizing */
-			* {
-				box-sizing: border-box;
-			}
-			
-			/* Additional mobile fixes for top spacing */
-			@media screen and (max-width: 736px) {
-				body {
-					padding-top: 0 !important;
-				}
-				
-				#nav {
-					position: fixed !important;
-					top: 0 !important;
-					z-index: 10000 !important;
-				}
-				
-				section#header {
-					transform: translateY(70px) !important;
-					margin-top: 0 !important;
-					padding-top: 0 !important;
-				}
-				
-				/* Alternative: Add top padding to first content element */
-				body {
-					padding-top: 70px !important;
-				}
-				
-				/* Make sure nav stays on top */
-				#nav {
-					position: fixed !important;
-					top: 0 !important;
-					left: 0 !important;
-					right: 0 !important;
-					z-index: 10001 !important;
-				}
-			}
-			
-			/* Ensure content sections have semi-transparent backgrounds to show the image behind */
-			.wrapper, .wrapper.style2 {
-				background-color: rgba(255, 255, 255, 0.90);
-			}
-		</style>
-		
-		<!-- Emergency mobile fix - load last to override everything -->
-		<style>
-			@media screen and (max-width: 736px) {
-				html, body {
-					margin: 0 !important;
-					padding: 0 !important;
-				}
-				
-				body {
-					padding-top: var(--nav-height, 70px) !important;
-				}
-				
-				#nav {
-					position: fixed !important;
-					top: 0 !important;
-					left: 0 !important;
-					right: 0 !important;
-					z-index: 999999 !important;
-					background: rgba(255, 255, 255, 0.95) !important;
-				}
-			}
-		</style>
-		
-		<!-- Dynamic navigation height script -->
-		<script>
-			// Calculate and set dynamic navigation height
-			function setDynamicNavHeight() {
-				const nav = document.getElementById('nav');
-				if (nav && window.innerWidth <= 736) {
-					const navHeight = nav.offsetHeight;
-					document.documentElement.style.setProperty('--nav-height', navHeight + 'px');
-					document.body.style.paddingTop = navHeight + 'px';
-				}
-			}
-			
-			// Run on page load and resize
-			document.addEventListener('DOMContentLoaded', setDynamicNavHeight);
-			window.addEventListener('resize', setDynamicNavHeight);
-		</script>
-	</head>
-	<body class="is-preload">
-
-		<!-- Navigation -->
-			<nav id="nav">
-				<div class="nav-container">
-					<div class="nav-brand">
-						<a href="index.html">WhatSupp</a>
-					</div>
-					<ul class="nav-links">
-						<li><a href="index.html">Home</a></li>
-						<li><a href="survey.html">Survey</a></li>
-						<li><a href="results.html">Results</a></li>
-						<li><a href="#" class="button primary small">Shop Now</a></li>
-					</ul>
-					<div class="nav-toggle">
-						<span></span>
-						<span></span>
-						<span></span>
-					</div>
-				</div>
-			</nav>
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>		
 
 		<!-- Header -->
 		<section id="header">
@@ -502,22 +377,7 @@
 			});
 		</script>
 
-		<!-- Random Background Selection -->
-		<script>
-			document.addEventListener('DOMContentLoaded', function() {
-				// Array of background images
-				const backgroundImages = [
-					'images/MuscleMAn.png',
-					'images/muscleGirl.png'
-				];
-				
-				// Randomly select one of the images
-				const randomImage = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
-				
-				// Apply the selected background image to the body
-				document.body.style.backgroundImage = 'url(' + randomImage + ')';
-			});
-		</script>
+		
 
 	</body>
 </html>

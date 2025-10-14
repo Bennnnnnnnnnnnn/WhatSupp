@@ -827,22 +827,12 @@
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
 			
-			<!-- Random Background Selection -->
-			<script>
-				$(document).ready(function() {
-					// Array of background images
-					const backgroundImages = [
-						'images/MuscleMAn.png',
-						'images/muscleGirl.png'
-					];
-					
-					// Randomly select one of the images
-					const randomImage = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
-					
-					// Apply the selected background image to the body
-					$('body').css('background-image', 'url(' + randomImage + ')');
-				});
-			</script>
+			<!-- Supabase Integration -->
+			<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+			<script src="assets/js/supabase-config.js"></script>
+			<script src="assets/js/supplement-loader.js"></script>
+			
+			<!-- Background selection now handled by supplement-loader.js -->
 
 			<!-- Sticky TOC Functionality -->
 			<script>
