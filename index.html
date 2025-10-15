@@ -54,22 +54,45 @@
 			.carousel-container {
 				max-width: 800px;
 				margin: 0 auto;
-				overflow: hidden;
+				overflow-x: auto;
+				overflow-y: hidden;
 				position: relative;
+				scroll-behavior: smooth;
+				cursor: grab;
+				user-select: none;
+				/* Hide scrollbar but keep functionality */
+				scrollbar-width: none; /* Firefox */
+				-ms-overflow-style: none; /* Internet Explorer 10+ */
+			}
+			
+			.carousel-container::-webkit-scrollbar {
+				display: none; /* Safari and Chrome */
+			}
+			
+			.carousel-container:active,
+			.carousel-container.dragging {
+				cursor: grabbing;
 			}
 			
 			.carousel-track {
 				display: flex;
 				animation: scroll 20s linear infinite;
 				gap: 1rem;
-				width: fit-content;
-				justify-content: center;
+				width: max-content; /* Changed from fit-content to ensure proper width */
+				justify-content: flex-start;
+				/* Ensure the track is wide enough for scrolling */
+				min-width: 100%;
 			}
 			
 			.carousel-track.few-items {
 				gap: 3rem;
 				justify-content: center;
 				animation: scroll 20s linear infinite !important;
+			}
+			
+			/* When scrolling is active, we want to maintain scroll position */
+			.carousel-container.scrolling .carousel-track {
+				animation-play-state: paused;
 			}
 			
 			
@@ -83,7 +106,8 @@
 				box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 				cursor: pointer;
 				transition: transform 0.3s ease, box-shadow 0.3s ease;
-				min-width: 80px;
+				min-width: 120px; /* Increased for better scrolling */
+				width: 120px; /* Fixed width for consistent scrolling */
 			}
 			
 			.supplement-item:hover {
@@ -131,8 +155,33 @@
 				animation-play-state: paused;
 			}
 			
-			.supplement-carousel:has(.supplement-item.active) .carousel-track {
+			.supplement-carousel:has(.supplement-item.active) .carousel-track,
+			.supplement-carousel.has-active .carousel-track {
 				animation-play-state: paused;
+			}
+			
+			/* When scrolling is active, we want to maintain scroll position */
+			.carousel-container.scrolling .carousel-track {
+				animation-play-state: paused;
+			}
+			
+			/* Visual hint for drag scrolling */
+			.supplement-carousel::after {
+				content: "← Drag to scroll →";
+				position: absolute;
+				top: -25px;
+				left: 50%;
+				transform: translateX(-50%);
+				font-size: 0.8rem;
+				color: rgba(0, 0, 0, 0.5);
+				opacity: 0;
+				transition: opacity 0.3s ease;
+				pointer-events: none;
+				z-index: 1;
+			}
+			
+			.supplement-carousel:hover::after {
+				opacity: 1;
 			}
 			
 			/* Specific Supplements Carousel */
@@ -285,7 +334,7 @@
 						
 						<!-- Supplement Carousel -->
 						<div class="supplement-carousel">
-							<div class="carousel-container">
+							<div class="carousel-container" id="main-carousel-container">
 								<div class="carousel-track">
 									<div class="supplement-item" data-category="creatine">
 										<div class="supplement-icon">💊</div>
@@ -320,6 +369,39 @@
 										<span>BCAAs</span>
 									</div>
 									<!-- Duplicate set for seamless looping -->
+									<div class="supplement-item" data-category="creatine">
+										<div class="supplement-icon">💊</div>
+										<span>Creatine</span>
+									</div>
+									<div class="supplement-item" data-category="protein">
+										<div class="supplement-icon">🥛</div>
+										<span>Protein</span>
+									</div>
+									<div class="supplement-item" data-category="omega3">
+										<div class="supplement-icon">🐟</div>
+										<span>Omega-3</span>
+									</div>
+									<div class="supplement-item" data-category="vitamind">
+										<div class="supplement-icon">☀️</div>
+										<span>Vitamin D</span>
+									</div>
+									<div class="supplement-item" data-category="nootropics">
+										<div class="supplement-icon">🧠</div>
+										<span>Nootropics</span>
+									</div>
+									<div class="supplement-item" data-category="preworkout">
+										<div class="supplement-icon">💪</div>
+										<span>Pre-Workout</span>
+									</div>
+									<div class="supplement-item" data-category="vitamins">
+										<div class="supplement-icon">🌿</div>
+										<span>Vitamins</span>
+									</div>
+									<div class="supplement-item" data-category="bcaas">
+										<div class="supplement-icon">⚡</div>
+										<span>BCAAs</span>
+									</div>
+									<!-- Additional duplicate set for better scrolling -->
 									<div class="supplement-item" data-category="creatine">
 										<div class="supplement-icon">💊</div>
 										<span>Creatine</span>
@@ -848,6 +930,189 @@
 					const specificTrack = document.getElementById('specific-track');
 					const searchInput = document.getElementById('search');
 					const searchDropdown = document.getElementById('search-dropdown');
+					
+					// Utility function to restart carousel animation
+					function restartCarouselAnimation() {
+						const supplementCarousel = document.querySelector('.supplement-carousel');
+						const carouselTrack = document.querySelector('.carousel-track');
+						
+						if (supplementCarousel) {
+							supplementCarousel.classList.remove('has-active');
+						}
+						
+						if (carouselTrack) {
+							carouselTrack.style.animation = 'none';
+							carouselTrack.offsetHeight; // Trigger reflow
+							carouselTrack.style.animation = '';
+						}
+					}
+					
+					// Utility function to pause carousel animation
+					function pauseCarouselAnimation() {
+						const supplementCarousel = document.querySelector('.supplement-carousel');
+						if (supplementCarousel) {
+							supplementCarousel.classList.add('has-active');
+						}
+					}
+					
+					// Simple and reliable carousel drag scrolling
+					function setupCarouselScrolling() {
+						const carouselContainer = document.getElementById('main-carousel-container');
+						
+						if (!carouselContainer) {
+							console.log('Carousel container not found');
+							return;
+						}
+						
+						console.log('Setting up carousel scrolling...');
+						
+						let isScrolling = false;
+						let scrollTimeout;
+						
+						// Function to pause/resume animation based on user interaction
+						function setScrolling(scrolling) {
+							isScrolling = scrolling;
+							if (scrolling) {
+								carouselContainer.classList.add('scrolling');
+							} else {
+								carouselContainer.classList.remove('scrolling');
+							}
+						}
+						
+						// Reset scrolling state after delay
+						function resetScrolling() {
+							clearTimeout(scrollTimeout);
+							scrollTimeout = setTimeout(() => {
+								setScrolling(false);
+							}, 2000);
+						}
+						
+						// Mouse wheel horizontal scrolling
+						carouselContainer.addEventListener('wheel', function(e) {
+							e.preventDefault();
+							setScrolling(true);
+							
+							const scrollAmount = e.deltaY * 1.5;
+							carouselContainer.scrollLeft += scrollAmount;
+							
+							resetScrolling();
+						}, { passive: false });
+						
+						// Drag scrolling variables
+						let isDragging = false;
+						let hasMouseMoved = false;
+						let startX = 0;
+						let startScrollLeft = 0;
+						const dragThreshold = 5; // pixels before we consider it a drag
+						
+						// Mouse down - prepare for potential drag
+						carouselContainer.addEventListener('mousedown', function(e) {
+							// Don't interfere with clicking on supplement items
+							if (e.target.closest('.supplement-item')) {
+								return;
+							}
+							
+							isDragging = true;
+							hasMouseMoved = false;
+							setScrolling(true);
+							
+							startX = e.pageX - carouselContainer.offsetLeft;
+							startScrollLeft = carouselContainer.scrollLeft;
+							
+							e.preventDefault(); // Only prevent default if we're starting a drag
+						});
+						
+						// Mouse move - check if dragging
+						carouselContainer.addEventListener('mousemove', function(e) {
+							if (!isDragging) return;
+							
+							const x = e.pageX - carouselContainer.offsetLeft;
+							const deltaX = Math.abs(x - startX);
+							
+							// Only start dragging if we've moved more than threshold
+							if (deltaX > dragThreshold) {
+								hasMouseMoved = true;
+								carouselContainer.classList.add('dragging');
+								
+								const walk = (x - startX) * 2; // Speed multiplier
+								carouselContainer.scrollLeft = startScrollLeft - walk;
+								
+								e.preventDefault();
+							}
+						});
+						
+						// Mouse up or leave - stop drag
+						function stopDragging() {
+							if (!isDragging) return;
+							
+							isDragging = false;
+							hasMouseMoved = false;
+							carouselContainer.classList.remove('dragging');
+							resetScrolling();
+						}
+						
+						carouselContainer.addEventListener('mouseup', stopDragging);
+						carouselContainer.addEventListener('mouseleave', stopDragging);
+						
+						// Touch support for mobile
+						let touchStartX = 0;
+						let touchStartScrollLeft = 0;
+						let touchHasMoved = false;
+						
+						carouselContainer.addEventListener('touchstart', function(e) {
+							// Don't interfere with clicking on supplement items
+							if (e.target.closest('.supplement-item')) {
+								return;
+							}
+							
+							setScrolling(true);
+							touchStartX = e.touches[0].clientX;
+							touchStartScrollLeft = carouselContainer.scrollLeft;
+							touchHasMoved = false;
+						}, { passive: true });
+						
+						carouselContainer.addEventListener('touchmove', function(e) {
+							if (touchStartX === 0) return;
+							
+							const touchX = e.touches[0].clientX;
+							const deltaX = Math.abs(touchX - touchStartX);
+							
+							if (deltaX > dragThreshold) {
+								touchHasMoved = true;
+								const walk = (touchX - touchStartX) * 2;
+								carouselContainer.scrollLeft = touchStartScrollLeft - walk;
+								
+								e.preventDefault();
+							}
+						}, { passive: false });
+						
+						carouselContainer.addEventListener('touchend', function() {
+							touchStartX = 0;
+							touchHasMoved = false;
+							resetScrolling();
+						}, { passive: true });
+						
+						console.log('Carousel scrolling setup complete');
+					}
+					
+					// Initialize carousel scrolling
+					setupCarouselScrolling();
+					
+					// Test if carousel container exists and is scrollable
+					const testContainer = document.getElementById('main-carousel-container');
+					if (testContainer) {
+						console.log('Carousel container found:', testContainer);
+						console.log('Container scrollWidth:', testContainer.scrollWidth);
+						console.log('Container clientWidth:', testContainer.clientWidth);
+						
+						// Test scroll functionality
+						setTimeout(() => {
+							testContainer.scrollLeft = 100;
+							console.log('Test scroll applied');
+						}, 1000);
+					} else {
+						console.error('Carousel container NOT found!');
+					}
 					let activeCategory = null;
 
 					// Get all supplement names for dropdown suggestions
@@ -872,6 +1137,9 @@
 							specificCarousel.style.display = 'none';
 							categoryItems.forEach(item => item.classList.remove('active'));
 							activeCategory = null;
+							
+							// Restart carousel animation
+							restartCarouselAnimation();
 							return;
 						}
 
@@ -903,6 +1171,9 @@
 							// Remove active state from category items
 							categoryItems.forEach(item => item.classList.remove('active'));
 							activeCategory = null;
+							
+							// Restart carousel animation
+							restartCarouselAnimation();
 						} else {
 							// No results found
 							specificCarousel.style.display = 'none';
@@ -942,6 +1213,9 @@
 								// Remove active state from category items
 								categoryItems.forEach(item => item.classList.remove('active'));
 								activeCategory = null;
+								
+								// Restart carousel animation
+								restartCarouselAnimation();
 							});
 							
 							searchDropdown.appendChild(dropdownItem);
@@ -1017,12 +1291,18 @@
 								this.classList.remove('active');
 								specificCarousel.style.display = 'none';
 								activeCategory = null;
+								
+								// Restart carousel animation
+								restartCarouselAnimation();
 							} else {
 								// Remove active state from all items
 								categoryItems.forEach(item => item.classList.remove('active'));
 								
 								// Add active state to clicked item
 								this.classList.add('active');
+								
+								// Pause carousel animation
+								pauseCarouselAnimation();
 								
 								// Show specific supplements
 								showSpecificSupplements(category);
