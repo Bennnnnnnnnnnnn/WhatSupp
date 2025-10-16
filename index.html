@@ -257,6 +257,16 @@
 				box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 			}
 			
+			.specific-supplement-item.active {
+				background: rgba(52, 152, 219, 1);
+				color: white;
+				transform: scale(1.05);
+			}
+			
+			.specific-supplement-item.active span {
+				color: white;
+			}
+			
 			.specific-supplement-item .supplement-icon {
 				font-size: 2rem;
 				margin-bottom: 0.5rem;
@@ -287,6 +297,10 @@
 			
 			.specific-carousel:hover .carousel-track {
 				animation-play-state: paused;
+			}
+			
+			.specific-carousel.has-active .carousel-track {
+				animation-play-state: paused !important;
 			}
 		</style>
 	</head>
@@ -955,6 +969,34 @@
 						}
 					}
 					
+					// Utility function to pause specific carousel animation
+					function pauseSpecificCarouselAnimation() {
+						const specificCarousel = document.querySelector('.specific-carousel');
+						if (specificCarousel) {
+							specificCarousel.classList.add('has-active');
+						}
+					}
+					
+					// Utility function to restart specific carousel animation
+					function restartSpecificCarouselAnimation() {
+						const specificCarousel = document.querySelector('.specific-carousel');
+						const specificTrack = document.querySelector('.specific-carousel .carousel-track');
+						
+						if (specificCarousel) {
+							specificCarousel.classList.remove('has-active');
+						}
+						
+						// Remove active state from all specific supplement items
+						const specificItems = document.querySelectorAll('.specific-supplement-item');
+						specificItems.forEach(item => item.classList.remove('active'));
+						
+						if (specificTrack && !specificTrack.classList.contains('few-items')) {
+							specificTrack.style.animation = 'none';
+							specificTrack.offsetHeight; // Trigger reflow
+							specificTrack.style.animation = '';
+						}
+					}
+					
 					// Simple and reliable carousel drag scrolling
 					function setupCarouselScrolling() {
 						const carouselContainer = document.getElementById('main-carousel-container');
@@ -1228,6 +1270,9 @@
 						// Clear existing supplements
 						specificTrack.innerHTML = '';
 						
+						// Restart specific carousel animation when showing new results
+						restartSpecificCarouselAnimation();
+						
 						// Determine if we should use scaled spacing (5 or fewer items)
 						const useFewItemsLayout = results.length <= 5;
 						
@@ -1236,12 +1281,22 @@
 							const supplementElement = document.createElement('div');
 							supplementElement.className = 'specific-supplement-item';
 							supplementElement.innerHTML = `
-								<div class="icon">${supplement.icon}</div>
-								<div class="text">${supplement.name}</div>
+								<div class="supplement-icon">${supplement.icon}</div>
+								<span>${supplement.name}</span>
 							`;
 							
 							// Add click handler for individual supplements
 							supplementElement.addEventListener('click', function() {
+								// Remove active state from all specific items
+								const allSpecificItems = document.querySelectorAll('.specific-supplement-item');
+								allSpecificItems.forEach(item => item.classList.remove('active'));
+								
+								// Add active state to clicked item
+								this.classList.add('active');
+								
+								// Pause specific carousel animation
+								pauseSpecificCarouselAnimation();
+								
 								updateSpotlight(supplement.name);
 							});
 							
@@ -1254,12 +1309,22 @@
 								const supplementElement = document.createElement('div');
 								supplementElement.className = 'specific-supplement-item';
 								supplementElement.innerHTML = `
-									<div class="icon">${supplement.icon}</div>
-									<div class="text">${supplement.name}</div>
+									<div class="supplement-icon">${supplement.icon}</div>
+									<span>${supplement.name}</span>
 								`;
 								
 								// Add click handler for individual supplements
 								supplementElement.addEventListener('click', function() {
+									// Remove active state from all specific items
+									const allSpecificItems = document.querySelectorAll('.specific-supplement-item');
+									allSpecificItems.forEach(item => item.classList.remove('active'));
+									
+									// Add active state to clicked item
+									this.classList.add('active');
+									
+									// Pause specific carousel animation
+									pauseSpecificCarouselAnimation();
+									
 									updateSpotlight(supplement.name);
 								});
 								
@@ -1317,6 +1382,9 @@
 						// Clear existing supplements
 						specificTrack.innerHTML = '';
 						
+						// Restart specific carousel animation when showing new category
+						restartSpecificCarouselAnimation();
+						
 						// Determine if we should use scaled spacing (5 or fewer items)
 						const useFewItemsLayout = supplements.length <= 5;
 						
@@ -1325,12 +1393,22 @@
 							const supplementElement = document.createElement('div');
 							supplementElement.className = 'specific-supplement-item';
 							supplementElement.innerHTML = `
-								<div class="icon">${supplement.icon}</div>
-								<div class="text">${supplement.name}</div>
+								<div class="supplement-icon">${supplement.icon}</div>
+								<span>${supplement.name}</span>
 							`;
 							
 							// Add click handler for individual supplements
 							supplementElement.addEventListener('click', function() {
+								// Remove active state from all specific items
+								const allSpecificItems = document.querySelectorAll('.specific-supplement-item');
+								allSpecificItems.forEach(item => item.classList.remove('active'));
+								
+								// Add active state to clicked item
+								this.classList.add('active');
+								
+								// Pause specific carousel animation
+								pauseSpecificCarouselAnimation();
+								
 								updateSpotlight(supplement.name);
 							});
 							
@@ -1343,12 +1421,22 @@
 								const supplementElement = document.createElement('div');
 								supplementElement.className = 'specific-supplement-item';
 								supplementElement.innerHTML = `
-									<div class="icon">${supplement.icon}</div>
-									<div class="text">${supplement.name}</div>
+									<div class="supplement-icon">${supplement.icon}</div>
+									<span>${supplement.name}</span>
 								`;
 								
 								// Add click handler for individual supplements
 								supplementElement.addEventListener('click', function() {
+									// Remove active state from all specific items
+									const allSpecificItems = document.querySelectorAll('.specific-supplement-item');
+									allSpecificItems.forEach(item => item.classList.remove('active'));
+									
+									// Add active state to clicked item
+									this.classList.add('active');
+									
+									// Pause specific carousel animation
+									pauseSpecificCarouselAnimation();
+									
 									updateSpotlight(supplement.name);
 								});
 								
