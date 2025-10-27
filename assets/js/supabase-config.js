@@ -1,7 +1,7 @@
 // Supabase Configuration for WhatSupp
 const SUPABASE_CONFIG = {
-    url: 'YOUR_SUPABASE_URL', // Replace with your actual Supabase URL
-    key: 'YOUR_SUPABASE_ANON_KEY' // Replace with your actual anon key
+    url: 'https://zwmacqoaycjrgemmhevu.supabase.co', // Replace with your actual Supabase URL
+    key: 'sb_publishable_mMPJTpWFY4Ig1L-gpnDwBw_5sxnWcAy' // Replace with your actual anon key
 };
 
 // Initialize Supabase client
