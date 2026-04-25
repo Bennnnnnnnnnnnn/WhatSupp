@@ -1,4 +1,103 @@
 // Dynamic Supplement Loader for WhatSupp
+const DEBUG = false;
+
+function debugLog(...args) {
+    if (DEBUG) {
+        console.log(...args);
+    }
+}
+
+function debugWarn(...args) {
+    if (DEBUG) {
+        console.warn(...args);
+    }
+}
+
+function getSupplementAffiliateLink(supplement) {
+    if (!supplement || typeof supplement !== 'object') return '';
+    debugLog('getSupplementAffiliateLink() called with supplement keys:', Object.keys(supplement));
+
+    const candidateFields = [
+        'link',
+        'links',
+        'affiliate_link',
+        'affiliatelink',
+        'amazon_affiliate_link',
+        'amazonaffiliatelink',
+        'amazon_link',
+        'amazonlink',
+        'shop_now_link',
+        'shopnowlink',
+        'shop_link',
+        'purchase_link',
+        'buy_link',
+        'url'
+    ];
+
+    // Build a case-insensitive lookup so column naming differences still work.
+    const keyLookup = {};
+    Object.keys(supplement).forEach(key => {
+        keyLookup[key.toLowerCase().replace(/[^a-z0-9]/g, '')] = key;
+    });
+
+    for (const field of candidateFields) {
+        const normalizedField = field.toLowerCase().replace(/[^a-z0-9]/g, '');
+        const sourceKey = keyLookup[normalizedField] || field;
+        const value = supplement[sourceKey];
+        if (typeof value === 'string' && value.trim()) {
+            debugLog('Found affiliate link in field:', sourceKey, 'value:', value);
+            return normalizeExternalUrl(value);
+        }
+    }
+
+    // Final fallback: first likely affiliate/url-like key.
+    const fuzzyKey = Object.keys(supplement).find(key => {
+        const val = supplement[key];
+        const isLikelyLinkField = /(affiliate|amazon|shop|buy).*(link|url)|(link|url)/i.test(key);
+        const hasValidValue = typeof val === 'string' && val.trim();
+        return isLikelyLinkField && hasValidValue;
+    });
+    debugLog('Fuzzy fallback key matched:', fuzzyKey, 'value:', fuzzyKey ? supplement[fuzzyKey] : 'N/A');
+    if (fuzzyKey && typeof supplement[fuzzyKey] === 'string' && supplement[fuzzyKey].trim()) {
+        debugLog('Using fuzzy matched field:', fuzzyKey);
+        return normalizeExternalUrl(supplement[fuzzyKey]);
+    }
+
+    debugLog('No affiliate link found for supplement');
+    return '';
+}
+
+function normalizeExternalUrl(rawUrl) {
+    if (typeof rawUrl !== 'string') return '';
+
+    let cleaned = rawUrl.trim().replace(/^['"]|['"]$/g, '');
+    if (!cleaned) return '';
+
+    // Block obviously unsafe pseudo-links.
+    if (/^javascript:/i.test(cleaned)) return '';
+
+    // Support URLs entered as plain text in DB (without protocol).
+    if (!/^[a-z][a-z0-9+.-]*:\/\//i.test(cleaned)) {
+        cleaned = `https://${cleaned}`;
+    }
+
+    return cleaned;
+}
+
+function applyExternalLink(anchor, url) {
+    if (!anchor) return;
+
+    if (url) {
+        anchor.setAttribute('href', url);
+        anchor.setAttribute('target', '_blank');
+        anchor.setAttribute('rel', 'noopener noreferrer sponsored nofollow');
+    } else {
+        anchor.setAttribute('href', '#');
+        anchor.removeAttribute('target');
+        anchor.removeAttribute('rel');
+    }
+}
+
 class SupplementLoader {
     constructor() {
         this.supabase = null;
@@ -148,6 +247,7 @@ class SupplementLoader {
 
         this.updatePageMetadata();
         this.setBackgroundImage();
+        this.updateShopNowButton();
         this.populateInfoBox();
         this.populateOverview();
         this.populateBenefits();
@@ -167,6 +267,17 @@ class SupplementLoader {
         const defaultImages = ['images/MuscleMAn.png', 'images/muscleGirl.png'];
         const randomImage = defaultImages[Math.floor(Math.random() * defaultImages.length)];
         $('body').css('background-image', 'url(' + randomImage + ')');
+    }
+
+    updateShopNowButton() {
+        const affiliateLink = getSupplementAffiliateLink(this.currentSupplement);
+        const shopNowLinks = document.querySelectorAll('.nav-links a.button.primary.small');
+
+        shopNowLinks.forEach(link => {
+            if (/shop now/i.test(link.textContent || '')) {
+                applyExternalLink(link, affiliateLink);
+            }
+        });
     }
 
     populateInfoBox() {
@@ -445,6 +556,7 @@ class IndexSupplementManager {
         this.supplements = [];
         this.categories = new Map();
         this.activeCategory = null;
+        this.lastDragAt = 0;
         this.init();
     }
 
@@ -471,10 +583,10 @@ class IndexSupplementManager {
 
     async loadSupplements() {
         try {
-            console.log('Attempting to load supplements from Supabase...');
-            console.log('Supabase URL:', this.supabase.supabaseUrl);
-            console.log('Supabase Key exists:', !!this.supabase.supabaseKey);
-            console.log('Full Supabase client:', this.supabase);
+            debugLog('Attempting to load supplements from Supabase...');
+            debugLog('Supabase URL:', this.supabase.supabaseUrl);
+            debugLog('Supabase Key exists:', !!this.supabase.supabaseKey);
+            debugLog('Full Supabase client:', this.supabase);
             
             // Test connection first
             const { data: testData, error: testError } = await this.supabase
@@ -484,11 +596,11 @@ class IndexSupplementManager {
             if (testError) {
                 console.error('Connection test failed:', testError);
             } else {
-                console.log('Connection test successful, supplement count:', testData);
+                debugLog('Connection test successful, supplement count:', testData);
             }
             
             // Try simple query first without ordering
-            console.log('Attempting simple query without ordering...');
+            debugLog('Attempting simple query without ordering...');
             const { data: simpleData, error: simpleError } = await this.supabase
                 .from('Supplement')
                 .select('*')
@@ -497,18 +609,18 @@ class IndexSupplementManager {
             if (simpleError) {
                 console.error('Simple query failed:', simpleError);
             } else {
-                console.log('Simple query successful:', simpleData);
-                console.log('Number of rows returned:', simpleData?.length);
+                debugLog('Simple query successful:', simpleData);
+                debugLog('Number of rows returned:', simpleData?.length);
                 if (simpleData?.length === 0) {
-                    console.warn('⚠️  ZERO ROWS RETURNED - This is likely a Row Level Security (RLS) issue!');
-                    console.warn('Your Supplement table probably has RLS enabled but no policy allowing public read access.');
-                    console.warn('To fix this, you need to either:');
-                    console.warn('1. Disable RLS: ALTER TABLE "Supplement" DISABLE ROW LEVEL SECURITY;');
-                    console.warn('2. Or create a policy: CREATE POLICY "Allow public read" ON "Supplement" FOR SELECT USING (true);');
+                    debugWarn('⚠️  ZERO ROWS RETURNED - This is likely a Row Level Security (RLS) issue!');
+                    debugWarn('Your Supplement table probably has RLS enabled but no policy allowing public read access.');
+                    debugWarn('To fix this, you need to either:');
+                    debugWarn('1. Disable RLS: ALTER TABLE "Supplement" DISABLE ROW LEVEL SECURITY;');
+                    debugWarn('2. Or create a policy: CREATE POLICY "Allow public read" ON "Supplement" FOR SELECT USING (true);');
                 }
                 if (simpleData?.length > 0) {
-                    console.log('First supplement:', simpleData[0]);
-                    console.log('Available columns:', Object.keys(simpleData[0]));
+                    debugLog('First supplement:', simpleData[0]);
+                    debugLog('Available columns:', Object.keys(simpleData[0]));
                 }
             }
             
@@ -536,14 +648,19 @@ class IndexSupplementManager {
             this.supplements = supplements || [];
             
             if (this.supplements.length === 0) {
-                console.warn('⚠️  No supplements loaded - likely Row Level Security blocking access');
+                debugWarn('⚠️  No supplements loaded - likely Row Level Security blocking access');
                 this.showErrorMessage('No supplements found. Database may need Row Level Security configuration for public access.');
                 return;
             }
             
             this.processSupplements();
+
+            // Keep initial spotlight and commerce CTAs in sync with database content.
+            if (this.supplements[0]) {
+                this.updateSpotlightWithSupplement(this.supplements[0], false);
+            }
             
-            console.log(`Successfully loaded ${this.supplements.length} supplements from database`);
+            debugLog(`Successfully loaded ${this.supplements.length} supplements from database`);
         } catch (error) {
             console.error('Error loading supplements:', error);
             console.error('Error type:', typeof error);
@@ -574,7 +691,7 @@ class IndexSupplementManager {
     }
 
     populateCarousel() {
-        const track = document.querySelector('.carousel-track');
+        const track = document.getElementById('main-carousel-track');
         if (!track) {
             console.error('Carousel track not found');
             return;
@@ -621,7 +738,7 @@ class IndexSupplementManager {
             track.classList.remove('few-items');
         }
 
-        console.log(`Populated carousel with ${this.categories.size} categories`);
+        debugLog(`Populated carousel with ${this.categories.size} categories`);
     }
 
     getCategoryFromSupplementName(name) {
@@ -716,6 +833,8 @@ class IndexSupplementManager {
             this.enhanceSearch();
         }
 
+        this.setupCarouselInteractions();
+
         // Enhance category clicks to show database supplements
         this.enhanceCategoryFunctionality();
 
@@ -726,12 +845,28 @@ class IndexSupplementManager {
     enhanceSearch() {
         const searchInput = document.getElementById('search');
         const searchDropdown = document.getElementById('search-dropdown');
+        const searchForm = searchInput ? searchInput.closest('form') : null;
         
         if (!searchInput) return;
+
+        if (searchForm) {
+            searchForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+            });
+        }
 
         // Override existing search functionality
         const newSearchInput = searchInput.cloneNode(true);
         searchInput.parentNode.replaceChild(newSearchInput, searchInput);
+
+        newSearchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+            }
+            if (e.key === 'Escape' && searchDropdown) {
+                searchDropdown.style.display = 'none';
+            }
+        });
         
         newSearchInput.addEventListener('input', (e) => {
             const searchTerm = e.target.value.toLowerCase().trim();
@@ -746,6 +881,13 @@ class IndexSupplementManager {
             );
 
             this.showSearchDropdown(results.slice(0, 8), searchTerm);
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!searchDropdown) return;
+            if (!e.target.closest('.search-container')) {
+                searchDropdown.style.display = 'none';
+            }
         });
     }
 
@@ -780,13 +922,24 @@ class IndexSupplementManager {
 
     enhanceCategoryFunctionality() {
         const categoryItems = document.querySelectorAll('.supplement-item[data-category]');
+        const carousel = document.querySelector('.supplement-carousel');
         
         categoryItems.forEach(item => {
-            const originalClickHandler = item.onclick;
-            
             item.addEventListener('click', (e) => {
+                if (this.isDragGesture()) {
+                    e.preventDefault();
+                    return;
+                }
+
                 const category = e.currentTarget.getAttribute('data-category');
                 const supplements = this.categories.get(category);
+
+                this.activeCategory = category;
+                categoryItems.forEach(otherItem => otherItem.classList.remove('active'));
+                e.currentTarget.classList.add('active');
+                if (carousel) {
+                    carousel.classList.add('has-active');
+                }
                 
                 if (supplements && supplements.length > 0) {
                     this.showCategorySupplements(supplements);
@@ -813,6 +966,10 @@ class IndexSupplementManager {
             `;
             
             supplementElement.addEventListener('click', () => {
+                if (this.isDragGesture()) {
+                    return;
+                }
+
                 // Remove active state from all items
                 document.querySelectorAll('.specific-supplement-item').forEach(item => {
                     item.classList.remove('active');
@@ -826,6 +983,14 @@ class IndexSupplementManager {
             
             specificTrack.appendChild(supplementElement);
         });
+
+        if (supplements.length > 0) {
+            const firstSupplementItem = specificTrack.querySelector('.specific-supplement-item');
+            if (firstSupplementItem) {
+                firstSupplementItem.classList.add('active');
+            }
+            this.updateSpotlightWithSupplement(supplements[0], false);
+        }
 
         // No duplicates needed - each supplement should appear only once
 
@@ -842,19 +1007,121 @@ class IndexSupplementManager {
         }
     }
 
+    setupCarouselInteractions() {
+        const containers = document.querySelectorAll('.carousel-container');
+
+        containers.forEach(container => {
+            if (container.dataset.dragInitialized === 'true') {
+                return;
+            }
+
+            container.dataset.dragInitialized = 'true';
+
+            let pointerId = null;
+            let startX = 0;
+            let startScrollLeft = 0;
+            let hasDragged = false;
+
+            const stopDragging = () => {
+                if (hasDragged) {
+                    this.lastDragAt = Date.now();
+                }
+
+                pointerId = null;
+                hasDragged = false;
+                container.classList.remove('dragging');
+
+                window.setTimeout(() => {
+                    container.classList.remove('scrolling');
+                }, 120);
+            };
+
+            container.addEventListener('pointerdown', (event) => {
+                if (event.pointerType === 'mouse' && event.button !== 0) {
+                    return;
+                }
+
+                pointerId = event.pointerId;
+                startX = event.clientX;
+                startScrollLeft = container.scrollLeft;
+                hasDragged = false;
+                container.classList.add('dragging');
+
+                if (container.setPointerCapture) {
+                    container.setPointerCapture(event.pointerId);
+                }
+            });
+
+            container.addEventListener('pointermove', (event) => {
+                if (pointerId !== event.pointerId) {
+                    return;
+                }
+
+                const deltaX = event.clientX - startX;
+                if (!hasDragged && Math.abs(deltaX) > 8) {
+                    hasDragged = true;
+                    container.classList.add('scrolling');
+                }
+
+                if (!hasDragged) {
+                    return;
+                }
+
+                container.scrollLeft = startScrollLeft - deltaX;
+                event.preventDefault();
+            });
+
+            container.addEventListener('pointerup', (event) => {
+                if (pointerId !== event.pointerId) {
+                    return;
+                }
+
+                if (container.releasePointerCapture && container.hasPointerCapture(event.pointerId)) {
+                    container.releasePointerCapture(event.pointerId);
+                }
+
+                stopDragging();
+            });
+
+            container.addEventListener('pointercancel', () => {
+                stopDragging();
+            });
+
+            container.addEventListener('pointerleave', (event) => {
+                if (event.pointerType === 'mouse' && pointerId === event.pointerId) {
+                    stopDragging();
+                }
+            });
+        });
+    }
+
+    isDragGesture() {
+        return Date.now() - this.lastDragAt < 250;
+    }
+
     enhanceSpotlight() {
         // This will be called when supplements are clicked
     }
 
-    updateSpotlightWithSupplement(supplement) {
+    updateSpotlightWithSupplement(supplement, shouldScroll = true) {
+        debugLog('=== updateSpotlightWithSupplement called for:', supplement?.name);
         const spotlight = document.querySelector('.spotlight');
-        if (!spotlight) return;
+        debugLog('Spotlight element found:', !!spotlight);
+        if (!spotlight) {
+            debugWarn('Spotlight element not found - early return');
+            return;
+        }
 
-        const image = spotlight.querySelector('.image img');
         const title = spotlight.querySelector('.content h3');
         const description = spotlight.querySelector('.content p');
         const researchLink = spotlight.querySelector('.content a[href*="supplement-template"]');
+        const dealsLink = Array.from(spotlight.querySelectorAll('.content a.button.small')).find(link => /(find deals|shop now)/i.test(link.textContent || ''));
         const priceList = spotlight.querySelector('.price-section ul');
+        const addToCartLink = spotlight.querySelector('.price-section a.button.small');
+        debugLog('dealsLink found:', !!dealsLink, 'addToCartLink found:', !!addToCartLink);
+        debugLog('supplement object keys:', Object.keys(supplement || {}));
+        const affiliateLink = getSupplementAffiliateLink(supplement);
+        debugLog('Affiliate link resolved for', supplement?.name, '=', affiliateLink || '(empty)');
 
         // Update content with database data
         if (title) {
@@ -870,19 +1137,31 @@ class IndexSupplementManager {
             researchLink.href = `supplement-template.html?name=${encodeURIComponent(supplement.name)}`;
         }
 
+        // Update commerce CTAs to use affiliate links from the database.
+        debugLog('Applying external links...');
+        applyExternalLink(dealsLink, affiliateLink);
+        applyExternalLink(addToCartLink, affiliateLink);
+        debugLog('Links applied. dealsLink href:', dealsLink?.getAttribute('href'), 'addToCartLink href:', addToCartLink?.getAttribute('href'));
+
         // Update prices with database data if available
-        if (priceList && supplement.cost_per_serving) {
+        if (priceList) {
+            const externalAttrs = affiliateLink
+                ? 'target="_blank" rel="noopener noreferrer sponsored nofollow"'
+                : '';
+
             priceList.innerHTML = `
-                <li><strong><a href="#">Amazon:</a></strong> Check Price <sup>(${supplement.cost_per_serving}/serving)</sup></li>
+                <li><strong><a href="${affiliateLink || '#'}" ${externalAttrs}>Amazon:</a></strong> Check Price <sup>(${supplement.cost_per_serving || 'N/A'}/serving)</sup></li>
             `;
         }
 
         // Scroll to spotlight
-        spotlight.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (shouldScroll) {
+            spotlight.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
     }
 
     showErrorMessage(message) {
-        const track = document.querySelector('.carousel-track');
+        const track = document.getElementById('main-carousel-track') || document.querySelector('.carousel-track');
         if (track) {
             track.innerHTML = `
                 <div class="error-message" style="

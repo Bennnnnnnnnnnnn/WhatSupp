@@ -11,320 +11,6 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-		<style>
-			/* Custom styling for price boxes */
-			.price-section.box {
-				background-color: rgba(255, 255, 255, 0.85);
-				border: 2px solid rgba(200, 200, 200, 0.7);
-				color: #2c3e50;
-				padding: 1.5rem;
-				border-radius: 8px;
-				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-				backdrop-filter: blur(5px);
-			}
-			
-			.price-section.box ul li {
-				color: #2c3e50;
-				border-bottom: 1px solid rgba(200, 200, 200, 0.5);
-			}
-			
-			.price-section.box ul li:last-child {
-				border-bottom: none;
-			}
-			
-			.price-section.box a {
-				color: #2980b9;
-			}
-			
-			.price-section.box a:hover {
-				color: #3498db;
-			}
-			
-			.price-section.box sup {
-				color: #7f8c8d;
-			}
-			
-			/* Custom Logo Sizing */
-			#header .image {
-				max-width: 800px !important; /* Increase from default 400px */
-				width: 100% !important;
-				margin: 0 !important; /* Add some vertical spacing */
-				border: none !important;
-				outline: none !important;
-				box-shadow: none !important;
-				background: transparent !important;
-			}
-			
-			#header .image img {
-				max-width: 100% !important;
-				height: auto !important;
-				max-height: 700px !important; /* Increase from default 500px */
-				width: auto !important;
-				border: none !important;
-				outline: none !important;
-				box-shadow: none !important;
-				background: transparent !important;
-			}
-			
-			/* Supplement Carousel Styles */
-			.supplement-carousel {
-				margin: 2rem 0;
-				overflow: hidden;
-				position: relative;
-			}
-			
-			.carousel-container {
-				max-width: 800px;
-				margin: 0 auto;
-				overflow-x: auto;
-				overflow-y: hidden;
-				position: relative;
-				scroll-behavior: smooth;
-				cursor: grab;
-				user-select: none;
-				/* Hide scrollbar but keep functionality */
-				scrollbar-width: none; /* Firefox */
-				-ms-overflow-style: none; /* Internet Explorer 10+ */
-			}
-			
-			.carousel-container::-webkit-scrollbar {
-				display: none; /* Safari and Chrome */
-			}
-			
-			.carousel-container:active,
-			.carousel-container.dragging {
-				cursor: grabbing;
-			}
-			
-			.carousel-track {
-				display: flex;
-				animation: scroll 20s linear infinite;
-				gap: 1rem;
-				width: max-content; /* Changed from fit-content to ensure proper width */
-				justify-content: flex-start;
-				/* Ensure the track is wide enough for scrolling */
-				min-width: 100%;
-			}
-			
-			.carousel-track.few-items {
-				gap: 3rem;
-				justify-content: center;
-				animation: none !important;
-			}
-			
-			/* When scrolling is active, we want to maintain scroll position */
-			.carousel-container.scrolling .carousel-track {
-				animation-play-state: paused;
-			}
-			
-			
-			
-			.supplement-item {
-				flex: 0 0 auto;
-				text-align: center;
-				padding: 1rem;
-				background: rgba(255, 255, 255, 0.9);
-				border-radius: 12px;
-				box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-				cursor: pointer;
-				transition: transform 0.3s ease, box-shadow 0.3s ease;
-				min-width: 120px; /* Increased for better scrolling */
-				width: 120px; /* Fixed width for consistent scrolling */
-			}
-			
-			.supplement-item:hover {
-				transform: translateY(-5px);
-				box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-			}
-			
-			.supplement-item.active {
-				background: rgba(52, 152, 219, 0.9);
-				color: white;
-				transform: translateY(-5px);
-				box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
-			}
-			
-			.supplement-item.active:hover {
-				background: rgba(52, 152, 219, 1);
-			}
-			
-			.supplement-icon {
-				font-size: 2rem;
-				margin-bottom: 0.5rem;
-			}
-			
-			.supplement-item span {
-				display: block;
-				font-size: 0.8rem;
-				font-weight: 600;
-				color: #2c3e50;
-			}
-			
-			@keyframes scroll {
-				0% {
-					transform: translateX(0%);
-				}
-				100% {
-					transform: translateX(-100%);
-				}
-			}
-			
-			.carousel-track {
-				animation-duration: 30s;
-			}
-			
-			.supplement-carousel:hover .carousel-track {
-				animation-play-state: paused;
-			}
-			
-			.supplement-carousel:has(.supplement-item.active) .carousel-track,
-			.supplement-carousel.has-active .carousel-track {
-				animation-play-state: paused;
-			}
-			
-			/* When scrolling is active, we want to maintain scroll position */
-			.carousel-container.scrolling .carousel-track {
-				animation-play-state: paused;
-			}
-			
-			/* Visual hint for drag scrolling */
-			.supplement-carousel::after {
-				content: "← Drag to scroll →";
-				position: absolute;
-				top: -25px;
-				left: 50%;
-				transform: translateX(-50%);
-				font-size: 0.8rem;
-				color: rgba(0, 0, 0, 0.5);
-				opacity: 0;
-				transition: opacity 0.3s ease;
-				pointer-events: none;
-				z-index: 1;
-			}
-			
-			.supplement-carousel:hover::after {
-				opacity: 1;
-			}
-			
-			/* Specific Supplements Carousel */
-			.specific-carousel {
-				margin: 2rem 0;
-			}
-			
-			/* Make specific supplements look like category items */
-			.specific-supplement-item {
-				flex: 0 0 auto;
-				text-align: center;
-				padding: 1rem;
-				background: rgba(255, 255, 255, 0.9);
-				border-radius: 12px;
-				box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-				cursor: pointer;
-				transition: transform 0.3s ease, box-shadow 0.3s ease;
-				min-width: 80px;
-			}
-			
-			/* Search Dropdown Styles */
-			.search-container {
-				position: relative;
-				max-width: 400px;
-				margin: 0 auto;
-			}
-			
-			.search-dropdown {
-				position: absolute;
-				top: 100%;
-				left: 0;
-				right: 0;
-				background: white;
-				border: 1px solid #ddd;
-				border-top: none;
-				border-radius: 0 0 8px 8px;
-				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-				max-height: 200px;
-				overflow-y: auto;
-				z-index: 1000;
-				display: none;
-			}
-			
-			.search-dropdown-item {
-				padding: 12px 16px;
-				cursor: pointer;
-				border-bottom: 1px solid #f0f0f0;
-				transition: background-color 0.2s ease;
-				display: flex;
-				align-items: center;
-				gap: 8px;
-			}
-			
-			.search-dropdown-item:hover {
-				background-color: #f8f9fa;
-			}
-			
-			.search-dropdown-item:last-child {
-				border-bottom: none;
-			}
-			
-			.search-dropdown-item .supplement-icon {
-				font-size: 1.2rem;
-			}
-			
-			.search-dropdown-item .supplement-name {
-				font-weight: 600;
-				color: #2c3e50;
-			}
-			
-			.specific-supplement-item:hover {
-				transform: translateY(-5px);
-				box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-			}
-			
-			.specific-supplement-item.active {
-				background: rgba(52, 152, 219, 1);
-				color: white;
-				transform: scale(1.05);
-			}
-			
-			.specific-supplement-item.active span {
-				color: white;
-			}
-			
-			.specific-supplement-item .supplement-icon {
-				font-size: 2rem;
-				margin-bottom: 0.5rem;
-			}
-			
-			.specific-supplement-item span {
-				display: block;
-				font-size: 0.8rem;
-				font-weight: 600;
-				color: #2c3e50;
-			}
-			
-			.specific-carousel .carousel-track {
-				animation: scroll 25s linear infinite;
-				gap: 1rem;
-				justify-content: center;
-			}
-			
-			.specific-carousel .carousel-track.few-items {
-				gap: 3rem;
-				justify-content: center;
-				animation: none;
-			}
-			
-			.specific-carousel .carousel-track:not(.few-items) {
-				animation: scroll 25s linear infinite;
-			}
-			
-			.specific-carousel:hover .carousel-track {
-				animation-play-state: paused;
-			}
-			
-			.specific-carousel.has-active .carousel-track {
-				animation-play-state: paused !important;
-			}
-		</style>
 	</head>
 	<body class="is-preload">
 
@@ -334,9 +20,9 @@
 			<header id="header">
 				<div class="content">
 					<div class="nav-brand">
-						<a href="index.html"  class="button small">Home</a></li>
-						<a href="survey.html"  class="button small">Survey</a></li>
-						<a href="results.html"  class="button small">Results</a></li>
+						<a href="index.html" class="button small">Home</a>
+						<!-- <a href="survey.html" class="button small">Survey</a> -->
+						<!-- <a href="results.html" class="button small">Results</a> -->
 					</div>
 					<div class="image"><img src="images/Whatssuplogo (2).png" alt="" /></div>
 					<ul class="actions">
@@ -394,7 +80,7 @@
 							<h3>Creatine Monohydrate</h3>
 							<p>The gold standard for muscle building and strength. Over 600 studies support its effectiveness in increasing power, muscle mass, and exercise performance.</p>
 							<a href="supplement-template.html" class="button small">Access Research</a>
-							<a href="#" class="button small">Find deals</a>
+							<a href="#" class="button small">Shop Now</a>
 						</div>
 						
 						<div class="price-section box">
@@ -402,7 +88,7 @@
 										<li><strong><a href="#">Amazon:</a></strong> $24.99 <sup>($0.28/serving)</sup></li>
 										
 									</ul>		
-									<a href="" class="button small">Add to Cart</a>													
+										<a href="#" class="button small">Add to Cart</a>											
 						</div>
 					</section>
 
@@ -449,8 +135,6 @@
 			<script>
 				// Initialize dynamic supplement loading from database
 				document.addEventListener('DOMContentLoaded', function() {
-					console.log('Index page loaded - initializing dynamic supplement system');
-					
 					// The IndexSupplementManager will be initialized automatically
 					// by supplement-loader.js since it detects this is the index page
 				});

@@ -2119,6 +2119,274 @@ input, select, textarea {
 				background-color: #3089e2;
 			}
 
+/* Index Page Commerce */
+
+	.price-section.box {
+		background-color: rgba(255, 255, 255, 0.85);
+		border: 2px solid rgba(200, 200, 200, 0.7);
+		color: #2c3e50;
+		padding: 1.5rem;
+		border-radius: 8px;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+		backdrop-filter: blur(5px);
+	}
+
+	.price-section.box ul li {
+		color: #2c3e50;
+		border-bottom: 1px solid rgba(200, 200, 200, 0.5);
+	}
+
+	.price-section.box ul li:last-child {
+		border-bottom: none;
+	}
+
+	.price-section.box a {
+		color: #2980b9;
+	}
+
+	.price-section.box a:hover {
+		color: #3498db;
+	}
+
+	.price-section.box sup {
+		color: #7f8c8d;
+	}
+
+	#header .image {
+		max-width: 800px !important;
+		width: 100% !important;
+		margin: 0 !important;
+		border: none !important;
+		outline: none !important;
+		box-shadow: none !important;
+		background: transparent !important;
+	}
+
+	#header .image img {
+		max-width: 100% !important;
+		height: auto !important;
+		max-height: 700px !important;
+		width: auto !important;
+		border: none !important;
+		outline: none !important;
+		box-shadow: none !important;
+		background: transparent !important;
+	}
+
+	.supplement-carousel,
+	.specific-carousel {
+		margin: 2rem 0;
+	}
+
+	.supplement-carousel {
+		overflow: hidden;
+		position: relative;
+	}
+
+	.carousel-container {
+		max-width: 800px;
+		margin: 0 auto;
+		overflow-x: auto;
+		overflow-y: hidden;
+		position: relative;
+		scroll-behavior: smooth;
+		cursor: grab;
+		user-select: none;
+		-webkit-user-select: none;
+		touch-action: pan-x pinch-zoom;
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+	}
+
+	.carousel-container::-webkit-scrollbar {
+		display: none;
+	}
+
+	.carousel-container:active,
+	.carousel-container.dragging {
+		cursor: grabbing;
+	}
+
+	.carousel-track {
+		display: flex;
+		animation: scroll 30s linear infinite;
+		gap: 1rem;
+		width: max-content;
+		justify-content: flex-start;
+		min-width: 100%;
+	}
+
+	.carousel-track.few-items {
+		gap: 3rem;
+		justify-content: center;
+		animation: none !important;
+	}
+
+	.carousel-container.scrolling .carousel-track,
+	.supplement-carousel:hover .carousel-track,
+	.supplement-carousel:has(.supplement-item.active) .carousel-track,
+	.supplement-carousel.has-active .carousel-track,
+	.specific-carousel:hover .carousel-track,
+	.specific-carousel.has-active .carousel-track {
+		animation-play-state: paused !important;
+	}
+
+	.supplement-item,
+	.specific-supplement-item {
+		flex: 0 0 auto;
+		text-align: center;
+		padding: 1rem;
+		background: rgba(255, 255, 255, 0.9);
+		border-radius: 12px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+		cursor: pointer;
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+	}
+
+	.supplement-item {
+		min-width: 120px;
+		width: 120px;
+	}
+
+	.specific-supplement-item {
+		min-width: 80px;
+	}
+
+	.supplement-item:hover,
+	.specific-supplement-item:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+	}
+
+	.supplement-item.active {
+		background: rgba(52, 152, 219, 0.9);
+		color: white;
+		transform: translateY(-5px);
+		box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+	}
+
+	.supplement-item.active:hover {
+		background: rgba(52, 152, 219, 1);
+	}
+
+	.specific-supplement-item.active {
+		background: rgba(52, 152, 219, 1);
+		color: white;
+		transform: scale(1.05);
+	}
+
+	.specific-supplement-item.active span {
+		color: white;
+	}
+
+	.supplement-icon,
+	.specific-supplement-item .supplement-icon {
+		font-size: 2rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.supplement-item span,
+	.specific-supplement-item span {
+		display: block;
+		font-size: 0.8rem;
+		font-weight: 600;
+		color: #2c3e50;
+	}
+
+	.search-container {
+		position: relative;
+		max-width: 400px;
+		margin: 0 auto;
+	}
+
+	.search-dropdown {
+		position: absolute;
+		top: 100%;
+		left: 0;
+		right: 0;
+		background: white;
+		border: 1px solid #ddd;
+		border-top: none;
+		border-radius: 0 0 8px 8px;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+		max-height: 200px;
+		overflow-y: auto;
+		z-index: 1000;
+		display: none;
+	}
+
+	.search-dropdown-item {
+		padding: 12px 16px;
+		cursor: pointer;
+		border-bottom: 1px solid #f0f0f0;
+		transition: background-color 0.2s ease;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+
+	.search-dropdown-item:hover {
+		background-color: #f8f9fa;
+	}
+
+	.search-dropdown-item:last-child {
+		border-bottom: none;
+	}
+
+	.search-dropdown-item .supplement-icon {
+		font-size: 1.2rem;
+		margin-bottom: 0;
+	}
+
+	.search-dropdown-item .supplement-name {
+		font-weight: 600;
+		color: #2c3e50;
+	}
+
+	.supplement-carousel::after {
+		content: "← Drag to scroll →";
+		position: absolute;
+		top: -25px;
+		left: 50%;
+		transform: translateX(-50%);
+		font-size: 0.8rem;
+		color: rgba(0, 0, 0, 0.5);
+		opacity: 0;
+		transition: opacity 0.3s ease;
+		pointer-events: none;
+		z-index: 1;
+	}
+
+	.supplement-carousel:hover::after {
+		opacity: 1;
+	}
+
+	.specific-carousel .carousel-track {
+		animation: scroll 25s linear infinite;
+		gap: 1rem;
+		justify-content: center;
+	}
+
+	.specific-carousel .carousel-track.few-items {
+		gap: 3rem;
+		justify-content: center;
+		animation: none;
+	}
+
+	.specific-carousel .carousel-track:not(.few-items) {
+		animation: scroll 25s linear infinite;
+	}
+
+	@keyframes scroll {
+		0% {
+			transform: translateX(0%);
+		}
+
+		100% {
+			transform: translateX(-100%);
+		}
+	}
+
 /* Form */
 
 	form {
