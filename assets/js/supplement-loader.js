@@ -22,15 +22,39 @@ function getSupplementAffiliateLink(supplement) {
         'links',
         'affiliate_link',
         'affiliatelink',
+        'affiliate_url',
+        'affiliateurl',
         'amazon_affiliate_link',
         'amazonaffiliatelink',
         'amazon_link',
         'amazonlink',
+        'amazon_url',
+        'amazonurl',
         'shop_now_link',
         'shopnowlink',
         'shop_link',
+        'shop_url',
+        'shopurl',
+        'store_url',
+        'storeurl',
+        'product_link',
+        'productlink',
+        'product_url',
+        'producturl',
         'purchase_link',
+        'purchaseurl',
+        'purchase_url',
         'buy_link',
+        'buyurl',
+        'buy_url',
+        'buy_now_link',
+        'buynowlink',
+        'buy_now_url',
+        'buynowurl',
+        'external_url',
+        'externalurl',
+        'checkout_url',
+        'checkouturl',
         'url'
     ];
 
@@ -53,7 +77,7 @@ function getSupplementAffiliateLink(supplement) {
     // Final fallback: first likely affiliate/url-like key.
     const fuzzyKey = Object.keys(supplement).find(key => {
         const val = supplement[key];
-        const isLikelyLinkField = /(affiliate|amazon|shop|buy).*(link|url)|(link|url)/i.test(key);
+        const isLikelyLinkField = /(affiliate|amazon|shop|buy|product|store|checkout|external).*(link|url)|(link|url)/i.test(key);
         const hasValidValue = typeof val === 'string' && val.trim();
         return isLikelyLinkField && hasValidValue;
     });
@@ -900,9 +924,13 @@ class IndexSupplementManager {
         results.forEach(supplement => {
             const category = this.getCategoryFromSupplementName(supplement.name);
             const icon = this.getIconForSupplement(supplement.name, category);
+            const detailUrl = this.getSupplementDetailUrl(supplement.name);
             
             const dropdownItem = document.createElement('div');
             dropdownItem.className = 'search-dropdown-item';
+            dropdownItem.setAttribute('role', 'button');
+            dropdownItem.setAttribute('tabindex', '0');
+            dropdownItem.setAttribute('data-detail-url', detailUrl);
             dropdownItem.innerHTML = `
                 <span class="supplement-icon">${icon}</span>
                 <span class="supplement-name">${supplement.name}</span>
@@ -926,7 +954,8 @@ class IndexSupplementManager {
         
         categoryItems.forEach(item => {
             item.addEventListener('click', (e) => {
-                if (this.isDragGesture()) {
+                const container = e.currentTarget.closest('.carousel-container');
+                if (this.isDragGesture() || (container && container.dataset.wasDragging === 'true')) {
                     e.preventDefault();
                     return;
                 }
@@ -960,13 +989,18 @@ class IndexSupplementManager {
         supplements.forEach(supplement => {
             const supplementElement = document.createElement('div');
             supplementElement.className = 'specific-supplement-item';
+            supplementElement.setAttribute('role', 'button');
+            supplementElement.setAttribute('tabindex', '0');
+            supplementElement.setAttribute('data-detail-url', this.getSupplementDetailUrl(supplement.name));
             supplementElement.innerHTML = `
                 <div class="supplement-icon">${supplement.icon}</div>
                 <span>${supplement.name}</span>
             `;
             
-            supplementElement.addEventListener('click', () => {
-                if (this.isDragGesture()) {
+            supplementElement.addEventListener('click', (event) => {
+                const container = event.currentTarget.closest('.carousel-container');
+                if (this.isDragGesture() || (container && container.dataset.wasDragging === 'true')) {
+                    event.preventDefault();
                     return;
                 }
 
@@ -1021,10 +1055,15 @@ class IndexSupplementManager {
             let startX = 0;
             let startScrollLeft = 0;
             let hasDragged = false;
+            container.dataset.wasDragging = 'false';
 
             const stopDragging = () => {
                 if (hasDragged) {
                     this.lastDragAt = Date.now();
+                    container.dataset.wasDragging = 'true';
+                    window.setTimeout(() => {
+                        container.dataset.wasDragging = 'false';
+                    }, 180);
                 }
 
                 pointerId = null;
@@ -1099,6 +1138,23 @@ class IndexSupplementManager {
         return Date.now() - this.lastDragAt < 250;
     }
 
+    getSupplementDetailUrl(name) {
+        return `supplement-template.html?name=${encodeURIComponent(name || '')}`;
+    }
+
+    getSpotlightImageForSupplement(supplement) {
+        const name = (supplement?.name || '').toLowerCase();
+        const category = this.getCategoryFromSupplementName(supplement?.name || '');
+
+        if (name.includes('creatine') || category === 'creatine') return 'images/pic01.jpg';
+        if (name.includes('protein') || name.includes('whey') || category === 'protein') return 'images/pic02.jpg';
+        if (name.includes('vitamin d') || category === 'vitamind') return 'images/pic03.jpg';
+        if (name.includes('caffeine') || name.includes('fish oil') || name.includes('omega') || category === 'omega3') return 'images/pic04.jpg';
+        if (name.includes('beta-alanine') || name.includes('beta alanine') || category === 'preworkout') return 'images/pic05.jpg';
+
+        return 'images/SupplementBag.png';
+    }
+
     enhanceSpotlight() {
         // This will be called when supplements are clicked
     }
@@ -1126,6 +1182,12 @@ class IndexSupplementManager {
         // Update content with database data
         if (title) {
             title.textContent = supplement.name;
+        }
+
+        const spotlightImage = spotlight.querySelector('.image img');
+        if (spotlightImage) {
+            spotlightImage.src = this.getSpotlightImageForSupplement(supplement);
+            spotlightImage.alt = supplement.name || 'Supplement';
         }
         
         if (description) {
