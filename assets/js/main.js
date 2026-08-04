@@ -47,56 +47,6 @@
 				speed: 1500
 			});
 
-	// Supplement Filter Functionality
-		$('.filter-buttons .button').on('click', function(e) {
-			e.preventDefault();
-			
-			var filter = $(this).data('filter');
-			
-			// Update active button
-			$('.filter-buttons .button').removeClass('active');
-			$(this).addClass('active');
-			
-			// Show/hide supplements based on filter
-			if (filter === 'all') {
-				$('.supplement-card-horizontal[data-category], .spotlight[data-category]').fadeIn();
-			} else {
-				$('.supplement-card-horizontal[data-category], .spotlight[data-category]').each(function() {
-					var categories = $(this).data('category').split(' ');
-					if (categories.includes(filter)) {
-						$(this).fadeIn();
-					} else {
-						$(this).fadeOut();
-					}
-				});
-			}
-		});
-
-	// Filter Toggle Functionality
-		$('#filterToggle').on('click', function() {
-			var $filterContent = $('#filterContent');
-			var $filterSection = $('#filterSection');
-			var $toggleBtn = $(this);
-			var $toggleText = $toggleBtn.find('.filter-toggle-text');
-			var $toggleIcon = $toggleBtn.find('.filter-toggle-icon');
-			
-			if ($filterContent.hasClass('hidden')) {
-				// Show filters
-				$filterContent.removeClass('hidden');
-				$filterSection.removeClass('collapsed');
-				$toggleBtn.removeClass('collapsed');
-				$toggleText.text('Hide Filters');
-				$toggleIcon.text('▲');
-			} else {
-				// Hide filters
-				$filterContent.addClass('hidden');
-				$filterSection.addClass('collapsed');
-				$toggleBtn.addClass('collapsed');
-				$toggleText.text('Show Filters');
-				$toggleIcon.text('▼');
-			}
-		});
-
 	// Mobile Navigation Toggle
 		$('.nav-toggle').on('click', function() {
 			$(this).toggleClass('active');

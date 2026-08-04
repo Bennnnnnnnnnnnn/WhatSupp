@@ -51,28 +51,29 @@
 								<!-- Dropdown items will be populated here -->
 							</div>
 						</div>
-						
-						<!-- Supplement Carousel 
-						<div class="supplement-carousel">
-							<div class="carousel-container" id="main-carousel-container">
-								<div class="carousel-track" id="main-carousel-track">
-									Categories will be loaded dynamically from database 
-									<div class="loading-placeholder" style="text-align: center; padding: 2rem; color: #666; width: 100%;">
-										Loading supplement categories...
-									</div>
-								</div>
+						<div class="supplement-word-cloud" aria-labelledby="word-cloud-title">
+							<h3 id="word-cloud-title">Explore All Supplements</h3>
+							<div class="word-cloud-filter-bar" role="group" aria-label="Filter supplements in the word cloud">
+								<button class="word-cloud-filter button small primary is-active" type="button" data-cloud-filter="all" aria-pressed="true">All</button>
+								<button class="word-cloud-filter button small" type="button" data-cloud-filter="muscle-performance" aria-pressed="false">Muscle &amp; Performance</button>
+								<button class="word-cloud-filter button small" type="button" data-cloud-filter="general-health" aria-pressed="false">General Health</button>
+								<button class="word-cloud-filter button small" type="button" data-cloud-filter="cognitive-focus" aria-pressed="false">Cognitive &amp; Focus</button>
+								<button class="word-cloud-filter button small" type="button" data-cloud-filter="high-evidence" aria-pressed="false">High Evidence</button>
 							</div>
-						</div>-->
-						
-						<!-- Specific Supplements Carousel 
-						<div class="specific-carousel" id="specific-carousel" style="display: none;">
-							<div class="carousel-container">
-								<div class="carousel-track" id="specific-track">-->
-									<!-- Specific supplements will be populated here 
-								</div>
+							<div id="word-cloud-preview" class="word-cloud-preview" hidden>
+								<p class="word-cloud-preview-title"></p>
+								<p class="word-cloud-preview-copy"></p>
+							</div>
+							<div id="word-cloud-pins" class="word-cloud-pins" hidden>
+								<p class="word-cloud-top-label">Top Matches</p>
+								<div class="word-cloud-pin-list"></div>
+							</div>
+							<div id="word-cloud" class="word-cloud" aria-live="polite">
+								<p class="word-cloud-status">Loading supplement catalog...</p>
 							</div>
 						</div>
-					</header>-->
+						
+
 					
 					<section class="spotlight">
 						<div class="image"><img src="images/SupplementBag.png" alt="" /></div>
@@ -106,7 +107,6 @@
 			<script src="assets/js/jquery.scrolly.min.js"></script>
 			<script src="assets/js/browser.min.js"></script>
 			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
 			
 			<!-- Supabase -->

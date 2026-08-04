@@ -578,9 +578,7 @@ class IndexSupplementManager {
     constructor() {
         this.supabase = null;
         this.supplements = [];
-        this.categories = new Map();
-        this.activeCategory = null;
-        this.lastDragAt = 0;
+        this.activeCloudFilter = 'all';
         this.init();
     }
 
@@ -598,6 +596,7 @@ class IndexSupplementManager {
 
         if (!this.supabase) {
             console.error('Database connection failed for index page');
+			this.showWordCloudMessage('Supplement list is unavailable right now.');
             return; // Keep existing hardcoded functionality
         }
 
@@ -658,12 +657,12 @@ class IndexSupplementManager {
                 console.error('Supabase error details:', error);
                 if (error.code === 'PGRST116' || error.message?.includes('permission denied')) {
                     console.error('Permission denied - the supplements table might have Row Level Security enabled without public read access');
-                    this.showErrorMessage('Database access denied. Please contact the administrator to configure public read access.');
+					this.showWordCloudMessage('Supplement list is unavailable right now.');
                     return;
                 }
                 if (error.code === '401' || error.message?.includes('401')) {
                     console.error('Authentication failed - please check your Supabase API key');
-                    this.showErrorMessage('Database authentication failed. Please check configuration.');
+					this.showWordCloudMessage('Supplement list is unavailable right now.');
                     return;
                 }
                 throw error;
@@ -673,11 +672,11 @@ class IndexSupplementManager {
             
             if (this.supplements.length === 0) {
                 debugWarn('⚠️  No supplements loaded - likely Row Level Security blocking access');
-                this.showErrorMessage('No supplements found. Database may need Row Level Security configuration for public access.');
+				this.showWordCloudMessage('No supplements are available yet.');
                 return;
             }
-            
-            this.processSupplements();
+
+			this.renderWordCloud();
 
             // Keep initial spotlight and commerce CTAs in sync with database content.
             if (this.supplements[0]) {
@@ -689,80 +688,8 @@ class IndexSupplementManager {
             console.error('Error loading supplements:', error);
             console.error('Error type:', typeof error);
             console.error('Error stack:', error.stack);
-            
-            // Show user-friendly error in the carousel
-            this.showErrorMessage('Failed to load supplements from database. Please check your internet connection.');
+			this.showWordCloudMessage('Supplement list is unavailable right now.');
         }
-    }
-
-    processSupplements() {
-        // Group supplements by category
-        this.categories.clear();
-        
-        this.supplements.forEach(supplement => {
-            const category = this.getCategoryFromSupplementName(supplement.name);
-            if (!this.categories.has(category)) {
-                this.categories.set(category, []);
-            }
-            this.categories.get(category).push({
-                ...supplement,
-                icon: this.getIconForSupplement(supplement.name, category)
-            });
-        });
-        
-        // Populate the carousel with the processed data
-        this.populateCarousel();
-    }
-
-    populateCarousel() {
-        const track = document.getElementById('main-carousel-track');
-        if (!track) {
-            console.error('Carousel track not found');
-            return;
-        }
-
-        // Clear the loading placeholder
-        track.innerHTML = '';
-
-        // Create supplement category items from our database categories
-        const categoryNames = {
-            creatine: "Creatine Supplements",
-            protein: "Protein Supplements", 
-            omega3: "Omega-3 Supplements",
-            vitamind: "Vitamin D Supplements",
-            nootropics: "Nootropic Supplements",
-            preworkout: "Pre-Workout Supplements",
-            vitamins: "Vitamin Supplements",
-            bcaas: "BCAA Supplements"
-        };
-
-        this.categories.forEach((supplements, categoryKey) => {
-            if (supplements.length > 0) {
-                const categoryDisplayName = categoryNames[categoryKey] || `${categoryKey.charAt(0).toUpperCase() + categoryKey.slice(1)} Supplements`;
-                const firstSupplement = supplements[0];
-                
-                const categoryItem = document.createElement('div');
-                categoryItem.className = 'supplement-item';
-                categoryItem.setAttribute('data-category', categoryKey);
-                categoryItem.innerHTML = `
-                    <div class="supplement-icon">${firstSupplement.icon}</div>
-                    <span>${categoryDisplayName}</span>
-                `;
-                
-                track.appendChild(categoryItem);
-            }
-        });
-
-        // No duplicates needed - each category should appear only once
-
-        // Apply appropriate styling based on number of categories
-        if (this.categories.size <= 5) {
-            track.classList.add('few-items');
-        } else {
-            track.classList.remove('few-items');
-        }
-
-        debugLog(`Populated carousel with ${this.categories.size} categories`);
     }
 
     getCategoryFromSupplementName(name) {
@@ -850,20 +777,278 @@ class IndexSupplementManager {
         return categoryIcons[category] || '💊';
     }
 
+    showWordCloudMessage(message) {
+        const container = document.getElementById('word-cloud');
+        if (!container) return;
+
+        const status = document.createElement('p');
+        status.className = 'word-cloud-status';
+        status.textContent = message;
+        container.replaceChildren(status);
+    }
+
+    renderWordCloud(animate = false) {
+        const container = document.getElementById('word-cloud');
+        const pins = document.getElementById('word-cloud-pins');
+        const pinList = pins ? pins.querySelector('.word-cloud-pin-list') : null;
+        if (!container) return;
+
+        const uniqueSupplements = new Map();
+        this.supplements.forEach(supplement => {
+            const name = (supplement.name || '').trim();
+            if (name && !uniqueSupplements.has(name)) {
+                uniqueSupplements.set(name, supplement);
+            }
+        });
+
+        if (uniqueSupplements.size === 0) {
+            this.showWordCloudMessage('No supplements are available yet.');
+            return;
+        }
+
+        const rankedSupplements = Array.from(uniqueSupplements.entries())
+            .map(([name, supplement]) => ({
+                name,
+                supplement,
+                score: this.getWordCloudScore(supplement)
+            }))
+            .sort((first, second) => second.score - first.score || first.name.localeCompare(second.name));
+
+        const isFiltered = this.activeCloudFilter !== 'all';
+        const pinnedMatches = isFiltered ? rankedSupplements.filter(item => item.score >= 0.7).slice(0, 3) : [];
+        const pinnedNames = new Set(pinnedMatches.map(item => item.name));
+        const cloudSupplements = isFiltered
+            ? rankedSupplements.filter(item => !pinnedNames.has(item.name))
+            : rankedSupplements;
+
+        container.classList.toggle('is-clustered', isFiltered);
+        if (pins && pinList) {
+            pins.hidden = pinnedMatches.length === 0;
+            pinList.replaceChildren();
+            pinnedMatches.forEach(({ name, supplement }) => {
+                const pin = this.createWordCloudLink(name, supplement, 'word-cloud-pin');
+                pinList.appendChild(pin);
+            });
+        }
+
+        const words = document.createDocumentFragment();
+        cloudSupplements.forEach(({ name, supplement, score }, index) => {
+            const isMatch = this.activeCloudFilter === 'all' || score >= 0.7;
+            const word = this.createWordCloudLink(name, supplement, `word-cloud-item ${this.getWordCloudWeightClass(score)} ${isMatch ? 'match-strong' : score >= 0.35 ? 'match-medium' : 'match-light'} ${this.getWordCloudOrientationClass(score, index)}`);
+            if (animate) {
+                word.classList.add('cloud-enter');
+                word.style.setProperty('--reveal-delay', `${Math.min(index, 16) * 24}ms`);
+                word.addEventListener('animationend', () => {
+                    word.classList.remove('cloud-enter');
+                    word.style.removeProperty('--reveal-delay');
+                }, { once: true });
+            }
+            words.appendChild(word);
+        });
+
+        container.replaceChildren(words);
+        this.initializeWordCloudInteractions(document.querySelector('.supplement-word-cloud'));
+        if (animate) {
+            window.setTimeout(() => container.classList.remove('is-transitioning'), 800);
+        } else {
+            container.classList.remove('is-transitioning');
+        }
+    }
+
+    createWordCloudLink(name, supplement, className) {
+        const word = document.createElement('a');
+        word.className = className;
+        word.href = this.getSupplementDetailUrl(name);
+        word.textContent = this.getWordCloudLabel(name);
+        word.title = name;
+        word.dataset.cloudName = name;
+        word.dataset.cloudPreview = this.getWordCloudPreview(supplement);
+        return word;
+    }
+
+    getWordCloudPreview(supplement) {
+        const source = supplement.overview || supplement.primary_uses || supplement.description || 'Explore the research and practical guidance for this supplement.';
+        const plainText = String(source).replace(/\s+/g, ' ').trim();
+        return plainText.length > 150 ? `${plainText.slice(0, 147).trimEnd()}...` : plainText;
+    }
+
+    initializeWordCloudInteractions(container) {
+        const preview = document.getElementById('word-cloud-preview');
+        const previewTitle = preview ? preview.querySelector('.word-cloud-preview-title') : null;
+        const previewCopy = preview ? preview.querySelector('.word-cloud-preview-copy') : null;
+        const magneticZone = container ? container.querySelector('.word-cloud') : null;
+        const magneticRadius = 220;
+        const magneticStrength = 9;
+        const magneticEase = 0.16;
+        let magneticFrame = null;
+        const showPreview = word => {
+            if (!preview || !previewTitle || !previewCopy) return;
+            previewTitle.textContent = word.dataset.cloudName || word.textContent;
+            previewCopy.textContent = word.dataset.cloudPreview || '';
+            preview.hidden = false;
+        };
+        const hidePreview = () => {
+            if (preview) preview.hidden = true;
+        };
+
+        const magneticState = new Map();
+        const getMagneticState = word => {
+            if (!magneticState.has(word)) {
+                magneticState.set(word, {
+                    currentX: 0,
+                    currentY: 0,
+                    targetX: 0,
+                    targetY: 0
+                });
+            }
+            return magneticState.get(word);
+        };
+
+        const animateMagnet = () => {
+            let needsAnotherFrame = false;
+            magneticState.forEach((state, word) => {
+                if (!word.isConnected) return;
+
+                state.currentX += (state.targetX - state.currentX) * magneticEase;
+                state.currentY += (state.targetY - state.currentY) * magneticEase;
+                word.style.setProperty('--magnetic-x', `${state.currentX.toFixed(2)}px`);
+                word.style.setProperty('--magnetic-y', `${state.currentY.toFixed(2)}px`);
+
+                if (Math.abs(state.targetX - state.currentX) > 0.05 || Math.abs(state.targetY - state.currentY) > 0.05) {
+                    needsAnotherFrame = true;
+                }
+            });
+
+            magneticFrame = needsAnotherFrame ? window.requestAnimationFrame(animateMagnet) : null;
+        };
+
+        const scheduleMagnet = () => {
+            if (magneticFrame === null) {
+                magneticFrame = window.requestAnimationFrame(animateMagnet);
+            }
+        };
+
+        const clearMagnet = words => {
+            words.forEach(word => {
+                const state = getMagneticState(word);
+                state.targetX = 0;
+                state.targetY = 0;
+            });
+            scheduleMagnet();
+        };
+
+        const applyMagneticField = (event, words) => {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+            words.forEach(word => {
+                const bounds = word.getBoundingClientRect();
+                const centerX = bounds.left + bounds.width / 2;
+                const centerY = bounds.top + bounds.height / 2;
+                const deltaX = event.clientX - centerX;
+                const deltaY = event.clientY - centerY;
+                const distance = Math.hypot(deltaX, deltaY);
+                const state = getMagneticState(word);
+
+                if (distance > magneticRadius || distance === 0) {
+                    state.targetX = 0;
+                    state.targetY = 0;
+                    return;
+                }
+
+                const influence = 1 - distance / magneticRadius;
+                const pull = influence * magneticStrength;
+                state.targetX = (deltaX / distance) * pull;
+                state.targetY = (deltaY / distance) * pull;
+            });
+            scheduleMagnet();
+        };
+
+        const allWords = Array.from(container.querySelectorAll('.word-cloud-item, .word-cloud-pin'));
+        if (magneticZone) {
+            magneticZone.addEventListener('pointermove', event => applyMagneticField(event, allWords));
+            magneticZone.addEventListener('pointerleave', () => clearMagnet(allWords));
+        }
+
+        container.querySelectorAll('.word-cloud-item, .word-cloud-pin').forEach(word => {
+            word.addEventListener('pointerenter', event => {
+                showPreview(word);
+            });
+            word.addEventListener('pointerleave', () => {
+                hidePreview();
+            });
+            word.addEventListener('focus', () => showPreview(word));
+            word.addEventListener('blur', hidePreview);
+        });
+    }
+
+    initializeWordCloudFilters() {
+        const filters = document.querySelectorAll('.word-cloud-filter');
+        filters.forEach(filter => {
+            filter.addEventListener('click', () => {
+                this.activeCloudFilter = filter.dataset.cloudFilter || 'all';
+                filters.forEach(button => {
+                    const isActive = button === filter;
+                    button.classList.toggle('is-active', isActive);
+                    button.classList.toggle('primary', isActive);
+                    button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+                });
+                const container = document.getElementById('word-cloud');
+                if (container) container.classList.add('is-transitioning');
+                window.setTimeout(() => this.renderWordCloud(true), 140);
+            });
+        });
+    }
+
+    getWordCloudScore(supplement) {
+        if (this.activeCloudFilter === 'all') return 0.5;
+
+        const name = (supplement.name || '').toLowerCase();
+        const category = this.getCategoryFromSupplementName(supplement.name || '');
+        const evidence = String(supplement.evidence_level || supplement.evidence || '').toLowerCase();
+        let score = 0.12;
+
+        if (this.activeCloudFilter === 'muscle-performance' && ['creatine', 'protein', 'preworkout', 'bcaas'].includes(category)) {
+            score = 0.9;
+        } else if (this.activeCloudFilter === 'general-health' && ['vitamins', 'vitamind', 'omega3'].includes(category)) {
+            score = 0.9;
+        } else if (this.activeCloudFilter === 'cognitive-focus' && (category === 'nootropics' || /theanine|tyrosine|alpha-gpc|bacopa|lion|citicoline|caffeine/.test(name))) {
+            score = 0.9;
+        } else if (this.activeCloudFilter === 'high-evidence') {
+            if (/very high|strong|high/.test(evidence)) score = 0.9;
+            else if (/moderate/.test(evidence)) score = 0.55;
+            else if (/low/.test(evidence)) score = 0.25;
+        }
+
+        if (getSupplementAffiliateLink(supplement)) score += 0.05;
+        return Math.min(score, 1);
+    }
+
+    getWordCloudWeightClass(score) {
+        if (this.activeCloudFilter === 'all') return 'size-md';
+        if (score >= 0.8) return 'size-xl';
+        if (score >= 0.55) return 'size-lg';
+        if (score >= 0.35) return 'size-md';
+        return 'size-sm';
+    }
+
+    getWordCloudLabel(name) {
+        return name
+            .replace(/\s*\([^)]*\)/g, '')
+            .replace(/\s*\/.*$/, '')
+            .trim();
+    }
+
+    getWordCloudOrientationClass(score, index) {
+        return 'orient-flat';
+    }
+
     enhanceExistingFunctionality() {
+        this.initializeWordCloudFilters();
         // Enhance search functionality to use database
         const searchInput = document.getElementById('search');
         if (searchInput && this.supplements.length > 0) {
             this.enhanceSearch();
         }
-
-        this.setupCarouselInteractions();
-
-        // Enhance category clicks to show database supplements
-        this.enhanceCategoryFunctionality();
-
-        // Enhance spotlight updates with database data
-        this.enhanceSpotlight();
     }
 
     enhanceSearch() {
@@ -948,196 +1133,6 @@ class IndexSupplementManager {
         searchDropdown.style.display = 'block';
     }
 
-    enhanceCategoryFunctionality() {
-        const categoryItems = document.querySelectorAll('.supplement-item[data-category]');
-        const carousel = document.querySelector('.supplement-carousel');
-        
-        categoryItems.forEach(item => {
-            item.addEventListener('click', (e) => {
-                const container = e.currentTarget.closest('.carousel-container');
-                if (this.isDragGesture() || (container && container.dataset.wasDragging === 'true')) {
-                    e.preventDefault();
-                    return;
-                }
-
-                const category = e.currentTarget.getAttribute('data-category');
-                const supplements = this.categories.get(category);
-
-                this.activeCategory = category;
-                categoryItems.forEach(otherItem => otherItem.classList.remove('active'));
-                e.currentTarget.classList.add('active');
-                if (carousel) {
-                    carousel.classList.add('has-active');
-                }
-                
-                if (supplements && supplements.length > 0) {
-                    this.showCategorySupplements(supplements);
-                }
-            });
-        });
-    }
-
-    showCategorySupplements(supplements) {
-        const specificTrack = document.getElementById('specific-track');
-        const specificCarousel = document.getElementById('specific-carousel');
-        
-        if (!specificTrack) return;
-
-        // Clear existing content
-        specificTrack.innerHTML = '';
-        
-        supplements.forEach(supplement => {
-            const supplementElement = document.createElement('div');
-            supplementElement.className = 'specific-supplement-item';
-            supplementElement.setAttribute('role', 'button');
-            supplementElement.setAttribute('tabindex', '0');
-            supplementElement.setAttribute('data-detail-url', this.getSupplementDetailUrl(supplement.name));
-            supplementElement.innerHTML = `
-                <div class="supplement-icon">${supplement.icon}</div>
-                <span>${supplement.name}</span>
-            `;
-            
-            supplementElement.addEventListener('click', (event) => {
-                const container = event.currentTarget.closest('.carousel-container');
-                if (this.isDragGesture() || (container && container.dataset.wasDragging === 'true')) {
-                    event.preventDefault();
-                    return;
-                }
-
-                // Remove active state from all items
-                document.querySelectorAll('.specific-supplement-item').forEach(item => {
-                    item.classList.remove('active');
-                });
-                
-                // Add active state to clicked item
-                supplementElement.classList.add('active');
-                
-                this.updateSpotlightWithSupplement(supplement);
-            });
-            
-            specificTrack.appendChild(supplementElement);
-        });
-
-        if (supplements.length > 0) {
-            const firstSupplementItem = specificTrack.querySelector('.specific-supplement-item');
-            if (firstSupplementItem) {
-                firstSupplementItem.classList.add('active');
-            }
-            this.updateSpotlightWithSupplement(supplements[0], false);
-        }
-
-        // No duplicates needed - each supplement should appear only once
-
-        // Apply appropriate styling based on number of supplements
-        if (supplements.length <= 5) {
-            specificTrack.classList.add('few-items');
-        } else {
-            specificTrack.classList.remove('few-items');
-        }
-
-        if (specificCarousel) {
-            specificCarousel.style.display = 'block';
-            specificCarousel.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-    }
-
-    setupCarouselInteractions() {
-        const containers = document.querySelectorAll('.carousel-container');
-
-        containers.forEach(container => {
-            if (container.dataset.dragInitialized === 'true') {
-                return;
-            }
-
-            container.dataset.dragInitialized = 'true';
-
-            let pointerId = null;
-            let startX = 0;
-            let startScrollLeft = 0;
-            let hasDragged = false;
-            container.dataset.wasDragging = 'false';
-
-            const stopDragging = () => {
-                if (hasDragged) {
-                    this.lastDragAt = Date.now();
-                    container.dataset.wasDragging = 'true';
-                    window.setTimeout(() => {
-                        container.dataset.wasDragging = 'false';
-                    }, 180);
-                }
-
-                pointerId = null;
-                hasDragged = false;
-                container.classList.remove('dragging');
-
-                window.setTimeout(() => {
-                    container.classList.remove('scrolling');
-                }, 120);
-            };
-
-            container.addEventListener('pointerdown', (event) => {
-                if (event.pointerType === 'mouse' && event.button !== 0) {
-                    return;
-                }
-
-                pointerId = event.pointerId;
-                startX = event.clientX;
-                startScrollLeft = container.scrollLeft;
-                hasDragged = false;
-                container.classList.add('dragging');
-
-                if (container.setPointerCapture) {
-                    container.setPointerCapture(event.pointerId);
-                }
-            });
-
-            container.addEventListener('pointermove', (event) => {
-                if (pointerId !== event.pointerId) {
-                    return;
-                }
-
-                const deltaX = event.clientX - startX;
-                if (!hasDragged && Math.abs(deltaX) > 8) {
-                    hasDragged = true;
-                    container.classList.add('scrolling');
-                }
-
-                if (!hasDragged) {
-                    return;
-                }
-
-                container.scrollLeft = startScrollLeft - deltaX;
-                event.preventDefault();
-            });
-
-            container.addEventListener('pointerup', (event) => {
-                if (pointerId !== event.pointerId) {
-                    return;
-                }
-
-                if (container.releasePointerCapture && container.hasPointerCapture(event.pointerId)) {
-                    container.releasePointerCapture(event.pointerId);
-                }
-
-                stopDragging();
-            });
-
-            container.addEventListener('pointercancel', () => {
-                stopDragging();
-            });
-
-            container.addEventListener('pointerleave', (event) => {
-                if (event.pointerType === 'mouse' && pointerId === event.pointerId) {
-                    stopDragging();
-                }
-            });
-        });
-    }
-
-    isDragGesture() {
-        return Date.now() - this.lastDragAt < 250;
-    }
-
     getSupplementDetailUrl(name) {
         return `supplement-template.html?name=${encodeURIComponent(name || '')}`;
     }
@@ -1153,10 +1148,6 @@ class IndexSupplementManager {
         if (name.includes('beta-alanine') || name.includes('beta alanine') || category === 'preworkout') return 'images/pic05.jpg';
 
         return 'images/SupplementBag.png';
-    }
-
-    enhanceSpotlight() {
-        // This will be called when supplements are clicked
     }
 
     updateSpotlightWithSupplement(supplement, shouldScroll = true) {
@@ -1222,23 +1213,4 @@ class IndexSupplementManager {
         }
     }
 
-    showErrorMessage(message) {
-        const track = document.getElementById('main-carousel-track') || document.querySelector('.carousel-track');
-        if (track) {
-            track.innerHTML = `
-                <div class="error-message" style="
-                    color: #ff6b6b;
-                    text-align: center;
-                    padding: 2rem;
-                    font-size: 1.1rem;
-                    background: rgba(255, 107, 107, 0.1);
-                    border-radius: 8px;
-                    margin: 1rem;
-                ">
-                    <i class="fa fa-exclamation-triangle" style="margin-right: 0.5rem;"></i>
-                    ${message}
-                </div>
-            `;
-        }
-    }
 }
